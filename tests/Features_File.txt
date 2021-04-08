@@ -1,0 +1,237 @@
+﻿RSVME FEATURES
+
+
+1: create event
+* Feature: Create event adds a new event to the database and creates an event for everyone to see and share
+* User Story: As a user, I want to create an event so that I can host a meetup between my friends.
+* Scenario: As a user, I want to be able to navigate from the home page to the ‘create event’ form
+   * Given I am logged in on the home page
+   * When I click on ‘My Events’ 
+   * Then I should be on ‘My Events’ page
+   * When I click on the ‘Create Event’ link
+   * Then I should be on the ‘Create Event’ form
+   * When I fill out the event information
+   * Then I should see a ‘Publish Event’ link
+   * And I should see the published event with all its details on the ‘My Events’ page
+
+
+2: edit event
+* Feature: Edit event changes one or more of the fields in the event object and updates the database accordingly
+* User Story: As an event’s creator or collaborator I want to be able to change when an event will be held
+* Scenario: as a creator or collaborator I want to be able to navigate to an ‘Edit Event’ page where I can change event details
+   * Given I am logged in on the home page
+   * When I click on ‘My Events’
+   * Then I should be on the ‘My Events’ page
+   * When I click on a specific event
+   * Then I should be able to click ‘Edit Event’
+   * And I should be able to edit event information like date, location, etc.
+   * When I click on ‘Publish Event Changes’ 
+   * Then I should be able to see the changed event on the ‘My Events’ page
+
+
+3: RSVP
+* Feature: Adds a specific user to a specific event. When the user RSVPs to an event, they indicate that they would like to attend this event.
+* User Story: As a user, I want to let the event host know if I'm attending so that they know how many people are attending.
+* Scenario: As a user, I want to be able to navigate from the home page to a specific event page then RSVP for that specific event.
+   * Given I am logged into my account and on the home page
+   * When I click on the View Events button, I should be brought to the Events page
+   * Given that I am on the Events page, When I click on an event I should be brought to a summary page of the event
+      * The view attendees button should not be displayed
+      * The RSVP button should be present
+      * The ‘rate event’ button should not be present
+   * Given that I am on an event’s summary page and I have not yet RSVPed, I should be able to click on the RSVP button 
+      * This update the user’s privileges to ‘attendee’ in the database (event table for that event)
+      * This will update the user’s ‘my_events’ page to display this event as well
+      * The ‘rate event’ button should be visible now
+
+
+4: delete event
+* Feature: Delete event allows the user to remove a previously created event from the database
+* User Story: As a user that previously created an event, I am now feeling sick and am unable to attend the event and would like to delete the event.
+* Scenario: As an event’s creator or collaborator, I would like to delete an event
+   * Given that I am logged in, I can view the home page
+   * When I click on My Events I should be brought to the My Events page
+   * Then I should be able to click on a specific event
+   * When I click on ‘Delete Event’
+   * Then I should be able to see a warning message: ‘Deleting an event cannot be undone
+   * When I click on ‘Proceed’
+   * Then I should not see the event in the ‘My Events’ page 
+   * The event will be removed from the events table in the database
+
+
+5: list events
+* Feature: List event shows the user the public events that are happening
+* User Story: As a user, I want to see a list of all upcoming events so I will know what other events I can sign up for.
+* Scenario: As an attendee, I want to be able to navigate to a listing of public events so that I can RSVP for those that interest me.
+   * Given I am logged in on the home page
+   * When I click on ‘Public Events’ 
+   * Then I should be on the ‘Public Events’ page and can see a listing of events
+
+
+6: Registering a User
+* Feature: This feature allows new users to register an account to the website. This allows users to have specified accounts that will display their chosen events and custom settings.
+* User Story: As a user, I want to be able to register to create an account to have access to my events.
+* Scenario: As a new user, I want to be able to create a new account for the RSVP app. This new account will allow me to track all the events I would like to attend in the near future. 
+   * Given that I am on the login page, I should be able to see a “create an account” button
+   * When I click the “create an account” button, I should be taken to the “create an account page        
+      * This page should have 3 text entry boxes labeled:
+         * Name
+         * Email
+         * Password
+      * Page should also have a button labeled “create”
+   * Given that I have entered a name, email and password, when I click “create” I should be able to successfully create a user in the users database and be redirected to the login page. 
+      * Before creating an account, the user’s database should be checked for a matching email address; if one exists, an error message should display and no user should be created.
+
+
+7: view event
+* Feature: view event shows user details about the event
+* User Story: As a user, I want to see details of events so I will know the time, date, and location of each event I sign up for.
+* Scenario: As an attendee, I want to be able to access information about events I am interested in.
+   * Given I am logged in on the home page
+   * When I click on ‘Public Events’
+   * Then I should be on the ‘Public Events’ page and can see a listing of events
+   * When I click on a specific event
+   * Then I should be able to see more information about it
+
+
+
+
+8: user sign in
+* Feature: sign in to personal RSVME account
+* User Story: As a user, I want to be able to sign in to my account to find my event information. 
+* Scenario: As a user, I should be able to log in to a personal account to find specific event information that pertains to me. 
+   * Given I am on the RSVME home page
+   * Then I should see a ‘Sign In’ link
+   * When I click ‘Sign In’
+   * Then I should be able to enter my username and password
+   * When I click “Sign In’ or hit enter
+   * Then I should be able to see ‘My Events’ and other user-only features
+
+
+
+
+9: rate event
+* Feature: Allows users to rate events so others can see which ones have been popular 
+* User Story: As a user, I want to be able to rate events that I come across to help boost the popularity of the event so others can see and join it, or decrease the popularity if I personally feel against it.
+* Scenario: As a user I want to be able to rate events I have been to so I can boost popularity or give my opinion about how the event is.
+   * Given I am logged in on the home page
+   * Then I should see the featured events and their ratings
+   * When I click on ‘My Events’ or ‘Public Events’
+   * Then I should see a rating on those as well (EX: 3 out of 5 stars image)
+   * When I click on the rating 
+   * Then I should be able to also rate the event
+
+
+10: administrator panel
+* Feature: Administrators should have access to all event information and should remove any inappropriate content. 
+* User Story: As an administrator, I would like to review posts, images, and comments that have been reported by users to determine whether or not a user has committed an infraction and deal with the incident accordingly.
+* Scenario: As an administrator, I want to be able to access all events and all user information and be able to edit user information as I see fit. 
+   * Given I am on the RSVME home page
+   * Then I should be able to see a ‘Sign In’ link
+   * Given I click on ‘Sign In’
+   * I should be able to see a ‘Sign In as Admin’ link
+   * Given I click on ‘Sign In as Admin’ 
+   * And I enter my username, password, and Administrator ID
+   * Then I should be able to access all events and their associated information
+
+
+11: rate limiting
+* Feature: Allows administrators to place limits on the ratings from the same users or the amounts of ratings being given on events
+* User Story: As an administrator, I would like to have my system automatically put users in cooldown if they repeat an action too many times within a given timeframe to prevent spam or rate-bombing.
+* Scenario: As an administrator, I want to allow users to only rate events once.
+   * Given I am logged in as an administrator on the homepage
+   * When I click on ‘Public Events’
+   * Then I should be able to see all events and their information
+   * When I click on the settings icon
+   * Then I should be able to adjust rating settings
+
+
+12: provide location to approved users
+* Feature: Allows event organizers to share an event’s location with all the registered attendees. When attendees view that event page it will provide the location of the event. This location will have specific viewing access (Who will be allowed to view it).
+* User Story: As an event creator, I would like to provide the location of the event only to users I have personally approved to ensure people I do not know get access to an address I would rather them not have.
+* Scenario: As an event organizer, I want to be able to set a location for my event when creating the event. I want to have specific controls for who can view the event’s location such as only allowing RSVP people to see location, everyone to see location, or specific users
+   * 
+
+13: view participants for approved users
+* Feature: Allows event attendees to see who else will be in attendance
+* User Story: As a user, I would like to be able to see who else has signed up to attend a certain gathering as long as the event creator has accepted me to join it.
+* Scenario: As a user, I want to be able to see a list of attendees associated with a certain event I am also approved to attend.
+   * Given I am logged into RSVME
+   * Then I click on ‘Upcoming Events Confirmed to Attend’
+   * And I click on a specific event
+   * Then I click on ‘Attendees’
+   * Then I should be able to see a list of attendees
+
+
+14: report content
+* User Story: As a user I want to be able to report inappropriate, discriminatory, or harmful events. 
+* Scenario: as a user, I want to be able to report harmful events to the administrator
+   * Given the user is on the event’s page, they should be able to see the ‘report event’ button
+   * If the user presses the button, a dialogue box should come up with a text entry box labeled ‘please describe why you are reporting this event’ and a button ‘submit report’
+   * If you click the submit report button, the report is added to the reports table along with the event id and title and user will be redirected to the home page
+      * If they go to the event again, the report button will not be visible
+
+
+15: block user
+* Feature: Allows users to block others from being able to attend their events
+* User Story: As a user, I would like to block users I find bothersome to prevent them from being able to view and interact with the events I post.
+* Scenario: I want to be able to control who is allowed to attend my event
+   * Given I am logged in on the home page
+   * When I click ‘My Events’
+   * Then I should be able to see participants attending
+   * When I click on a Participant
+   * Then I should be able to block them
+
+
+
+
+16: require verification for accessing data
+* Feature: Making sure users are verified before accessing any data
+* User Story: As an admin, I would like to ensure users are accessing data only they are entitled to by asking them to re-enter their password to access potentially sensitive info.
+* Scenario: As admin, I want to make sure that RSVME is secure and users are verified before accessing data
+   * Given I am logged in as Admin
+   * Then I should be able to navigate to users of RSVME
+   * When I click on users
+   * Then I should be able to change their access to data
+
+
+17: change password
+* Feature: Allow users to change their password in case they have forgotten it
+* User Story: As a user, I want to be able to change my password in case I have forgotten it.
+* Scenario: As a user, I should be able to navigate to a ‘forgot password’ link on the ‘Sign In’ page
+   * Given I already have an RSVME account
+   * And I click on ‘Sign in’
+   * Then I should be able to see a ‘Forgot Password’ link
+   * And I enter my username and email address
+   * Then I should be able to enter that information and reset password via email
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Updated Backlog:
