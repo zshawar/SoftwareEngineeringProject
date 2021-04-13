@@ -20,3 +20,12 @@ with app.app_context():
 def home():
     #your code here
     return render_template("home.html") # may need to add paramaters
+
+
+
+
+
+
+
+#--------------------------run statement------------------------------------#
+app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True) 	#this is directly from class so see if we need to change anything?
