@@ -14,3 +14,9 @@ db.init_app(app)
 with app.app_context():
     db.create_all()   # run under the app context
 
+#----------------------------home page---------------------------------------#
+@app.route('/')
+@app.route('/home')
+def home():
+    #your code here
+    return render_template("home.html") # may need to add paramaters
