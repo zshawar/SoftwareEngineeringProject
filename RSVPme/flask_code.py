@@ -28,6 +28,7 @@ def home():
 #def update_event(event_id):
 	#check method used for request
 	#if request.method == 'POST':
+		#**********************add code to re-verify login here*************************#
 		#title = request.form['title']	#request title
 		#text = request.form['noteText']
 		#note = db.session.query(Event).filter_by(id=event_id).one()
@@ -51,6 +52,7 @@ def home():
 #@app.route('/events/delete/<event_id>', methods=['POST'])	#most of this is commented out and will be fixed later once we know what feilds are needed and what they are called specificaly
 #def delete_event(event_id):
 #	my_event = db.session.query(Event).filter_by(id=event_id).one()
+	#**********************add code to re-verify login here*************************#
 #	db.session.delete(my_event) #change the name for this var as needed
 #	db.session.commit()
 
