@@ -22,7 +22,39 @@ def home():
     return render_template("home.html") # may need to add paramaters
 
 
+#-------------------------------------------------------edit functionality -----------------------------------------------------------#
 
+#@app.route('/events/edit/<event_id>', methods = ['GET', 'POST'])		#most of this is commented out and will be fixed later once we know what feilds are needed and what they are called specificaly
+#def update_event(event_id):
+	#check method used for request
+	#if request.method == 'POST':
+		#title = request.form['title']	#request title
+		#text = request.form['noteText']
+		#note = db.session.query(Event).filter_by(id=event_id).one()
+		
+		#note.title = title
+		#note.text = text #updates note data
+		
+		#db.session.add(event)#update db
+		#db.session.commit()
+
+		#return redirect(url_for('get_events'))
+	#else: #the usual code 
+		#retrieve user and note from database
+		#a_user = db.session.query(User).filter_by(user_id= <id here>).one()
+		#my_note = db.session.query(Event).filter_by(id=event_id).one()
+
+		#return render_template('new.html') #add parameters as needed
+
+#--------------------------------------------delete functionality---------------------------------------------------------------#
+
+#@app.route('/events/delete/<event_id>', methods=['POST'])	#most of this is commented out and will be fixed later once we know what feilds are needed and what they are called specificaly
+#def delete_event(event_id):
+#	my_event = db.session.query(Event).filter_by(id=event_id).one()
+#	db.session.delete(my_event) #change the name for this var as needed
+#	db.session.commit()
+
+#	return redirect(url_for('get_events'))
 
 
 
