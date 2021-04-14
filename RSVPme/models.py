@@ -25,4 +25,41 @@ class Event(db.Model):
     rating = db.Column("rating", db.Numeric(3, 2))
     numRatings = db.Column("numRatings", db.Integer)
 
+    def __init__(self, name, dateAndTime, location, description):
+        self.name = name
+        self.dateAndTime = dateAndTime
+        self.location = location
+        self.description = description
+        self.rating = 0
+        self.numRatings = 0
+
+class Permission(db.Model):
+    eventID = db.Column("eventID", db.Integer, db.ForeignKey("event.eventID"), primary_key=True)
+    userID = db.Column("userID", db.Integer, db.ForeignKey("user.userID"), primary_key=True)
+    role = db.Column("role", db.String(20), db.ForeignKey("role.role"))
+
+    def __init__(self, eventID, userID, role):
+        self.eventID = eventID
+        self.userID = userID
+        self.role = role
+
+class Role(db.Model):
+    role = db.Column("role", db.String(20), primary_key=True)
+    canViewEvent = db.Column("canViewEvent", db.Boolean)
+    canViewAttendees = db.Column("canViewAttendees", db.Boolean)
+    canRate = db.Column("canRate", db.Boolean)
+    canRSVP = db.Column("canRSVP", db.Boolean)
+    canEdit = db.Column("canEdit", db.Boolean)
+    canPublish = db.Column("canPublish", db.Boolean)
+    canSetPermissions = db.Column("canSetPermissions", db.Boolean)
+
+    def __init__(self, role, canViewEvent, canViewAttendees, canRate, canRSVP, canEdit, canPublish, canSetPermissions):
+        self.role = role
+        self.canViewEvent = canViewEVent
+        self.canViewAttendees = canViewAttendees
+        self.canRate = canRate
+        self.canRSVP = canRSVP
+        self.canEdit = canEdit
+        self.canPublish = canPublish
+        self.canSetPermissions = canSetPermissions
 
