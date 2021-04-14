@@ -18,6 +18,7 @@ class Event(db.Model):
     dateEnd = db.Column("dateEnd", db.DateTime)
     location = db.Column("location", db.String(255))
     description = db.Column("description", db.VARCHAR)
+    capacity = db.Column("capacity", db.Integer)
 
     # ratings are stored in two variables, rating and numRatings
     # this allows for updating the rating easily by multiplying the ratings
@@ -26,12 +27,13 @@ class Event(db.Model):
     rating = db.Column("rating", db.Numeric(3, 2))
     numRatings = db.Column("numRatings", db.Integer)
 
-    def __init__(self, name, dateStart, dateEnd, location, description):
+    def __init__(self, name, capacity, dateStart, dateEnd, location, description):
         self.name = name
         self.dateStart = dateStart
         self.dateEnd = dateEnd
         self.location = location
         self.description = description
+        self.capacity = capacity
         self.rating = 0
         self.numRatings = 0
 
