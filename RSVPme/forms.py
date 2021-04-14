@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, IntegerField, DateTimeField, ValidationError
 from wtforms.validators import Length, DataRequired, EqualTo, Email
 
 class LoginForm(FlaskForm):
@@ -16,8 +16,6 @@ class LoginForm(FlaskForm):
     ])
 
     submit = SubmitField("Submit")
-
-    # need to write function to validate user login
 
 class RegisterForm(FlaskForm):
     class Meta:
@@ -39,7 +37,6 @@ class RegisterForm(FlaskForm):
 
     submit = SubmitField("Submit")
 
-    # need to write function to validate user login
 
 class EventForm(FlaskForm):
     class Meta:
@@ -60,5 +57,13 @@ class EventForm(FlaskForm):
         Length(min=1)
     ])
 
-    # stub, missing some fields
+    # incomplete, need to add validators for image extension
+    image = FileField("Event Thumbnail", [])
+
+    capacity = IntegerField("Capacity", [])
+
+    dateStart = DateTimeField("Start Date and Time", [])
+    dateEnd = DateTimeField("End Date and Time", [])
+
+    
 
