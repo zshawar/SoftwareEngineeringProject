@@ -14,7 +14,8 @@ class User(db.Model):
 class Event(db.Model):
     eventID = db.Column("eventID", db.Integer, primary_key=True)
     name = db.Column("name", db.String(255))
-    dateAndTime = db.Column("dateOfEvent", db.DateTime)
+    dateStart = db.Column("dateStart", db.DateTime)
+    dateEnd = db.Column("dateEnd", db.DateTime)
     location = db.Column("location", db.String(255))
     description = db.Column("description", db.VARCHAR)
 
@@ -25,9 +26,10 @@ class Event(db.Model):
     rating = db.Column("rating", db.Numeric(3, 2))
     numRatings = db.Column("numRatings", db.Integer)
 
-    def __init__(self, name, dateAndTime, location, description):
+    def __init__(self, name, dateStart, dateEnd, location, description):
         self.name = name
-        self.dateAndTime = dateAndTime
+        self.dateStart = dateStart
+        self.dateEnd = dateEnd
         self.location = location
         self.description = description
         self.rating = 0
