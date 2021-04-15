@@ -6,9 +6,10 @@ from flask import request
 from flask import redirect, url_for
 from database import db
 from forms import LoginForm, RegisterForm, EventForm
-from models import User
-from models import Event
-from models import Role
+from models import User, Event, Role
+
+
+
 #--------------------------setup----------------------------------------------#
 app = Flask(__name__)     # create an app
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///rsvpme.db' #temporarily commented out --- need add db for it to work
