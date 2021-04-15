@@ -1,1 +1,4 @@
 .idea/*
+/RSVPme/venv/
+/RSVPme/__pycache__
+
