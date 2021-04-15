@@ -6,7 +6,7 @@ from flask import request
 from flask import redirect, url_for
 from database import db
 from forms import LoginForm, RegisterForm, EventForm
-from models import User, Event, Role
+from models import User, Event, Role, Permission
 
 
 
@@ -33,18 +33,40 @@ def login():
     if request.method == 'POST':
         #stuff for if they hit 'click to login'
     #More may be needed
-    return render_template("login.html", form=LoginForm) # may need to add paramaters
+        return redirect(url_for('home')
+    else:
+        return render_template("login.html", form=LoginForm) # may need to add paramaters
 
 #----------------------------register functionality---------------------------------------#
 @app.route('home/user_login/register_user')
 def register():
     #your code here
     return render_template("register.html", form=RegisterForm) # may need to add paramaters
+    ###########return this if they succesfully register###########
+    # else:
+    #     return redirect(url_for('login')) #may need parmaeters
 
 #----------------------------add event functionality---------------------------------------#
 @app.route('/events/modify_event')
 def create_event():
-    #your code here
+    if request.method == 'POST':
+		name = request.form['name']	
+        dateofEvent = request.form['dateofEvent']
+        description = request.form['description']
+        location = request.form['location']
+        capacity = request.form['capacity']
+        
+        newEvent = Event(name, Event, description, location, capacity)
+    	db.session.add(newEvent)
+    	db.session.commit()
+
+		return redirect(url_for('get_events'))
+	else:
+		return render_template('modify_event.html')
+    
+    
+    
+        
     return render_template("create_event.html", form=EventForm) # may need to add paramaters
 
 #-----------------------------my events page-------------------------------------------#
@@ -56,14 +78,15 @@ def get_user_events():
 
 #-------------------------------------------------------edit functionality -----------------------------------------------------------#
 
-#@app.route('/events/edit/<event_id>', methods = ['GET', 'POST'])		#most of this is commented out and will be fixed later once we know what feilds are needed and what they are called specificaly
-#def update_event(event_id):
+@app.route('home/events/edit/<event_id>', methods = ['GET', 'POST'])		#most of this is commented out and will be fixed later once we know what feilds are needed and what they are called specificaly
+def modify_event(event_id):
 	#check method used for request
-	#if request.method == 'POST':
+	if request.method == 'POST':
 		#**********************add code to re-verify login here*************************#
-		#title = request.form['title']	#request title
-		#text = request.form['noteText']
-		#note = db.session.query(Event).filter_by(id=event_id).one()
+# 		name = request.form['name']	
+# 		dateofEvent = request.form['dateofEvent']
+#         description = 
+# 		#note = db.session.query(Event).filter_by(id=event_id).one()
 		
 		#note.title = title
 		#note.text = text #updates note data
