@@ -47,7 +47,7 @@ def register():
     #     return redirect(url_for('login')) #may need parmaeters
 
 #----------------------------add event functionality---------------------------------------#
-@app.route('/events/modify_event')
+@app.route('/events/create')
 def create_event():
     if request.method == 'POST':
 		name = request.form['name']	
