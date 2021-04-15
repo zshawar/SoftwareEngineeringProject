@@ -26,7 +26,7 @@ class LoginForm(FlaskForm):
 
         # we know the email exists, check the password now
         user = user.one()
-        if !bcrypt.checkpw(self.password.data.encode("utf-8"), user.password):
+        if not bcrypt.checkpw(self.password.data.encode("utf-8"), user.password):
             raise ValidationError("Incorrect username or password")
 
 
