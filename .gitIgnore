@@ -1,7 +1,4 @@
 .idea/*
 /RSVPme/venv/
-<<<<<<< HEAD
 /RSVPme/__pycache__
-=======
-/RSVPme/__pycache__
->>>>>>> da2810bf954cf17b6af6c31976297317f6bb805e
+
