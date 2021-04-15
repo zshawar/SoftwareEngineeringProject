@@ -33,7 +33,7 @@ def login():
     if request.method == 'POST':
         #stuff for if they hit 'click to login'
     #More may be needed
-        return redirect(url_for('home')
+        return redirect(url_for('home'))
     else:
         return render_template("login.html", form=LoginForm) # may need to add paramaters
 
@@ -50,26 +50,27 @@ def register():
 @app.route('/events/create')
 def create_event():
     if request.method == 'POST':
-		name = request.form['name']	
+        name = request.form['name']
         dateofEvent = request.form['dateofEvent']
         description = request.form['description']
         location = request.form['location']
         capacity = request.form['capacity']
         
         newEvent = Event(name, Event, description, location, capacity)
-    	db.session.add(newEvent)
-    	db.session.commit()
+        db.session.add(newEvent)
+        db.session.commit()
 
-		return redirect(url_for('get_events'))
-	else:
-		return render_template('modify_event.html')
+        return redirect(url_for('get_events'))
+    else:
+        return render_template('modify_event.html')
 
 
 #-----------------------------my events page-------------------------------------------#
 @app.route('/home/my_events', methods=['GET'])
 def get_user_events(user_id):
-    
-    #your code here
+     #**********************add code to re-verify login here*************************#
+
+
     return render_template("my_events.html") # may need to add paramaters
 
 
@@ -80,7 +81,13 @@ def get_user_events(user_id):
 #--------------------------------------------------------------------------------------#
 @app.route('/home/events/<event_id>')
 def get_event(event_id):
-    return render_template('event.hmtl', event_id=event_id)
+    #**********************add code to re-verify login here*************************#
+
+    myEvents = db.session.query(Event).filter_by(id=event_id).one()  # Retrieve a specific event from the database
+
+
+
+    return render_template('event.hmtl', event=myEvents)
 
 
 #--------------------------------------get events--------------------------------------#
@@ -88,12 +95,12 @@ def get_event(event_id):
 #--------------------------------------------------------------------------------------#
 @app.route('/home/events')
 def get_events():
-    return render_template('events.hmtl')
 
+    #**********************add code to re-verify login here*************************#
 
+    myEvents = db.session.query(Event).limit(5).all()  # Get 5 recent events from the database
 
-
-
+    return render_template('events.hmtl', events=myEvents) # Render the events.html page with the events gathered from the database (Array of events)
 
 
 #--------------------------------------edit event--------------------------------------#
@@ -102,8 +109,8 @@ def get_events():
 
 @app.route('home/events/edit/<event_id>', methods = ['GET', 'POST'])		
 def modify_event(event_id):
-	if request.method == 'POST':
-		#**********************add code to re-verify login here*************************#
+    if request.method == 'POST':
+        #**********************add code to re-verify login here*************************#
         name = request.form['name']	
         dateofEvent = request.form['dateofEvent']
         description = request.form['description']               #gets all of the info from the input boxes
@@ -111,21 +118,21 @@ def modify_event(event_id):
         capacity = request.form['capacity']
         
         event = db.session.query(Event).filter_by(id=event_id).one()    #gets the event we're working with 
-		
-		event.name = name
-		event.dateofEvent = dateofEvent
+
+        event.name = name
+        event.dateofEvent = dateofEvent
         event.description = description                                 #updates the feilds of the event we're working with with what we got from the input boxes
         event.name = location
         event.capacity = capacity
-        		
-		db.session.add(event)                                            #puts the updated version of the event back into the database
-		db.session.commit()
 
-		return redirect(url_for('get_user_events'))
-	else: 
-		event = db.session.query(Event).filter_by(id=event_id).one()
+        db.session.add(event)                                            #puts the updated version of the event back into the database
+        db.session.commit()
 
-		return render_template('modify_event.html', event_id=event_id)
+        return redirect(url_for('get_user_events'))
+    else:
+        event = db.session.query(Event).filter_by(id=event_id).one()
+
+        return render_template('modify_event.html', event_id=event_id)
 
 #------------------------------------delete event--------------------------------------#
 #                 for removing an event                                                #
@@ -133,8 +140,8 @@ def modify_event(event_id):
 
 @app.route('/events/delete/<event_id>', methods=['POST'])	
 def delete_event(event_id):
-	event = db.session.query(Event).filter_by(id=event_id).one()
-	#**********************add code to re-verify login here*************************#
+    event = db.session.query(Event).filter_by(id=event_id).one()
+    #**********************add code to re-verify login here*************************#
     db.session.delete(event) 
     db.session.commit()
 
