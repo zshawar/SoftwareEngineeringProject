@@ -72,9 +72,28 @@ def get_user_events(user_id):
     #your code here
     return render_template("my_events.html") # may need to add paramaters
 
+
+
+
+#--------------------------------------get event---------------------------------------#
+#                for very specifically showing one event in particular                 #
+#--------------------------------------------------------------------------------------#
+@app.route('/home/events/<event_id>')
+def get_event(event_id):
+    return render_template('event.hmtl', event_id=event_id)
+
+
+
+
+
+
+
+
+
+
 #-------------------------------------------------------edit functionality -----------------------------------------------------------#
 
-@app.route('home/events/edit/<event_id>', methods = ['GET', 'POST'])		#most of this is commented out and will be fixed later once we know what feilds are needed and what they are called specificaly
+@app.route('home/events/edit/<event_id>', methods = ['GET', 'POST'])		
 def modify_event(event_id):
 	#check method used for request
 	if request.method == 'POST':
