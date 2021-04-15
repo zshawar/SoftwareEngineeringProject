@@ -1,0 +1,21 @@
+<style>
+	.nav-btn {
+		padding-left: 2em;
+		padding-right: 2em;
+		margin-top: 1em;
+		margin-bottom: 0.33em;
+		border-color: lightgray
+	}
+</style>
+<div style="background-color:#0AAB52; display: flex">
+  <h1>RSVMe</h1>
+  <div style="margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; margin-right: 0.5em">
+    <a href={{ url_for("logout") }}><button class="btn btn-light btn-sm" style="margin-top: 0.5em">Logout</button></a>
+    <div>
+    <a href={{ url_for("home") }}><button class="btn btn-light nav-btn">Home Page</button></a>
+    <a href={{ url_for("get_user_events") }}><button class="btn btn-light nav-btn">My Events</button></a>
+    <a href={{ url_for("get_events") }}><button class="btn btn-light nav-btn">Public Events</button></a>
+    <a href={{ url_for("get_user_profile") }}><button class="btn btn-light nav-btn">My Profile</button></a>
+    </div>
+  </div>
+</div>
