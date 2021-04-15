@@ -83,7 +83,12 @@ def get_event(event_id):
     return render_template('event.hmtl', event_id=event_id)
 
 
-
+#--------------------------------------get events--------------------------------------#
+#                for getting all of the events                                         #
+#--------------------------------------------------------------------------------------#
+@app.route('/home/events')
+def get_events():
+    return render_template('events.hmtl')
 
 
 
