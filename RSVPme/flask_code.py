@@ -21,19 +21,19 @@ with app.app_context():
 
 #----------------------------home page---------------------------------------#
 @app.route('/')
-@app.route('/home')
+@app.route('/home', methods=['GET'])
 def home():
     #your code here
     return render_template("home.html") # may need to add paramaters
 
 #----------------------------login functionality---------------------------------------#
-@app.route('/login')
+@app.route('/user_login')
 def login():
     #your code here
     return render_template("login.html", form=LoginForm) # may need to add paramaters
 
 #----------------------------register functionality---------------------------------------#
-@app.route('/register')
+@app.route('/register_user')
 def register():
     #your code here
     return render_template("register.html", form=RegisterForm) # may need to add paramaters
