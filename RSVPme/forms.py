@@ -1,7 +1,7 @@
 import bcrypt
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, FileField, SubmitField, IntegerField, DateTimeField, ValidationError
-from wtforms.validators import Length, DataRequired, EqualTo, Email
+from wtforms.validators import Length, DataRequired, EqualTo, Email, Regexp
 from database import db
 
 class LoginForm(FlaskForm):
@@ -71,7 +71,7 @@ class EventForm(FlaskForm):
     ])
 
     # incomplete, need to add validators for image extension
-    image = FileField("Event Thumbnail", [])
+    image = FileField("Event Thumbnail", [Regexp(".*\\.(jpg|jpeg|png)$")])
 
     capacity = IntegerField("Capacity", [])
 
