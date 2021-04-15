@@ -23,26 +23,36 @@ with app.app_context():
 @app.route('/')
 @app.route('/home', methods=['GET'])
 def home():
+    
     #your code here
     return render_template("home.html") # may need to add paramaters
 
 #----------------------------login functionality---------------------------------------#
-@app.route('/user_login')
+@app.route('home/user_login', methods=['POST', 'GET'])
 def login():
-    #your code here
+    if request.method == 'POST':
+        #stuff for if they hit 'click to login'
+    #More may be needed
     return render_template("login.html", form=LoginForm) # may need to add paramaters
 
 #----------------------------register functionality---------------------------------------#
-@app.route('/register_user')
+@app.route('home/user_login/register_user')
 def register():
     #your code here
     return render_template("register.html", form=RegisterForm) # may need to add paramaters
 
 #----------------------------add event functionality---------------------------------------#
-@app.route('/events/createEvent')
+@app.route('/events/modify_event')
 def create_event():
     #your code here
     return render_template("create_event.html", form=EventForm) # may need to add paramaters
+
+#-----------------------------my events page-------------------------------------------#
+@app.route('/home/my_events', methods=['GET'])
+def get_user_events():
+    
+    #your code here
+    return render_template("home.html") # may need to add paramaters
 
 #-------------------------------------------------------edit functionality -----------------------------------------------------------#
 
