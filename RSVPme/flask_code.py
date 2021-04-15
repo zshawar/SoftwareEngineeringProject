@@ -67,10 +67,10 @@ def create_event():
 
 #-----------------------------my events page-------------------------------------------#
 @app.route('/home/my_events', methods=['GET'])
-def get_user_events():
+def get_user_events(user_id):
     
     #your code here
-    return render_template("home.html") # may need to add paramaters
+    return render_template("my_events.html") # may need to add paramaters
 
 #-------------------------------------------------------edit functionality -----------------------------------------------------------#
 
@@ -79,18 +79,24 @@ def modify_event(event_id):
 	#check method used for request
 	if request.method == 'POST':
 		#**********************add code to re-verify login here*************************#
-# 		name = request.form['name']	
-# 		dateofEvent = request.form['dateofEvent']
-#         description = 
-# 		#note = db.session.query(Event).filter_by(id=event_id).one()
+        name = request.form['name']	
+        dateofEvent = request.form['dateofEvent']
+        description = request.form['description']
+        location = request.form['location']
+        capacity = request.form['capacity']
+        
+        event = db.session.query(Event).filter_by(id=event_id).one()
 		
-		#note.title = title
-		#note.text = text #updates note data
-		
-		#db.session.add(event)#update db
-		#db.session.commit()
+		event.name = name
+		event.dateofEvent = dateofEvent
+        event.description = description
+        event.name = location
+        event.capacity = capacity
+        		
+		db.session.add(event)
+		db.session.commit()
 
-		#return redirect(url_for('get_events'))
+		return redirect(url_for('get_user_events'))
 	#else: #the usual code 
 		#retrieve user and note from database
 		#a_user = db.session.query(User).filter_by(user_id= <id here>).one()
