@@ -96,7 +96,9 @@ def get_events():
 
 
 
-#-------------------------------------------------------edit functionality -----------------------------------------------------------#
+#--------------------------------------edit event--------------------------------------#
+#                for modifying an event                                                #
+#--------------------------------------------------------------------------------------#
 
 @app.route('home/events/edit/<event_id>', methods = ['GET', 'POST'])		
 def modify_event(event_id):
@@ -121,12 +123,10 @@ def modify_event(event_id):
 		db.session.commit()
 
 		return redirect(url_for('get_user_events'))
-	#else: #the usual code 
-		#retrieve user and note from database
-		#a_user = db.session.query(User).filter_by(user_id= <id here>).one()
-		#my_note = db.session.query(Event).filter_by(id=event_id).one()
+	else: 
+		event = db.session.query(Event).filter_by(id=event_id).one()
 
-		#return render_template('new.html') #add parameters as needed
+		return render_template('modify_event.html', event_id=event_id)
 
 #--------------------------------------------delete functionality---------------------------------------------------------------#
 
