@@ -3,7 +3,9 @@ import os
 from flask import Flask   
 from flask import render_template
 from flask import request
-from flask import redirect, url_for 
+from flask import redirect, url_for
+from database import db
+from forms import LoginForm, RegisterForm, EventForm
 
 #--------------------------setup----------------------------------------------#
 app = Flask(__name__)     # create an app
@@ -21,6 +23,23 @@ def home():
     #your code here
     return render_template("home.html") # may need to add paramaters
 
+#----------------------------login functionality---------------------------------------#
+@app.route('/login')
+def login():
+    #your code here
+    return render_template("login.html", form=LoginForm) # may need to add paramaters
+
+#----------------------------register functionality---------------------------------------#
+@app.route('/register')
+def register():
+    #your code here
+    return render_template("register.html", form=RegisterForm) # may need to add paramaters
+
+#----------------------------add event functionality---------------------------------------#
+@app.route('/events/createEvent')
+def create_event():
+    #your code here
+    return render_template("create_event.html", form=EventForm) # may need to add paramaters
 
 #-------------------------------------------------------edit functionality -----------------------------------------------------------#
 
