@@ -3,12 +3,56 @@
   <head>
     {% include 'headCode.html' %}
     <title>Register</title>
+    <title>RSVME</title>
   </head>
   <body>
     <h1>Register</h1>
 
 
+    <div class="p-3 mb-2 bg-success text-white">
+     <h1>Have an account?</h1>
+        <div class="navdiv">
+            <nav>
+              <p>
+                <a href="{{ url_for('login') }}" class="text-secondary"> Click Here to Login</a>
+              </p>
+            </nav>
+        </div>
+    </div>
 
+    <div class="p-3 mb-2 bg-success text-white">
+    <h2>Need to make one? Enter your information below: </h2>
+    </div>
 
+      <form method="POST" action="/register">
+                <div class="form-field">{{ form.username.label }} {{ form.username }}
+                    {% if form.username.errors %}
+                    <ul class="errors">
+                        {% for error in form.username.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <div class="form-field">{{ form.password.label }} {{ form.password }}
+                    {% if form.password.errors %}
+                    <ul class="errors">
+                        {% for error in form.password.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <div class="form-field">{{ form.email.label }} {{ form.email }}
+                    {% if form.email.errors %}
+                    <ul class="errors">
+                        {% for error in form.email.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+        {{ form.submit }}
+      </form>
   </body>
 </html>
