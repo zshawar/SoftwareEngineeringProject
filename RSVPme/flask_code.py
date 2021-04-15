@@ -102,24 +102,23 @@ def get_events():
 
 @app.route('home/events/edit/<event_id>', methods = ['GET', 'POST'])		
 def modify_event(event_id):
-	#check method used for request
 	if request.method == 'POST':
 		#**********************add code to re-verify login here*************************#
         name = request.form['name']	
         dateofEvent = request.form['dateofEvent']
-        description = request.form['description']
+        description = request.form['description']               #gets all of the info from the input boxes
         location = request.form['location']
         capacity = request.form['capacity']
         
-        event = db.session.query(Event).filter_by(id=event_id).one()
+        event = db.session.query(Event).filter_by(id=event_id).one()    #gets the event we're working with 
 		
 		event.name = name
 		event.dateofEvent = dateofEvent
-        event.description = description
+        event.description = description                                 #updates the feilds of the event we're working with with what we got from the input boxes
         event.name = location
         event.capacity = capacity
         		
-		db.session.add(event)
+		db.session.add(event)                                            #puts the updated version of the event back into the database
 		db.session.commit()
 
 		return redirect(url_for('get_user_events'))
