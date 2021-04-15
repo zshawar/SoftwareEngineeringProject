@@ -63,11 +63,7 @@ def create_event():
 		return redirect(url_for('get_events'))
 	else:
 		return render_template('modify_event.html')
-    
-    
-    
-        
-    return render_template("create_event.html", form=EventForm) # may need to add paramaters
+
 
 #-----------------------------my events page-------------------------------------------#
 @app.route('/home/my_events', methods=['GET'])
