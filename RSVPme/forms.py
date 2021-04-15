@@ -1,6 +1,8 @@
+import bcrypt
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, FileField, SubmitField, IntegerField, DateTimeField, ValidationError
 from wtforms.validators import Length, DataRequired, EqualTo, Email
+from database import db
 
 class LoginForm(FlaskForm):
     class Meta:
@@ -16,6 +18,17 @@ class LoginForm(FlaskForm):
     ])
 
     submit = SubmitField("Submit")
+
+    def validate_password(self, field):
+        users = db.session.query(User).filter_by(email=self.email.data)
+        if users.count() == 0:
+            raise ValidationError("Incorrect username or password")
+
+        # we know the email exists, check the password now
+        user = user.one()
+        if !bcrypt.checkpw(self.password.data.encode("utf-8"), user.password):
+            raise ValidationError("Incorrect username or password")
+
 
 class RegisterForm(FlaskForm):
     class Meta:
