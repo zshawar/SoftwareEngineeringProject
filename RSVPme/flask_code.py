@@ -127,16 +127,18 @@ def modify_event(event_id):
 
 		return render_template('modify_event.html', event_id=event_id)
 
-#--------------------------------------------delete functionality---------------------------------------------------------------#
+#------------------------------------delete event--------------------------------------#
+#                 for removing an event                                                #
+#--------------------------------------------------------------------------------------#
 
-#@app.route('/events/delete/<event_id>', methods=['POST'])	#most of this is commented out and will be fixed later once we know what feilds are needed and what they are called specificaly
-#def delete_event(event_id):
-#	my_event = db.session.query(Event).filter_by(id=event_id).one()
+@app.route('/events/delete/<event_id>', methods=['POST'])	
+def delete_event(event_id):
+	event = db.session.query(Event).filter_by(id=event_id).one()
 	#**********************add code to re-verify login here*************************#
-#	db.session.delete(my_event) #change the name for this var as needed
-#	db.session.commit()
+    db.session.delete(event) 
+    db.session.commit()
 
-#	return redirect(url_for('get_events'))
+    return redirect(url_for('get_events'))
 
 
 
