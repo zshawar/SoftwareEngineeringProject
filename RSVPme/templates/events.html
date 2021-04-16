@@ -7,7 +7,6 @@
   <body>
     <h1 id="topTitle">Events</h1>
 
-      {% for event in events %}
       <div id="sortingFeatures">
         <h2 id="sortingTitle">Sorting / Filtering Features</h2>
         <button id="filter1">Sort alphabetically</button>
@@ -19,11 +18,13 @@
 
       <div id="EventsListing">
         <h1 id="eventsMessage">Public Events - Click To View</h1>
+
         <table class="eventTable">
+          {% for event in events %}
           <tr id="row1">
-            <td class="eventCell">{{ event.name }}</td>
-            <td class="eventCell">{{ event.name }}</td>
-            <td class="eventCell">{{ event.name }}</td>
+            <td class="eventCell"><a href="{{ url_for("get_event", event_id=event.id) }}">{{ event.name }}</a></td>
+            <td class="eventCell"><a href="">{{ event.name }}</a></td>
+            <td class="eventCell"><a href="">{{ event.name }}</a></td>
           </tr>
           <tr>
             <td class="eventCell">{{ event.name }}</td>
@@ -35,12 +36,13 @@
             <td class="eventCell">{{ event.name }}</td>
             <td class="eventCell">{{ event.name }}</td>
           </tr>
+          {% endfor %}
         </table>
       </div>
 
       <button id="RSVPButton">Reserve my Spot!</button>
 
 
-      {% endfor %}
+
   </body>
 </html>

@@ -79,14 +79,12 @@ def get_user_events(user_id):
 #--------------------------------------get event---------------------------------------#
 #                for very specifically showing one event in particular                 #
 #--------------------------------------------------------------------------------------#
+
 @app.route('/events/<event_id>')
 def get_event(event_id):
     #**********************add code to re-verify login here*************************#
 
     myEvents = db.session.query(Event).filter_by(id=event_id).one()  # Retrieve a specific event from the database
-
-
-
 
     return render_template('event.html', event=myEvents)
 
@@ -94,24 +92,15 @@ def get_event(event_id):
 #--------------------------------------get events--------------------------------------#
 #                for getting all of the events                                         #
 #--------------------------------------------------------------------------------------#
+
 @app.route('/events')
 def get_events():
 
     #**********************add code to re-verify login here*************************#
 
-    dictionary = {1: {
-        "name" : "bruh1"
-        }
-    }
+    myEvents = db.session.query(Event).limit(9).all()  # Get 5 recent events from the database
 
-
-    array = [dictionary]
-
-
-
-    #myEvents = db.session.query(Event).limit(9).all()  # Get 5 recent events from the database
-
-    return render_template('events.html', events=array)  # Render the events.html page with the events gathered from the database (Array of events)
+    return render_template('events.html', events=myEvents)  # Render the events.html page with the events gathered from the database (Array of events)
 
 
 #--------------------------------------edit event--------------------------------------#
