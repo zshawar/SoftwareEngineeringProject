@@ -3,6 +3,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, FileField, SubmitField, IntegerField, DateTimeField, ValidationError
 from wtforms.validators import Length, DataRequired, EqualTo, Email, Regexp
 from database import db
+from models import User
 
 class LoginForm(FlaskForm):
     class Meta:
@@ -25,7 +26,7 @@ class LoginForm(FlaskForm):
             raise ValidationError("Incorrect username or password")
 
         # we know the email exists, check the password now
-        user = user.one()
+        user = users.one()
         if not bcrypt.checkpw(self.password.data.encode("utf-8"), user.password):
             raise ValidationError("Incorrect username or password")
 

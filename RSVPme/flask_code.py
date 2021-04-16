@@ -28,7 +28,7 @@ def home():
     return render_template("home.html") # may need to add paramaters
 
 #----------------------------login functionality---------------------------------------#
-@app.route('home/user_login', methods=['POST', 'GET'])
+@app.route('/home/user_login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
         #stuff for if they hit 'click to login'
@@ -38,7 +38,7 @@ def login():
         return render_template("login.html", form=LoginForm) # may need to add paramaters
 
 #----------------------------register functionality---------------------------------------#
-@app.route('home/user_login/register_user')
+@app.route('/home/user_login/register_user')
 def register():
     #your code here
     return render_template("register.html", form=RegisterForm) # may need to add paramaters
@@ -107,7 +107,7 @@ def get_events():
 #                for modifying an event                                                #
 #--------------------------------------------------------------------------------------#
 
-@app.route('home/events/edit/<event_id>', methods = ['GET', 'POST'])		
+@app.route('/home/events/edit/<event_id>', methods = ['GET', 'POST'])
 def modify_event(event_id):
     if request.method == 'POST':
         #**********************add code to re-verify login here*************************#

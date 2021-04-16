@@ -61,7 +61,7 @@ class Role(db.Model):
 
     def __init__(self, role, canViewEvent, canViewAttendees, canRate, canRSVP, canEdit, canPublish, canSetPermissions):
         self.role = role
-        self.canViewEvent = canViewEVent
+        self.canViewEvent = canViewEvent
         self.canViewAttendees = canViewAttendees
         self.canRate = canRate
         self.canRSVP = canRSVP
