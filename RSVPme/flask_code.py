@@ -109,7 +109,7 @@ def get_events():
 
 
 
-    myEvents = db.session.query(Event).limit(9).all()  # Get 5 recent events from the database
+    #myEvents = db.session.query(Event).limit(9).all()  # Get 5 recent events from the database
 
     return render_template('events.html', events=array)  # Render the events.html page with the events gathered from the database (Array of events)
 
