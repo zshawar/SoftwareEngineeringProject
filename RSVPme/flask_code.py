@@ -35,16 +35,16 @@ def login():
     #More may be needed
         return redirect(url_for('home'))
     else:
-        return render_template("login.html", form=LoginForm) # may need to add paramaters
+        return render_template("login.html", form=LoginForm) # may need to add parameters
 
 #----------------------------register functionality---------------------------------------#
 @app.route('/home/user_login/register_user')
 def register():
     #your code here
-    return render_template("register.html", form=RegisterForm) # may need to add paramaters
-    ###########return this if they succesfully register###########
+    return render_template("register.html", form=RegisterForm) # may need to add parameters
+    ###########return this if they successfully register###########
     # else:
-    #     return redirect(url_for('login')) #may need parmaeters
+    #     return redirect(url_for('login')) #may need parameters
 
 #----------------------------add event functionality---------------------------------------#
 @app.route('/events/create')
@@ -87,7 +87,7 @@ def get_event(event_id):
 
 
 
-    return render_template('event.hmtl', event=myEvents)
+    return render_template('event.html', event=myEvents)
 
 
 #--------------------------------------get events--------------------------------------#
@@ -100,7 +100,7 @@ def get_events():
 
     myEvents = db.session.query(Event).limit(5).all()  # Get 5 recent events from the database
 
-    return render_template('events.hmtl', events=myEvents) # Render the events.html page with the events gathered from the database (Array of events)
+    return render_template('events.html', events=myEvents) # Render the events.html page with the events gathered from the database (Array of events)
 
 
 #--------------------------------------edit event--------------------------------------#
