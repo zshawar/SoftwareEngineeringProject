@@ -12,7 +12,7 @@ from models import User, Event, Role, Permission
 
 #--------------------------setup----------------------------------------------#
 app = Flask(__name__)     # create an app
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///rsvpme.db' #temporarily commented out --- need add db for it to work
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///rsvpme.db' #temporarily commented out --- need add db for it to work
 
 db.init_app(app)
 
@@ -66,7 +66,7 @@ def create_event():
 
 
 #-----------------------------my events page-------------------------------------------#
-@app.route('/home/my_events', methods=['GET'])
+@app.route('/my_events', methods=['GET'])
 def get_user_events(user_id):
      #**********************add code to re-verify login here*************************#
 
@@ -79,11 +79,12 @@ def get_user_events(user_id):
 #--------------------------------------get event---------------------------------------#
 #                for very specifically showing one event in particular                 #
 #--------------------------------------------------------------------------------------#
-@app.route('/home/events/<event_id>')
+@app.route('/events/<event_id>')
 def get_event(event_id):
     #**********************add code to re-verify login here*************************#
 
     myEvents = db.session.query(Event).filter_by(id=event_id).one()  # Retrieve a specific event from the database
+
 
 
 
@@ -93,14 +94,24 @@ def get_event(event_id):
 #--------------------------------------get events--------------------------------------#
 #                for getting all of the events                                         #
 #--------------------------------------------------------------------------------------#
-@app.route('/home/events')
+@app.route('/events')
 def get_events():
 
     #**********************add code to re-verify login here*************************#
 
-    myEvents = db.session.query(Event).limit(5).all()  # Get 5 recent events from the database
+    dictionary = {1: {
+        "name" : "bruh1"
+        }
+    }
 
-    return render_template('events.html', events=myEvents) # Render the events.html page with the events gathered from the database (Array of events)
+
+    array = [dictionary]
+
+
+
+    myEvents = db.session.query(Event).limit(9).all()  # Get 5 recent events from the database
+
+    return render_template('events.html', events=array)  # Render the events.html page with the events gathered from the database (Array of events)
 
 
 #--------------------------------------edit event--------------------------------------#
