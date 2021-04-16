@@ -47,7 +47,7 @@ def register():
     #     return redirect(url_for('login')) #may need parameters
 
 #----------------------------add event functionality---------------------------------------#
-@app.route('/events/create')
+@app.route('/events/create', methods=['POST', 'GET'])
 def create_event():
     if request.method == 'POST':
         name = request.form['name']
@@ -56,13 +56,13 @@ def create_event():
         location = request.form['location']
         capacity = request.form['capacity']
         
-        newEvent = Event(name, Event, description, location, capacity)
+        newEvent = Event(name, dateofEvent, description, location, capacity)
         db.session.add(newEvent)
         db.session.commit()
 
         return redirect(url_for('get_events'))
     else:
-        return render_template('modify_event.html')
+        return render_template('create_event.html')
 
 
 #-----------------------------my events page-------------------------------------------#
