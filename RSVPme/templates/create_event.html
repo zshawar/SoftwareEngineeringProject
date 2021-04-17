@@ -35,7 +35,7 @@
 
 
     <!-- Create new event -->
-    <form action="new" method="post">
+    <form action="create" method="post">
       <div class="thumbnail">
         <label>Choose Image for Event to Serve as Thumbnail</label>
         <input type="file" accept="image/jpeg, image/png, image/jpg">
@@ -43,10 +43,10 @@
       <div class="createEvent">
       <!-- Event name -->
       <label>Event Name</label>
-      <input type="text" id="eventName" name="eventName" placeholder="Your event name">
+      <input type="text" id="eventName" name="name" placeholder="Your event name">
       <!-- Date -->
       <label>Date</label>
-      <input type="date" placeholder="mm/dd/yyyy">
+      <input type="date" name="dateofEvent" placeholder="mm/dd/yyyy">
       <!-- time -->
       <label>Time</label>
       <input type="time" placeholder="time of event">
@@ -58,10 +58,10 @@
 
       <!-- Location -->
       <label>Location</label>
-      <input type="text" placeholder="Your event location">
+      <input type="text" placeholder="Your event location" name="location">
       <!-- Capacity -->
       <label>Capacity</label>
-      <input type="number" placeholder="number of people permitted">
+      <input type="number" placeholder="number of people permitted" name="capacity">
 
       <input type="submit" value="Submit">
       </div>
