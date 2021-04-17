@@ -53,10 +53,11 @@ def create_event():
         name = request.form['name']
         dateofEvent = request.form['dateofEvent']
         description = request.form['description']
+        relativePath = request.form['relativePath']
         location = request.form['location']
         capacity = request.form['capacity']
         
-        newEvent = Event(name, dateofEvent, description, location, capacity)
+        newEvent = Event(name, dateofEvent, description, relativePath, location, capacity)
         db.session.add(newEvent)
         db.session.commit()
 
