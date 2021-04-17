@@ -5,8 +5,42 @@
     <title>Events</title>
   </head>
   <body>
-    <h1>Events</h1>
+    <h1 id="topTitle">Events</h1>
 
+      <div id="sortingFeatures">
+        <h2 id="sortingTitle">Sorting / Filtering Features</h2>
+        <button id="filter1">Sort alphabetically</button>
+        <button id="filter2">Sort by Rating</button>
+        <button id="filter3">Sort by earliest start time</button>
+        <button id="filter4">Sort by capacity</button>
+        <button id="filter5">Sort by location</button>
+      </div>
+
+      <div id="EventsListing">
+        <h1 id="eventsMessage">Public Events - Click To View</h1>
+
+        <table class="eventTable">
+          {% for event in events %}
+          <tr id="row1">
+            <td class="eventCell"><a href="{{ url_for("get_event", event_id=event.id) }}">{{ event.name }}</a></td>
+            <td class="eventCell"><a href="">{{ event.name }}</a></td>
+            <td class="eventCell"><a href="">{{ event.name }}</a></td>
+          </tr>
+          <tr>
+            <td class="eventCell">{{ event.name }}</td>
+            <td class="eventCell">{{ event.name }}</td>
+            <td class="eventCell">{{ event.name }}</td>
+          </tr>
+          <tr>
+            <td class="eventCell">{{ event.name }}</td>
+            <td class="eventCell">{{ event.name }}</td>
+            <td class="eventCell">{{ event.name }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+
+      <button id="RSVPButton">Reserve my Spot!</button>
 
 
 

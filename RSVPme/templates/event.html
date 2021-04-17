@@ -2,13 +2,24 @@
 <html lang="en">
   <head>
     {% include 'headCode.html' %}
-    <title>Event</title>
+    <title>Events</title>
   </head>
   <body>
-    <h1>Event</h1>
+    <h1 id="topTitle">Events</h1>
 
+      <div id="EventInfo">
 
+        <p>Event Date:</p> {{ event.dateStart }}
+        <p>Event Start Time:</p> {{ event.dateStart.time }}
+        <p>Event End Time:</p> {{ event.dateEnd.time }}
+        <p>Address:</p> {{ event.address }}
+        <p>Remaining Spots:</p> {{ event.capacity }}
+        <p>Event Location:</p> <br/>
+        <img src="{{ event.relativePath }}" alt="Location of Image">
 
+      </div>
+
+    <button id="RSVPButton">Reserve my Spot!</button>
 
   </body>
 </html>
