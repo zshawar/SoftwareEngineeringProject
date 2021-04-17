@@ -1,0 +1,30 @@
+Benefits of using RSVME software:
+- Allows interactive planning of events between users
+- Organized presentation of personal events and upcoming events of interest
+- Information such as location of event or names of attendees is kept private from harmful users
+- Webpage is easy to use and understand
+
+When designing any software, it is important that the design process is ethically and morally sound. It is
+important for users to feel safe and know that their privacy is ensured while using RSVME. While the above benefits
+are a large part of our software, some ethical issues that may arise from using RSVME include information in our database containing user email addresses and passwords
+getting hacked and potentially storing too much information about a user's schedule and where they will be. Furthermore,
+the location of an event could present a safety issue if unwanted attendees are able to access the location. Users
+may not want certain people viewing where they will be and at what times. Certain events, such as religious gatherings
+or cultural festivals could be targets for hate crimes. It is our responsibility as software developers to ensure
+none of these concerns apply to our users. It is important that countermeasures are taken to ensure that any
+safety issues posed related to RSVME are addressed before users access the software.
+
+The following include ways that these security issues could be resolved:
+- Allow users to mute other users so that they do not receive a ping from this muted user
+- Create a limit on the amount of rating a user can perform on a certain event.
+This will prevent them from mass downvoting an event, which would arbitrarily inflate the negative
+review on said event.
+- Allow users to block other users from viewing their posts so users that have not been dealt with
+right away by moderators cannot view potentially sensitive information about the whereabouts of a
+user from their posts.
+- Add a feature that allows users to report another user for inappropriate or offensive behavior
+- Develop an admin panel where reports can be viewed by moderators and dealt with accordingly.
+- Ensure users have to sign in more than once to view items meant for them
+- Ensure that only shared users can view items meant for them
+- Share location of event only if sign up is approved by event creator
+- Users can only see others attending an event if they are approved to attend by event creator
