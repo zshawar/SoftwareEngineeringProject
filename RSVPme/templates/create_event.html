@@ -37,6 +37,11 @@
                 {% endfor %}
             </ul>
             {% endif %}
+            {% if event %}
+              {{event.eventName}}
+            {% else %}
+              Add your new event here ...
+            {% endif %}
         </div>
 
         <div class="form-field">{{ form.dateStart.label }} {{ form.dateStart }}
@@ -89,7 +94,11 @@
             {% endif %}
         </div>
 
-        {{ form.submit }}
+        {% if event %}
+            <input type="submit" value="Update Event"/>
+        {% else %}
+            <input type="submit" value="Submit"/>
+        {% endif %}
         </div>
 
     </form>
