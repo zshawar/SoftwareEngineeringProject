@@ -52,6 +52,7 @@ def login():
             # The inputted password matches the stored hash in the database, log the user into the session
             session["user"] = theUser.username
             session["userID"] = theUser.userID
+            session["email"] = theUser.email
 
             # Render the home page for the logged in user
             return redirect(url_for("home"))
@@ -245,7 +246,15 @@ def delete_event(event_id):
     return redirect(url_for('get_events'))
 
 
-
+#---------------------get user profile--------------------------------------------------#
+#               view the user's profile                                                 #
+#---------------------------------------------------------------------------------------#
+@app.route("/my_profile")
+def get_user_profile():
+    if session.get("user"):
+        return render_template("user_profile.html", user=session["user"], email=session["email"])
+    else:
+        redirect(url_for("login"))
 
 #--------------------------run statement------------------------------------#
 app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True) 	#this is directly from class so see if we need to change anything?

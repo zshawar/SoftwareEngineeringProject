@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% include 'headCode.html' %}
+    <title>User</title>
+  </head>
+  <body>
+    {% include "user_header.html" %}
+    <h1>User</h1>
+    <div id="main" style="display: flex; flex-direction: column;">
+	<div style="display: flex">
+	    <p style="margin-right: 2em; margin-left: 1em; align-self: center">Username</p>
+	    <input type="text" style="width: auto" disabled value="{{ user }}"/>
+	</div>
+	<div style="display: flex">
+	    <p style="margin-right: 2em; margin-left: 1em; align-self: center">Email</p>
+	    <input type="text" disabled style="width: auto" value="{{ email }}"/>
+	</div>
+    </div>
+  </body>
+</html>
