@@ -132,7 +132,7 @@ def create_event():
 
             return redirect(url_for('get_events'))
         else:
-            return render_template('create_event.html', form=form)
+            return render_template('create_event.html', form=form, user=session['user'])
     else:
         return redirect(url_for("login"))
 
@@ -168,7 +168,7 @@ def get_event(event_id):
 
     myEvents = db.session.query(Event).filter_by(eventID=event_id).one()  # Retrieve a specific event from the database
 
-    return render_template('event.html', event=myEvents)
+    return render_template('event.html', event=myEvents, user=session['user'])
 
 
 #--------------------------------------get events--------------------------------------#
@@ -180,9 +180,10 @@ def get_events():
 
     #**********************add code to re-verify login here*************************#
 
+
     myEvents = db.session.query(Event).limit(9).all()  # Get 5 recent events from the database
 
-    return render_template('events.html', events=myEvents)  # Render the events.html page with the events gathered from the database (Array of events)
+    return render_template('events.html', events=myEvents, user=session['user'])  # Render the events.html page with the events gathered from the database (Array of events)
 
 
 #--------------------------------------edit event--------------------------------------#
@@ -214,7 +215,7 @@ def modify_event(event_id):
     else:
         event = db.session.query(Event).filter_by(id=event_id).one()
 
-        return render_template('modify_event.html', event_id=event_id)
+        return render_template('modify_event.html', event_id=event_id, user=session['user'])
 
 #------------------------------------delete event--------------------------------------#
 #                 for removing an event                                                #
