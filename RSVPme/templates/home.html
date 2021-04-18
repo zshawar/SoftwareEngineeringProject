@@ -6,7 +6,8 @@
   </head>
   <body>
     <div class="topnav">
-      <a class="{{ url_for('home') }}">Home</a>
+      <h1 class="logo">RSVPme</h1>
+      <a class="{{ url_for('home') }} active">Home</a>
       <a href="{{ url_for('get_user_events') }}">My Events</a>
       <a href="{{ url_for('get_events') }}">Public Events</a>
       <a href="user.html">My Profile</a>

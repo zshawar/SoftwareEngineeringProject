@@ -104,21 +104,24 @@ def register():
 #----------------------------add event functionality---------------------------------------#
 @app.route('/events/create', methods=['POST', 'GET'])
 def create_event():
-    if request.method == 'POST':
-        name = request.form['name']
-        dateofEvent = request.form['dateofEvent']
+    form = EventForm()
+
+    if request.method == 'POST' and form.validate_on_submit():
+        name = request.form['eventName']
+        dateStart = request.form['dateStart']
+        dateEnd = request.form['dateEnd']
         description = request.form['description']
-        relativePath = request.form['relativePath']
+        # image = request.form['image']
         location = request.form['location']
         capacity = request.form['capacity']
         
-        newEvent = Event(name, dateofEvent, description, relativePath, location, capacity)
+        newEvent = Event(name, capacity, description, location, dateStart, dateEnd, "")
         db.session.add(newEvent)
         db.session.commit()
 
         return redirect(url_for('get_events'))
     else:
-        return render_template('create_event.html')
+        return render_template('create_event.html', form=form)
 
 
 #-----------------------------my events page-------------------------------------------#

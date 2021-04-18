@@ -1,6 +1,7 @@
 import bcrypt
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, FileField, SubmitField, IntegerField, DateTimeField, ValidationError
+from wtforms import StringField, PasswordField, FileField, SubmitField, IntegerField, ValidationError
+from wtforms.fields.html5 import DateTimeLocalField
 from wtforms.validators import Length, DataRequired, EqualTo, Email, Regexp
 from database import db
 from models import User
@@ -74,10 +75,10 @@ class EventForm(FlaskForm):
     # incomplete, need to add validators for image extension
     image = FileField("Event Thumbnail", [Regexp(".*\\.(jpg|jpeg|png)$")])
 
-    capacity = IntegerField("Capacity", [])
+    capacity = IntegerField("Capacity", [DataRequired()])
 
-    dateStart = DateTimeField("Start Date and Time", [])
-    dateEnd = DateTimeField("End Date and Time", [])
-
+    dateStart = DateTimeLocalField("Start Date and Time", [DataRequired()], format='%Y-%m-%dT%H:%M')
+    dateEnd = DateTimeLocalField("End Date and Time", [DataRequired()], format='%Y-%m-%dT%H:%M')
+    submit = SubmitField("Submit")
     
 
