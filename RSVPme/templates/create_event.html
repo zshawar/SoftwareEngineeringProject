@@ -37,11 +37,6 @@
                 {% endfor %}
             </ul>
             {% endif %}
-            {% if event %}
-              {{event.eventName}}
-            {% else %}
-              Add your new event here ...
-            {% endif %}
         </div>
 
         <div class="form-field">{{ form.dateStart.label }} {{ form.dateStart }}
