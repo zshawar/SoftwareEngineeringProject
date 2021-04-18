@@ -21,6 +21,7 @@
   <body>
     <!-- Nav Bar   -->
     <div class="topnav">
+      <h1 class="logo">RSVPme</h1>
       <a class="active" href="#home">Home</a>
       <a href="my_events.html">My Events</a>
       <a href="events.html">Public Events</a>
@@ -35,36 +36,75 @@
 
 
     <!-- Create new event -->
-    <form action="create" method="post">
-      <div class="thumbnail">
-        <label>Choose Image for Event to Serve as Thumbnail</label>
-        <input type="file" name="relativePath" accept="image/jpeg, image/png, image/jpg">
-      </div>
-      <div class="createEvent">
-      <!-- Event name -->
-      <label>Event Name</label>
-      <input type="text" id="eventName" name="name" placeholder="Your event name">
-      <!-- Date -->
-      <label>Date</label>
-      <input type="date" name="dateofEvent" placeholder="mm/dd/yyyy">
-      <!-- time -->
-      <label>Time</label>
-      <input type="time" placeholder="time of event">
-      <!-- Description -->
-      <label>Description</label>
-        <p>
-          <textarea name="description" rows="6" cols="0" ></textarea>
-        </p>
 
-      <!-- Location -->
-      <label>Location</label>
-      <input type="text" placeholder="Your event location" name="location">
-      <!-- Capacity -->
-      <label>Capacity</label>
-      <input type="number" placeholder="number of people permitted" name="capacity">
+    <form method="POST" action="/events/create">
 
-      <input type="submit" value="Submit">
-      </div>
+
+
+        <div class="createEvent">
+          <div class="form-field">{{ form.eventName.label }} {{ form.eventName }}
+            {% if form.eventName.errors %}
+            <ul class="errors">
+                {% for error in form.eventName.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-field">{{ form.dateStart.label }} {{ form.dateStart }}
+            {% if form.dateStart.errors %}
+            <ul class="errors">
+                {% for error in form.dateStart.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-field">{{ form.dateEnd.label }} {{ form.dateEnd }}
+            {% if form.dateEnd.errors %}
+            <ul class="errors">
+                {% for error in form.dateEnd.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-field">{{ form.description.label }} {{ form.description }}
+            {% if form.description.errors %}
+            <ul class="errors">
+                {% for error in form.description.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-field">{{ form.location.label }} {{ form.location }}
+            {% if form.location.errors %}
+            <ul class="errors">
+                {% for error in form.location.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-field">{{ form.capacity.label }} {{ form.capacity }}
+            {% if form.capacity.errors %}
+            <ul class="errors">
+                {% for error in form.capacity.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        {{ form.submit }}
+        </div>
+
     </form>
 
 

@@ -78,6 +78,6 @@ class EventForm(FlaskForm):
 
     dateStart = DateTimeField("Start Date and Time", [])
     dateEnd = DateTimeField("End Date and Time", [])
-
+    submit = SubmitField("Submit")
     
 
