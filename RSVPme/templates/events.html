@@ -3,23 +3,30 @@
   <head>
     {% include 'headCode.html' %}
     <title>Events</title>
+    <style>
+	.filter-btn {
+	    margin-bottom: 1em;
+	    border-color: gray;
+	}
+    </style>	
   </head>
   <body>
+    {% include 'user_header.html' %}
     <h1 id="topTitle">Events</h1>
-
-      <div id="sortingFeatures">
-        <h2 id="sortingTitle">Sorting / Filtering Features</h2>
-        <button id="filter1">Sort alphabetically</button>
-        <button id="filter2">Sort by Rating</button>
-        <button id="filter3">Sort by earliest start time</button>
-        <button id="filter4">Sort by capacity</button>
-        <button id="filter5">Sort by location</button>
+    <div id="body" style="display: flex; flex-direction: row">
+      <div id="sortingFeatures" style="display: flex; flex-direction: column; width: 30%; margin-left: 1em; border-color: gray; padding: 1em;border-style: solid;border-radius: 10px;border-width: 2px;">
+	      <!--<h2 id="sortingTitle">Sorting / Filtering Features</h2>-->
+        <button id="filter1" class="btn filter-btn">Sort alphabetically</button>
+        <button id="filter2" class="btn filter-btn">Sort by Rating</button>
+        <button id="filter3" class="btn filter-btn">Sort by earliest start time</button>
+        <button id="filter4" class="btn filter-btn">Sort by capacity</button>
+        <button id="filter5" class="btn filter-btn">Sort by location</button>
       </div>
 
-      <div id="EventsListing">
+      <div id="EventsListing" style="margin-left: 3em">
         <h1 id="eventsMessage">Public Events - Click To View</h1>
 
-        <table class="eventTable">
+ 	<table class="eventTable">
           {% for event in events %}
           <tr id="row1">
             <td class="eventCell"><a href="{{ url_for("get_event", event_id=event.id) }}">{{ event.name }}</a></td>
@@ -37,9 +44,9 @@
             <td class="eventCell">{{ event.name }}</td>
           </tr>
           {% endfor %}
-        </table>
+        </table>      
       </div>
-
+    </div>
       <button id="RSVPButton">Reserve my Spot!</button>
 
 
