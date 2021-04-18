@@ -26,11 +26,12 @@ with app.app_context():
 @app.route('/')
 @app.route('/home', methods=['GET'])
 def home():
+    form = LoginForm()  # Initialize the form object to be the login form
     # Check to see if there is a user saved in the current session
     if session.get("user"):
         return render_template("home.html", user=session["user"])
 
-    return render_template("login.html")  # There is no user in the current session, please log in
+    return render_template("login.html", form=form)  # There is no user in the current session, please log in
 
 #----------------------------login functionality---------------------------------------#
 @app.route('/login', methods=['POST', 'GET'])
@@ -192,30 +193,43 @@ def get_events():
 
 @app.route('/home/events/edit/<event_id>', methods = ['GET', 'POST'])
 def modify_event(event_id):
-    if request.method == 'POST':
-        #**********************add code to re-verify login here*************************#
-        name = request.form['name']	
-        dateofEvent = request.form['dateofEvent']
-        description = request.form['description']               #gets all of the info from the input boxes
-        location = request.form['location']
-        capacity = request.form['capacity']
-        
-        event = db.session.query(Event).filter_by(id=event_id).one()    #gets the event we're working with 
 
-        event.name = name
-        event.dateofEvent = dateofEvent
-        event.description = description                                 #updates the feilds of the event we're working with with what we got from the input boxes
-        event.name = location
-        event.capacity = capacity
+    # check if a user is saved in session
+    if session.get('user'):
+        # check method used for request
+        if request.method == 'POST':
+            # get data
+            name = request.form['eventName']
+            dateStart = request.form['dateStart']
+            dateEnd = request.form['dateEnd']
+            description = request.form['description']
+            # image = request.form['image']
+            location = request.form['location']
+            capacity = request.form['capacity']
+            event = db.session.query(Event).filter_by(id=event_id).one()
 
-        db.session.add(event)                                            #puts the updated version of the event back into the database
-        db.session.commit()
+            # update data
+            event.name = name
+            event.dateStart = dateStart
+            event.dateEnd = dateEnd
+            event.description = description
+            event.location = location
+            event.capacity = capacity
 
-        return redirect(url_for('get_user_events'))
+            # updates event in db
+            db.session.add(event)
+            db.session.commit()
+
+            return redirect(url_for('get_events'))
+
+        else:
+            # GET request - show new event form to edit event
+            # retrieve event from database
+            my_event = db.session.query(Event).filter_by(id=event_id).one()
+            return render_template('create_event.html', event=my_event, user=session['user'])
     else:
-        event = db.session.query(Event).filter_by(id=event_id).one()
-
-        return render_template('modify_event.html', event_id=event_id, user=session['user'])
+        # user is not in session - redirect to login
+        return redirect(url_for('login'))
 
 #------------------------------------delete event--------------------------------------#
 #                 for removing an event                                                #
