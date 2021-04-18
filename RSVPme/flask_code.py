@@ -9,6 +9,7 @@ from flask import session
 from database import db
 from forms import LoginForm, RegisterForm, EventForm
 from models import User, Event, Role, Permission
+from datetime import datetime
 
 
 
@@ -200,9 +201,9 @@ def get_events():
 #                for modifying an event                                                #
 #--------------------------------------------------------------------------------------#
 
-@app.route('/home/events/edit/<event_id>', methods = ['GET', 'POST'])
+@app.route('/events/edit/<event_id>', methods = ['GET', 'POST'])
 def modify_event(event_id):
-
+    form = EventForm()
     # check if a user is saved in session
     if session.get('user'):
         # check method used for request
@@ -215,18 +216,18 @@ def modify_event(event_id):
             # image = request.form['image']
             location = request.form['location']
             capacity = request.form['capacity']
-            event = db.session.query(Event).filter_by(id=event_id).one()
+            event = db.session.query(Event).filter_by(eventID=event_id).one()
 
             # update data
             event.name = name
-            event.dateStart = dateStart
-            event.dateEnd = dateEnd
+            event.dateStart = datetime.strptime(dateStart, '%Y-%m-%dT%H:%M')
+            event.dateEnd = datetime.strptime(dateEnd, '%Y-%m-%dT%H:%M')
             event.description = description
             event.location = location
             event.capacity = capacity
 
             # updates event in db
-            db.session.add(event)
+            # db.session.add(event)
             db.session.commit()
 
             return redirect(url_for('get_events'))
@@ -234,8 +235,16 @@ def modify_event(event_id):
         else:
             # GET request - show new event form to edit event
             # retrieve event from database
-            my_event = db.session.query(Event).filter_by(id=event_id).one()
-            return render_template('create_event.html', event=my_event, user=session['user'])
+            my_event = db.session.query(Event).filter_by(eventID=event_id).one()
+            form.eventName.data = my_event.name
+            form.dateStart.data = my_event.dateStart
+            form.dateEnd.data = my_event.dateEnd
+            form.description.data = my_event.description
+            form.location.data = my_event.location
+            form.capacity.data = my_event.capacity
+            # form.image.data = my_event.relativePath
+
+            return render_template('create_event.html', form=form, event=my_event, user=session['user'])
     else:
         # user is not in session - redirect to login
         return redirect(url_for('login'))

@@ -57,7 +57,7 @@ class EventForm(FlaskForm):
     class Meta:
         csrf = False
 
-    eventName = StringField("EventName", [
+    eventName = StringField("Event Name", [
         DataRequired(),
         Length(1, 50)
     ])
