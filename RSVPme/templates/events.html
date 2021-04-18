@@ -29,7 +29,7 @@
  	<table class="eventTable">
           {% for event in events %}
           <tr id="row1">
-            <td class="eventCell"><a href="{{ url_for("get_event", event_id=event.id) }}">{{ event.name }}</a></td>
+            <td class="eventCell"><a href="{{ url_for("get_event", event_id=event.eventID) }}">{{ event.name }}</a></td>
             <td class="eventCell"><a href="">{{ event.name }}</a></td>
             <td class="eventCell"><a href="">{{ event.name }}</a></td>
           </tr>

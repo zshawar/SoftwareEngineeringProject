@@ -141,7 +141,7 @@ def get_user_events(user_id):
 def get_event(event_id):
     #**********************add code to re-verify login here*************************#
 
-    myEvents = db.session.query(Event).filter_by(id=event_id).one()  # Retrieve a specific event from the database
+    myEvents = db.session.query(Event).filter_by(eventID=event_id).one()  # Retrieve a specific event from the database
 
     return render_template('event.html', event=myEvents)
 
