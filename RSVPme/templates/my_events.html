@@ -6,6 +6,21 @@
   </head>
   <body>
     <h1>My Events</h1>
+    <table>
+      <tr>
+        <th>Event</th>
+      </tr>
+
+      {% for event in events %}
+      <tr>
+        <td>{{ event.name }}</td>
+        <td>{{ event.name }}</td>
+        <td>{{ event.name }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+
 
 
 

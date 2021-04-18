@@ -71,7 +71,6 @@ def logout():
 
     return redirect(url_for("login"))
 
-
 #----------------------------register functionality---------------------------------------#
 @app.route('/register', methods=["POST", "GET"])
 def register():
@@ -124,13 +123,23 @@ def create_event():
 
 #-----------------------------my events page-------------------------------------------#
 @app.route('/my_events', methods=['GET'])
-def get_user_events(user_id):
-     #**********************add code to re-verify login here*************************#
+def get_user_events():
 
+    # Verify that the user is logged into the current session...
+    if session.get("user"):
 
-    return render_template("my_events.html") # may need to add paramaters
+        # Retrieve the permission for the specific logged in user
+        subqueryPermission = db.session.query(Permission).filter_by(userID=session["user"], role="Owner").subquery().all()
 
+        # Retrieve all of the events based on the user's permissions
+        usersEvents = db.session.query(Event).filter_by(eventID=subqueryPermission.eventID).all()
 
+        # Return the myEvents template and pass the events grabbed from the database as well as the user stored in the current session
+        return render_template("my_events.html", events=usersEvents, user=session["userID"])
+
+    # The user is not logged in, they need to log in first to view their events. Redirect them to login.
+    else:
+        return redirect(url_for("login"))
 
 
 #--------------------------------------get event---------------------------------------#
