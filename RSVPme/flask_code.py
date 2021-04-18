@@ -14,8 +14,9 @@ from models import User, Event, Role, Permission
 
 #--------------------------setup----------------------------------------------#
 app = Flask(__name__)     # create an app
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///rsvpme.db' #temporarily commented out --- need add db for it to work
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///rsvpme.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disables a functionality to alert of a DB Change
+app.config["SECRET_KEY"] = "BruhMoment3155"  # Secret Key for session ( I dont know what this should be, does it matter? )
 db.init_app(app)
 
 with app.app_context():
@@ -25,24 +26,56 @@ with app.app_context():
 @app.route('/')
 @app.route('/home', methods=['GET'])
 def home():
-    
-    #your code here
-    return render_template("home.html") # may need to add paramaters
+    # Check to see if there is a user saved in the current session
+    if session.get("user"):
+        return render_template("home.html", user=session["user"])
+
+    return render_template("login.html")  # There is no user in the current session, please log in
 
 #----------------------------login functionality---------------------------------------#
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    if request.method == 'POST':
-        #stuff for if they hit 'click to login'
-    #More may be needed
-        return redirect(url_for('home'))
+    form = LoginForm()  # Initialize the form object to be the login form
+
+    # Validate the user submitted information (POST METHOD)
+    if form.validate_on_submit():
+
+        # The user exists, grab that single user (use the .one() method to grab from database)
+        inputtedEmail = request.form["email"]   # Grab the email submitted
+        inputtedPassword = request.form["password"].encode("utf-8")  # Grab the password submitted, encode it
+        theUser = db.session.query(User).filter_by(email=inputtedEmail).one()
+
+        # Check the password to see if it matches the hash stored in the database
+        if bcrypt.checkpw(inputtedPassword, theUser.password):
+
+            # The inputted password matches the stored hash in the database, log the user into the session
+            session["user"] = theUser.username
+            session["userID"] = theUser.userID
+
+            # Render the home page for the logged in user
+            return redirect(url_for("home"))
+
+        # The password check has failed, the person logging in inputting the incorrect information
+        form.password.errors = ["Incorrect username or password entered"]
+        return render_template("login.html", form=form)
     else:
-        return render_template("login.html", form=LoginForm) # may need to add parameters
+        # Since it is not a post request, it must be a get request to first log in, just render the template for logging in
+        return render_template("login.html", form=form)
+
+#----------------------------logout functionality---------------------------------------#
+@app.route('/logout')
+def logout():
+    # Check to see if there is a user saved in the session
+    if session.get("user"):
+        session.clear()
+
+    return redirect(url_for("login"))
+
 
 #----------------------------register functionality---------------------------------------#
 @app.route('/register', methods=["POST", "GET"])
 def register():
-    form = RegisterForm()  # Initialize the form for the view
+    form = RegisterForm()  # Initialize the form object to be the register form
 
     if request.method == "POST" and form.validate_on_submit():
         # Salt and Hash the password entered.
