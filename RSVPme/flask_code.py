@@ -9,6 +9,7 @@ from flask import session
 from database import db
 from forms import LoginForm, RegisterForm, EventForm
 from models import User, Event, Role, Permission
+from datetime import datetime
 
 
 
@@ -218,14 +219,14 @@ def modify_event(event_id):
 
             # update data
             event.name = name
-            event.dateStart = dateStart
-            event.dateEnd = dateEnd
+            event.dateStart = datetime.strptime(dateStart, '%Y-%m-%dT%H:%M')
+            event.dateEnd = datetime.strptime(dateEnd, '%Y-%m-%dT%H:%M')
             event.description = description
             event.location = location
             event.capacity = capacity
 
             # updates event in db
-            db.session.add(event)
+            # db.session.add(event)
             db.session.commit()
 
             return redirect(url_for('get_events'))

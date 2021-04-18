@@ -14,8 +14,12 @@
 
 
     <!-- Create new event -->
+     {% if event %}
+        <form action="{{ url_for('modify_event', event_id=event.eventID) }}" method="post">
+     {% else %}
+        <form method="POST" action="/events/create">
+     {% endif %}
 
-    <form method="POST" action="/events/create">
 
 
 	<div class="form-field thumbnail">
