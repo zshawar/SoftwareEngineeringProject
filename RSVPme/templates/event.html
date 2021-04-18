@@ -10,11 +10,10 @@
 
       <div id="EventInfo">
 
-        <p>Event Date:</p> {{ event.dateStart }}
-        <p>Event Start Time:</p> {{ event.dateStart.time }}
-        <p>Event End Time:</p> {{ event.dateEnd.time }}
-        <p>Address:</p> {{ event.address }}
-        <p>Remaining Spots:</p> {{ event.capacity }}
+        <p>Event Start: {{ event.dateStart.date().year }}-{{ event.dateStart.date().month }}-{{ event.dateStart.date().day }} {{event.dateStart.time().hour}}:{{event.dateStart.time().minute}}</p>
+	<p>Event End: {{ event.dateEnd.date().year }}-{{ event.dateEnd.date().month }}-{{ event.dateEnd.date().day }} {{event.dateEnd.time().hour}}:{{event.dateEnd.time().minute}}</p>
+	<p>Address: {{ event.address }}</p>
+	<p>Remaining Spots: {{ event.capacity }}</p>
         <p>Event Location:</p> <br/>
         <img src="{{ event.relativePath }}" alt="Location of Image">
 
