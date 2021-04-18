@@ -40,7 +40,16 @@
     <form method="POST" action="/events/create">
 
 
-
+	<div class="form-field">
+		{{ form.image.label }} {{ form.image }}
+		{% if form.image.errors %}
+		<ul class="errors">
+			{% for error in form.image.errors %}
+			<li>{{ error }}</li>
+			{% endfor %}
+		</ul>
+		{% endif %}
+	</div>
         <div class="createEvent">
           <div class="form-field">{{ form.eventName.label }} {{ form.eventName }}
             {% if form.eventName.errors %}

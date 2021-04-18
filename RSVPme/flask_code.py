@@ -108,7 +108,7 @@ def create_event():
     form = EventForm()
 
     if request.method == 'POST' and form.validate_on_submit():
-        name = request.form['name']
+        name = request.form['eventName']
         dateStart = request.form['dateStart']
         dateEnd = request.form['dateEnd']
         description = request.form['description']
@@ -116,7 +116,7 @@ def create_event():
         location = request.form['location']
         capacity = request.form['capacity']
         
-        newEvent = Event(name, dateStart, dateEnd, description, location, capacity, "")
+        newEvent = Event(name, capacity, description, location, dateStart, dateEnd, "")
         db.session.add(newEvent)
         db.session.commit()
 

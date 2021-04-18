@@ -1,4 +1,5 @@
 from database import db
+from datetime import datetime
 
 class User(db.Model):
     userID = db.Column("userID", db.Integer, primary_key=True)
@@ -28,10 +29,10 @@ class Event(db.Model):
     rating = db.Column("rating", db.Numeric(3, 2))
     numRatings = db.Column("numRatings", db.Integer)
 
-    def __init__(self, name, capacity, dateStart, dateEnd, location, description, relativePath):
+    def __init__(self, name, capacity, description, location, dateStart, dateEnd, relativePath):
         self.name = name
-        self.dateStart = dateStart
-        self.dateEnd = dateEnd
+        self.dateStart = datetime.strptime(dateStart, '%Y-%m-%dT%H:%M')
+        self.dateEnd = datetime.strptime(dateEnd, '%Y-%m-%dT%H:%M')
         self.location = location
         self.description = description
         self.capacity = capacity
