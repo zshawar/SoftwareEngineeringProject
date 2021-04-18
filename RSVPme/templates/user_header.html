@@ -31,7 +31,15 @@
 <div class="navBar">
   <h1 style="color:white; margin-left: 0.5em;">RSVPMe</h1>
   <div class="navLinks">
+    {% if user %}
     <a href="{{ url_for('logout') }}" class="btn btn-light btn-sm" style="margin-top: 0.5em">Logout</a>
+    {% else %}
+    <div style="margin-top: 0.5em">
+      <a href="{{ url_for('login') }}" class="btn btn-light btn-sm" >Login</a>
+      <a href="{{ url_for('register') }}" class="btn btn-light btn-sm" >Register</a>
+    </div>
+
+    {% endif %}
     <div>
     <a href="{{ url_for('home') }}" class="btn btn-light nav-btn">Home Page</a>
     <a href="{{ url_for('get_user_events') }}" class="btn btn-light nav-btn">My Events</a>

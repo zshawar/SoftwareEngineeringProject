@@ -20,11 +20,12 @@
   </div>
 
 
-  <div class="p-3 mb-2 bg-success text-white">
+  <div class="p-3 mb-2 text-white head">
     <h2>Need to make an account? Fill out the form below to create your account!</h2>
   </div>
 
-  <form method="POST" action="/register">
+  <div class="signIn">
+      <form method="POST" action="/register">
       <div class="form-field">{{ form.username.label }} {{ form.username }}
           {% if form.username.errors %}
           <ul class="errors">
@@ -55,6 +56,8 @@
           {% endif %}
       </div>
       {{ form.submit }}
-  </form>
+      </form>
+  </div>
+
   </body>
 </html>
