@@ -166,10 +166,15 @@ def get_user_events():
 @app.route('/events/<event_id>')
 def get_event(event_id):
     #**********************add code to re-verify login here*************************#
+    # login verification; if user is logged in and saved in session
+    if session.get("user"):
 
-    myEvents = db.session.query(Event).filter_by(eventID=event_id).one()  # Retrieve a specific event from the database
+        myEvents = db.session.query(Event).filter_by(eventID=event_id).one()  # Retrieve a specific event from the database
 
-    return render_template('event.html', event=myEvents, user=session['user'])
+        return render_template('event.html', event=myEvents, user=session['user'])
+    # if user is not logged in they must be redirected to login page
+    else:
+        return redirect(url_for("login"))
 
 
 #--------------------------------------get events--------------------------------------#
@@ -178,14 +183,16 @@ def get_event(event_id):
 
 @app.route('/events')
 def get_events():
-
     #**********************add code to re-verify login here*************************#
+    # login verification; if user is logged in and saved in session  
+    if session.get("user"):
 
+        myEvents = db.session.query(Event).limit(9).all()  # Get 5 recent events from the database
 
-    myEvents = db.session.query(Event).limit(9).all()  # Get 5 recent events from the database
-
-    return render_template('events.html', events=myEvents, user=session['user'])  # Render the events.html page with the events gathered from the database (Array of events)
-
+        return render_template('events.html', events=myEvents, user=session['user'])  # Render the events.html page with the events gathered from the database (Array of events)
+    # if user is not logged in they must be redirected to login page
+    else:
+        return redirect(url_for("login"))
 
 #--------------------------------------edit event--------------------------------------#
 #                for modifying an event                                                #
@@ -239,10 +246,17 @@ def modify_event(event_id):
 def delete_event(event_id):
     event = db.session.query(Event).filter_by(id=event_id).one()
     #**********************add code to re-verify login here*************************#
-    db.session.delete(event) 
-    db.session.commit()
+    # login verification; if user is logged in and saved in session  
+    if session.get("user"):
+    
+        db.session.delete(event) 
+        db.session.commit()
 
-    return redirect(url_for('get_events'))
+        return redirect(url_for('get_events'))
+    
+    else:
+        # if user is not in session they must be redirected to login page
+        return redirect(url_for('login'))
 
 
 
