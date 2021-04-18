@@ -77,8 +77,8 @@ class EventForm(FlaskForm):
 
     capacity = IntegerField("Capacity", [DataRequired()])
 
-    dateStart = DateTimeLocalField("Start Date and Time", [DataRequired()])
-    dateEnd = DateTimeLocalField("End Date and Time", [DataRequired()])
+    dateStart = DateTimeLocalField("Start Date and Time", [DataRequired()], format='%Y-%m-%dT%H:%M')
+    dateEnd = DateTimeLocalField("End Date and Time", [DataRequired()], format='%Y-%m-%dT%H:%M')
     submit = SubmitField("Submit")
     
 
