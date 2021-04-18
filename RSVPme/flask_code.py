@@ -96,6 +96,7 @@ def register():
         # Save the user to the current session
         session["user"] = userName  # User in the session is the username
         session["userID"] = newUser.userID  # User ID from the database table is the userID
+        session["email"] = email
 
         # Redirect the user after registering to the home page with their session
         return redirect(url_for("home"))
