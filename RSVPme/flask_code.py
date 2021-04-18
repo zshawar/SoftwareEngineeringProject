@@ -144,10 +144,10 @@ def get_user_events():
     # Verify that the user is logged into the current session...
     if session.get("user"):
 
-        # Retrieve the permission for the specific logged in user
-        subqueryPermission = db.session.query(Permission).filter_by(userID=session["userID"], role="Owner").subquery()
+        # Retrieve the eventID from the permission table by filtering to a specific user who is logged in and is an owner of the event.
+        subqueryPermission = db.session.query(Permission.eventID).filter_by(userID=session["userID"], role="Owner").subquery()
 
-        # Retrieve all of the events based on the user's permissions
+        # Retrieve all of the events based on the subquery (The eventID from the permission table by filtering with logged in user and owner role)
         usersEvents = db.session.query(Event).filter(Event.eventID.in_(subqueryPermission)).all()
 
         # Return the myEvents template and pass the events grabbed from the database as well as the user stored in the current session
