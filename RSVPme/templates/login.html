@@ -9,12 +9,12 @@
   <div class="topnav">
       {% if user %}
       <div class="topnav-right" id="loggedInAction">
-          <a href="{{ url_for("logout") }}">Click to logout</a>
+          <a href="{{ url_for('logout') }}">Click to logout</a>
       </div>
       {% else %}
       <div class="topnav-right" id="loggedOutAction">
-          <a href="{{ url_for("login") }}">Sign In</a>
-          <a href="{{ url_for("register") }}">Register</a>
+          <a href="{{ url_for('login') }}">Sign In</a>
+          <a href="{{ url_for('register') }}">Register</a>
       </div>
       {% endif %}
   </div>
