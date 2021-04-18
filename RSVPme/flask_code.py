@@ -26,11 +26,12 @@ with app.app_context():
 @app.route('/')
 @app.route('/home', methods=['GET'])
 def home():
+    form = LoginForm()  # Initialize the form object to be the login form
     # Check to see if there is a user saved in the current session
     if session.get("user"):
         return render_template("home.html", user=session["user"])
 
-    return render_template("login.html")  # There is no user in the current session, please log in
+    return render_template("login.html", form=form)  # There is no user in the current session, please log in
 
 #----------------------------login functionality---------------------------------------#
 @app.route('/login', methods=['POST', 'GET'])
