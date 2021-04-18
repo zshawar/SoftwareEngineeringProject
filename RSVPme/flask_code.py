@@ -199,7 +199,7 @@ def get_events():
 #                for modifying an event                                                #
 #--------------------------------------------------------------------------------------#
 
-@app.route('/home/events/edit/<event_id>', methods = ['GET', 'POST'])
+@app.route('/events/edit/<event_id>', methods = ['GET', 'POST'])
 def modify_event(event_id):
 
     # check if a user is saved in session
@@ -214,7 +214,7 @@ def modify_event(event_id):
             # image = request.form['image']
             location = request.form['location']
             capacity = request.form['capacity']
-            event = db.session.query(Event).filter_by(id=event_id).one()
+            event = db.session.query(Event).filter_by(eventID=event_id).one()
 
             # update data
             event.name = name
@@ -233,7 +233,7 @@ def modify_event(event_id):
         else:
             # GET request - show new event form to edit event
             # retrieve event from database
-            my_event = db.session.query(Event).filter_by(id=event_id).one()
+            my_event = db.session.query(Event).filter_by(eventID=event_id).one()
             return render_template('create_event.html', event=my_event, user=session['user'])
     else:
         # user is not in session - redirect to login
