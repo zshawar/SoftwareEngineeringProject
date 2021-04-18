@@ -1,0 +1,17 @@
+Register: User is able to register for a personal RSVMe account. This will require navigating to the "/register"
+route and setting a username, password, and email address for their account. This will allow each user to
+view the events they will be attending.
+
+Login: User is able to login to their personal RSVMe account and view events they are attending. Logging in
+will require a  password and email address. This will require navigating to the "/login" route.
+
+Create event: Users (who have created accounts) will be able to create events and enter the date, time, location,
+a short description, attendee capacity, and an image to describe the event. This will require navigating to the
+"/events/create" route and being signed in to your RSVMe account.
+
+Modify event: Users who have logged into their accounts and created at least one event will be able to edit their
+event information, including date, time, location, description, and attendee capacity. This will require
+being signed into your RSVMe account and navigation to the "/home/events/edit/<event_id>" route.
+
+Delete event: Users who have logged in will be able to delete any events they have previously created. This will
+require navigating to the "/events/delete/<event_id>" route.
