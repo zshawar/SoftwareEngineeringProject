@@ -1,9 +1,11 @@
 #--------------------------import statements----------------------------------#
-import os                 
+import os
+import bcrypt  # Hashing and Salting passwords library stuff
 from flask import Flask   
 from flask import render_template
 from flask import request
 from flask import redirect, url_for
+from flask import session
 from database import db
 from forms import LoginForm, RegisterForm, EventForm
 from models import User, Event, Role, Permission
@@ -28,7 +30,7 @@ def home():
     return render_template("home.html") # may need to add paramaters
 
 #----------------------------login functionality---------------------------------------#
-@app.route('/home/user_login', methods=['POST', 'GET'])
+@app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
         #stuff for if they hit 'click to login'
@@ -38,13 +40,34 @@ def login():
         return render_template("login.html", form=LoginForm) # may need to add parameters
 
 #----------------------------register functionality---------------------------------------#
-@app.route('/home/user_login/register_user')
+@app.route('/register', methods=["POST", "GET"])
 def register():
-    #your code here
-    return render_template("register.html", form=RegisterForm) # may need to add parameters
-    ###########return this if they successfully register###########
-    # else:
-    #     return redirect(url_for('login')) #may need parameters
+    form = RegisterForm()  # Initialize the form for the view
+
+    if request.method == "POST" and form.validate_on_submit():
+        # Salt and Hash the password entered.
+        hashedPassword = bcrypt.hashpw(request.form["password"].encode("utf-8"), bcrypt.gensalt())
+
+        # Retrieve all of the entered information from the form
+        userName = request.form["username"]
+        email = request.form["email"]
+
+        # Create a new user and put them in the database
+        newUser = User(userName, email, hashedPassword)
+
+        # Add this new user object to the database
+        db.session.add(newUser)
+        db.session.commit()
+
+        # Save the user to the current session
+        session["user"] = userName  # User in the session is the username
+        session["userID"] = newUser.userID  # User ID from the database table is the userID
+
+        # Redirect the user after registering to the home page with their session
+        return redirect(url_for("home"))
+
+    # Breaks out of if statement, user did something incorrect, just reloads the register page with the form again
+    return render_template("register.html", form=form)
 
 #----------------------------add event functionality---------------------------------------#
 @app.route('/events/create', methods=['POST', 'GET'])
