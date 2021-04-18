@@ -75,10 +75,10 @@ class EventForm(FlaskForm):
     # incomplete, need to add validators for image extension
     image = FileField("Event Thumbnail", [Regexp(".*\\.(jpg|jpeg|png)$")])
 
-    capacity = IntegerField("Capacity", [])
+    capacity = IntegerField("Capacity", [DataRequired()])
 
-    dateStart = DateTimeLocalField("Start Date and Time", [])
-    dateEnd = DateTimeLocalField("End Date and Time", [])
+    dateStart = DateTimeLocalField("Start Date and Time", [DataRequired()])
+    dateEnd = DateTimeLocalField("End Date and Time", [DataRequired()])
     submit = SubmitField("Submit")
     
 
