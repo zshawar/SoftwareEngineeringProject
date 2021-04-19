@@ -253,13 +253,13 @@ def modify_event(event_id):
 #                 for removing an event                                                #
 #--------------------------------------------------------------------------------------#
 
-@app.route('/events/delete/<event_id>', methods=['POST'])	
+@app.route('/events/delete/<event_id>', methods=['GET'])	
 def delete_event(event_id):
-    event = db.session.query(Event).filter_by(id=event_id).one()
-    #**********************add code to re-verify login here*************************#
+
     # login verification; if user is logged in and saved in session  
     if session.get("user"):
-    
+
+        event = db.session.query(Event).filter_by(eventID=event_id).one()
         db.session.delete(event) 
         db.session.commit()
 

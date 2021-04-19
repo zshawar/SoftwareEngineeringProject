@@ -28,6 +28,7 @@ class Event(db.Model):
     # storing the new rating (rating*numRatings + newRating)/(numRatings + 1)
     rating = db.Column("rating", db.Numeric(3, 2))
     numRatings = db.Column("numRatings", db.Integer)
+    permissions = db.relationship("Permission", backref="event", cascade="all, delete-orphan", lazy=True)
 
     def __init__(self, name, capacity, description, location, dateStart, dateEnd, relativePath):
         self.name = name
