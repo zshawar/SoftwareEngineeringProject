@@ -26,25 +26,18 @@
       <div id="EventsListing" style="margin-left: 3em">
         <h1 id="eventsMessage">Public Events - Click To View</h1>
 
- 	<table class="eventTable">
+
           {% for event in events %}
-          <tr id="row1">
-            <td class="eventCell"><a href="{{ url_for("get_event", event_id=event.eventID) }}">{{ event.name }}</a></td>
-            <td class="eventCell"><a href="">{{ event.name }}</a></td>
-            <td class="eventCell"><a href="">{{ event.name }}</a></td>
-          </tr>
-          <tr>
-            <td class="eventCell">{{ event.name }}</td>
-            <td class="eventCell">{{ event.name }}</td>
-            <td class="eventCell">{{ event.name }}</td>
-          </tr>
-          <tr>
-            <td class="eventCell">{{ event.name }}</td>
-            <td class="eventCell">{{ event.name }}</td>
-            <td class="eventCell">{{ event.name }}</td>
-          </tr>
+          <div class="card eventRow" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">{{event.name}}</h5>
+              <p class="card-text">{{event.description}}</p>
+              <a href="{{ url_for('get_event', event_id=event.eventID) }}" class="learnMore">Learn More</a>
+            </div>
+          </div>
+
           {% endfor %}
-        </table>      
+
       </div>
     </div>
       <button id="RSVPButton">Reserve my Spot!</button>
