@@ -253,7 +253,7 @@ def modify_event(event_id):
 #                 for removing an event                                                #
 #--------------------------------------------------------------------------------------#
 
-@app.route('/events/delete/<event_id>', methods=['POST'])	
+@app.route('/events/delete/<event_id>', methods=['GET'])	
 def delete_event(event_id):
 
     # login verification; if user is logged in and saved in session  
