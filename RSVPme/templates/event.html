@@ -9,17 +9,16 @@
     <h1 id="topTitle">Events</h1>
 
       <div id="EventInfo">
-
+	<h2>{{ event.name }}</h2>
+	<h4>{{ event.description }}</h4>
         <p>Event Start: {{ event.dateStart.date().year }}-{{ event.dateStart.date().month }}-{{ event.dateStart.date().day }} {{event.dateStart.time().hour}}:{{event.dateStart.time().minute}}</p>
 	<p>Event End: {{ event.dateEnd.date().year }}-{{ event.dateEnd.date().month }}-{{ event.dateEnd.date().day }} {{event.dateEnd.time().hour}}:{{event.dateEnd.time().minute}}</p>
-	<p>Address: {{ event.address }}</p>
+	<p>Address: {{ event.location }}</p>
 	<p>Remaining Spots: {{ event.capacity }}</p>
-        <p>Event Location:</p> <br/>
         <img src="{{ event.relativePath }}" alt="Location of Image">
 
       </div>
-
-    <button id="RSVPButton">Reserve my Spot!</button>
+    <br><button id="RSVPButton" class="btn btn-success">Reserve my Spot!</button>
 
   </body>
 </html>

@@ -14,9 +14,17 @@
 
       {% for event in events %}
       <tr>
-        <td>{{ event.name }}</td>
-        <td>{{ event.name }}</td>
-        <td>{{ event.name }}</td>
+        <td><a href="{{ url_for('get_event', event_id=event.eventID) }}">{{ event.name }}</a></td>
+        <td>
+          <a href="/events/edit/1">
+            <button class="btn btn-primary">Edit</button>
+          </a>
+        </td>
+        <td>
+          <a href="/events/delete/1">
+            <button class="btn btn-danger">Delete</button>
+          </a>
+        </td>
       </tr>
       {% endfor %}
     </table>
