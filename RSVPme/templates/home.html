@@ -6,8 +6,14 @@
   </head>
   <body>
     {% include 'user_header.html' %} <br>
+    <h1><center>Welcome to RSVMe!</center></h1>
+    <h2><center>Keep track of all your events and plans in one convenient place.</center></h2>
+    <h2><center>Ready to start? Make an event: </center></h2>
+
+    <form action="{{ url_for('create_event') }}" method="post">
+    <center><button class="btn btn-success">Create Event</button></center>
 
 
-
+    </form>
   </body>
 </html>
