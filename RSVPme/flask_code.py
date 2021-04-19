@@ -171,10 +171,9 @@ def get_event(event_id):
     #**********************add code to re-verify login here*************************#
     # login verification; if user is logged in and saved in session
     if session.get("user"):
-
+        prev_res = db.session.query(Permission).filter_by(eventID=event_id, userID=session["userID"]).count()
         myEvents = db.session.query(Event).filter_by(eventID=event_id).one()  # Retrieve a specific event from the database
-
-        return render_template('event.html', event=myEvents, user=session['user'])
+        return render_template('event.html', event=myEvents, user=session['user'], reserved=prev_res)
     # if user is not logged in they must be redirected to login page
     else:
         return redirect(url_for("login"))
@@ -269,6 +268,22 @@ def delete_event(event_id):
         # if user is not in session they must be redirected to login page
         return redirect(url_for('login'))
 
+@app.route('/events/reserve/<event_id>', methods=['GET'])
+def reserve_event(event_id):
+    if session.get("user"):
+        prev_perm = db.session.query(Permission).filter_by(eventID=event_id, userID=session["userID"])
+        event = db.session.query(Event).filter_by(eventID=event_id).one()
+        if prev_perm.count() == 0:
+            perm = Permission(event.eventID, session["userID"], "Attendee")
+            event.capacity = event.capacity - 1
+            db.session.add(perm)
+        else:
+            event.capacity = event.capacity + 1
+            prev_perm.delete()
+        db.session.commit()
+        return redirect(url_for("get_event", event_id=event.eventID))
+    else:
+        return redirect(url_for('login'))
 
 #---------------------get user profile--------------------------------------------------#
 #               view the user's profile                                                 #
