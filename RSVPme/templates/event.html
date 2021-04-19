@@ -18,7 +18,12 @@
         <img src="{{ event.relativePath }}" alt="Location of Image">
 
       </div>
-    <br><button id="RSVPButton" class="btn btn-success">Reserve my Spot!</button>
+    <br>
+    {% if reserved %}
+	<a href="{{ url_for('reserve_event', event_id=event.eventID) }}"><button id="RSVPButton" class="btn btn-danger">Cancel My Reservation</button></a>
+    {% else %}
+	<a href="{{ url_for('reserve_event', event_id=event.eventID) }}"><button id="RSVPButton" class="btn btn-success">Reserve my Spot!</button></a>
+    {% endif %}
 
   </body>
 </html>
