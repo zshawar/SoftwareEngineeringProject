@@ -6,28 +6,27 @@
   </head>
   <body>
     {% include "user_header.html" %}
-    <h1>My Events</h1>
-    <table>
-      <tr>
-        <th>Event</th>
-      </tr>
+    <h1 class="title">My Events</h1>
 
+    <div class="myEventRow">
       {% for event in events %}
-        <tr>
-          <td><a href="{{ url_for('get_event', event_id=event.eventID) }}">{{ event.name }}</a></td>
-          <td>
-            <a href="{{ url_for('modify_event', event_id=event.eventID) }}">
-              <button class="btn btn-primary">Edit</button>
-            </a>
-          </td>
-          <td>
-            <a href="{{ url_for('delete_event', event_id=event.eventID) }}">
-              <button class="btn btn-danger">Delete</button>
-            </a>
-          </td>
-        </tr>
+        <div class="card eventRow" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title"><a href="{{ url_for('get_event', event_id=event.eventID) }}">{{ event.name }}</a></h5>
+              <p class="card-text">{{event.description}}</p>
+              <a href="{{ url_for('modify_event', event_id=event.eventID) }}">
+                <button class="btn btn-primary">Edit</button>
+              </a>
+              <a href="{{ url_for('delete_event', event_id=event.eventID) }}">
+                <button class="btn btn-danger">Delete</button>
+              </a>
+            </div>
+        </div>
+
       {% endfor %}
-    </table>
+    </div>
+
+
 
 
 
