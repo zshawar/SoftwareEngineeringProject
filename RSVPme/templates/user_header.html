@@ -27,9 +27,16 @@
 	    background-color:#be9a30;
 	}
 
+	img {
+	  width:7%;
+	  height:auto;
+	  margin-left: 1em;
+	  float: left;
+	}
+
 </style>
 <div class="navBar">
-  <h1 style="color:white; margin-left: 0.5em;">RSVMe</h1>
+  <img src="../static/logo.png" alt="RSVME Logo">
   <div class="navLinks">
     {% if user %}
     <a href="{{ url_for('logout') }}" class="btn btn-light btn-sm" style="margin-top: 0.5em">Logout</a>
