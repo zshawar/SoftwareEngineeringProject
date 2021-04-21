@@ -7,9 +7,10 @@ from flask import request
 from flask import redirect, url_for
 from flask import session
 from database import db
-from forms import LoginForm, RegisterForm, EventForm
+from forms import LoginForm, RegisterForm, EventForm, ReviewForm
 from models import User, Event, Role, Permission
 from datetime import datetime
+from models import Review as Review
 
 
 
@@ -121,7 +122,7 @@ def create_event():
             location = request.form['location']
             capacity = request.form['capacity']
 
-            newEvent = Event(name, capacity, description, location, dateStart, dateEnd, "")
+            newEvent = Event(name, capacity, description, location, dateStart, dateEnd, "", session['userID'])
             db.session.add(newEvent)
             db.session.commit()
 
@@ -173,7 +174,9 @@ def get_event(event_id):
     if session.get("user"):
         prev_res = db.session.query(Permission).filter_by(eventID=event_id, userID=session["userID"]).count()
         myEvents = db.session.query(Event).filter_by(eventID=event_id).one()  # Retrieve a specific event from the database
-        return render_template('event.html', event=myEvents, user=session['user'], reserved=prev_res)
+        # create a review form object
+        form = ReviewForm()
+        return render_template('event.html', event=myEvents, user=session['user'], reserved=prev_res, form=form)
     # if user is not logged in they must be redirected to login page
     else:
         return redirect(url_for("login"))
@@ -294,6 +297,29 @@ def get_user_profile():
         return render_template("user_profile.html", user=session["user"], email=session["email"])
     else:
         redirect(url_for("login"))
+
+
+#------------------------------------review event--------------------------------------#
+#                 for leaving a review on an event                                     #
+#--------------------------------------------------------------------------------------#
+@app.route('/events/<event_id>/review', methods=['POST'])
+def new_review(event_id):
+    if session.get('user'):
+        event = db.session.query(Event).filter_by(eventID=event_id).one()
+        review_form = ReviewForm()
+        # validate_on_submit only validates using POST
+        if review_form.validate_on_submit():
+            # get comment data
+            review_text = request.form['review']
+            new_record = Review(review_text, int(event.eventID), session["userID"])
+            db.session.add(new_record)
+            db.session.commit()
+
+        return redirect(url_for("get_event", event_id=event.eventID))
+
+    else:
+        return redirect(url_for('login'))
+
 
 #--------------------------run statement------------------------------------#
 app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True) 	#this is directly from class so see if we need to change anything?

@@ -1,6 +1,6 @@
 import bcrypt
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, FileField, SubmitField, IntegerField, ValidationError
+from wtforms import StringField, PasswordField, FileField, SubmitField, IntegerField, ValidationError, TextAreaField
 from wtforms.fields.html5 import DateTimeLocalField
 from wtforms.validators import Length, DataRequired, EqualTo, Email, Regexp
 from database import db
@@ -85,4 +85,10 @@ class EventForm(FlaskForm):
     dateEnd = DateTimeLocalField("End Date and Time", [DataRequired()], format='%Y-%m-%dT%H:%M')
     submit = SubmitField("Submit")
     
+class ReviewForm(FlaskForm):
+    class Meta:
+        csrf = False
 
+    review = TextAreaField('Review', validators=[Length(min=1)])
+
+    submit = SubmitField('Add Review')
