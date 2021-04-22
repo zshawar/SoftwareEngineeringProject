@@ -1,6 +1,6 @@
 import bcrypt
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, FileField, SubmitField, IntegerField, ValidationError, TextAreaField, RadioField
+from wtforms import StringField, PasswordField, FileField, SubmitField, IntegerField, ValidationError, TextAreaField, BooleanField
 from flask_wtf.file import FileRequired, FileAllowed
 from wtforms import StringField, PasswordField, FileField, SubmitField, IntegerField, ValidationError, TextAreaField
 from wtforms.fields.html5 import DateTimeLocalField
@@ -42,7 +42,7 @@ class RegisterForm(FlaskForm):
         DataRequired(message="Please enter a username."),
         Length(5, 20)
     ])
-    
+
     email = StringField("Email", [
         Email(message="Not a valid email address"),
         DataRequired(message="Please enter an email address")
@@ -78,10 +78,7 @@ class EventForm(FlaskForm):
         Length(min=1)
     ])
 
-    privacySetting = RadioField("Require additional verification for viewing this event?", choices=[
-        (True, "Require additional verification from the user to view this event."),
-        (False, "Do not require additional verification from the user to view this event.",)
-    ], default=False)
+    privacySetting = BooleanField("Require additional verification for viewing this event?", default=False)
 
     # incomplete, need to add validators for image extension
     image = FileField("Event Thumbnail", [FileRequired(), FileAllowed(["jpg", "jpeg", "png"], "Only images are allowed")])
@@ -91,7 +88,7 @@ class EventForm(FlaskForm):
     dateStart = DateTimeLocalField("Start Date and Time", [DataRequired()], format='%Y-%m-%dT%H:%M')
     dateEnd = DateTimeLocalField("End Date and Time", [DataRequired()], format='%Y-%m-%dT%H:%M')
     submit = SubmitField("Submit")
-    
+
 class ReviewForm(FlaskForm):
     class Meta:
         csrf = False

@@ -93,6 +93,16 @@
             {% endif %}
         </div>
 
+        <div class="form-field">{{ form.privacySetting.label }} {{ form.privacySetting }}
+            {% if form.privacySetting.errors %}
+            <ul class="errors">
+                {% for error in form.capacity.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
         {% if event %}
             <input type="submit" value="Update Event"/>
         {% else %}
@@ -101,10 +111,5 @@
         </div>
 
     </form>
-
-
-
-
-
   </body>
 </html>
