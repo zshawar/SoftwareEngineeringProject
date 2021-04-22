@@ -9,7 +9,22 @@
     <h1>Change Password</h1>
 
 
-
-
   </body>
+<div class="signIn">
+      <form method="POST" action="/register">
+
+      <div class="form-field">{{ form.password.label }} {{ form.password }}
+          {% if form.password.errors %}
+          <ul class="errors">
+              {% for error in form.password.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+          </ul>
+          {% endif %}
+      </div>
+
+      {{ form.submit }}
+      </form>
+  </div>
+
 </html>
