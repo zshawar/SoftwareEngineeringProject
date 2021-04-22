@@ -1,5 +1,18 @@
 .title {
-  margin-left:20px;
+  margin-left:30px;
+
+}
+.titleCenter {
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+
+}
+.eventsCenter {
+  margin: 75px;
+  /*display: flex;
+  justify-content: center;*/
+
 }
 
 .eventRow {

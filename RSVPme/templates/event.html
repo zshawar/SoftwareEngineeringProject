@@ -2,48 +2,58 @@
 <html lang="en">
   <head>
     {% include 'headCode.html' %}
-    <title>Events</title>
+    <title>Event</title>
   </head>
   <body>
     {% include "user_header.html" %}
-    <h1 id="topTitle">Events</h1>
+    <h1 class="title">Event</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div id="EventInfo">
+                    <h2>{{ event.name }}</h2>
+                    <h4>{{ event.description }}</h4>
+                        <p>Event Start: {{ event.dateStart.date().year }}-{{ event.dateStart.date().month }}-{{ event.dateStart.date().day }} {{event.dateStart.time().hour}}:{{event.dateStart.time().minute}}</p>
+                    <p>Event End: {{ event.dateEnd.date().year }}-{{ event.dateEnd.date().month }}-{{ event.dateEnd.date().day }} {{event.dateEnd.time().hour}}:{{event.dateEnd.time().minute}}</p>
+                    <p>Address: {{ event.location }}</p>
+                    <p>Remaining Spots: {{ event.capacity }}</p>
+                        <img src="{{ event.relativePath }}" alt="Location of Image"><br><br>
 
-      <div id="EventInfo">
-	<h2>{{ event.name }}</h2>
-	<h4>{{ event.description }}</h4>
-        <p>Event Start: {{ event.dateStart.date().year }}-{{ event.dateStart.date().month }}-{{ event.dateStart.date().day }} {{event.dateStart.time().hour}}:{{event.dateStart.time().minute}}</p>
-	<p>Event End: {{ event.dateEnd.date().year }}-{{ event.dateEnd.date().month }}-{{ event.dateEnd.date().day }} {{event.dateEnd.time().hour}}:{{event.dateEnd.time().minute}}</p>
-	<p>Address: {{ event.location }}</p>
-	<p>Remaining Spots: {{ event.capacity }}</p>
-        <img src="{{ event.relativePath }}" alt="Location of Image">
-
-      </div>
-    <br>
-    {% if reserved %}
-	<a href="{{ url_for('reserve_event', event_id=event.eventID) }}"><button id="RSVPButton" class="btn btn-danger">Cancel My Reservation</button></a>
-    {% else %}
-	<a href="{{ url_for('reserve_event', event_id=event.eventID) }}"><button id="RSVPButton" class="btn btn-success">Reserve my Spot!</button></a>
-    {% endif %}
-
-    {% if event.reviews %}
-        {% if event.reviews|length > 0 %}
-            <h2>Reviews</h2>
-            <ul>
-            {% for review in event.reviews %}
-                <li>{{ review.content }}</li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-    {% endif %}
-    <form action="{{ url_for('new_review', event_id=event.eventID) }}" method="post">
-        <div class="formwrapper">
-            <h2 class="title">Add a review</h2>
-            <div class="form-field">
-                {{ form.review.label }} <br/> {{ form.review }}
+                </div>
+                <br><br>
+                {% if reserved %}
+                <a href="{{ url_for('reserve_event', event_id=event.eventID) }}"><button id="RSVPButton" class="btn btn-danger">Cancel My Reservation</button></a>
+                {% else %}
+                <a href="{{ url_for('reserve_event', event_id=event.eventID) }}"><button id="RSVPButton" class="btn btn-success">Reserve my Spot!</button></a>
+                {% endif %}
             </div>
-            {{ form.submit }}
+
+            <div class="col">
+                {% if event.reviews %}
+                    {% if event.reviews|length > 0 %}
+                        <h2>Reviews</h2>
+                        <ul>
+                        {% for review in event.reviews %}
+                            <li>{{ review.content }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endif %}
+                <form action="{{ url_for('new_review', event_id=event.eventID) }}" method="post">
+                    <div class="formwrapper">
+                        <h2 class="title">Add a review</h2>
+                        <div class="form-field">
+                            {{ form.review.label }} <br/> {{ form.review }}
+                        </div>
+                        {{ form.submit }}
+                    </div>
+                </form>
+            </div>
+
         </div>
-    </form>
+
+    </div>
+
 
   </body>
 </html>
