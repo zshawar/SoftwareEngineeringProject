@@ -63,7 +63,7 @@ class PassChangeForm(FlaskForm):
     class Meta:
         csrf = False
 
-    password = PasswordField("Password", [
+    password = PasswordField("New Password", [
         DataRequired(message="Please enter a new password."),
         Length(5, 20)
     ])
