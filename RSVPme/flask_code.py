@@ -8,7 +8,7 @@ from flask import request
 from flask import redirect, url_for
 from flask import session
 from database import db
-from forms import LoginForm, RegisterForm, EventForm, ReviewForm
+from forms import LoginForm, RegisterForm, EventForm, ReviewForm, PassChangeForm
 from models import User, Event, Role, Permission
 from datetime import datetime
 from models import Review as Review
@@ -333,6 +333,38 @@ def new_review(event_id):
 
     else:
         return redirect(url_for('login'))
+
+#------------------------------------change Password 1--------------------------------------#
+#                 for redirecting to change pasword page                                    #
+#-------------------------------------------------------------------------------------------#
+@app.route("/my_profile/change_password", methods=['POST'])
+def change_pass():
+    print("you activated the change_pass method") #temp testor
+    form = PassChangeForm()  # Initialize the form object to be the register form
+    return render_template('forgotPass.html', form = form)
+    
+#------------------------------------change Password 2--------------------------------------#
+#                  to actually change the  pasword                                          #
+#-------------------------------------------------------------------------------------------#
+@app.route("/my_profile/change_password", methods=['POST'])
+def set_pass():
+    print("you got to the change pasword page") #temp testor
+    form = PassChangeForm()  # Initialize the form object to be the register form
+
+    if request.method == "POST" and form.validate_on_submit():
+        # Salt and Hash the password entered.
+        hashedPassword = bcrypt.hashpw(request.form["password"].encode("utf-8"), bcrypt.gensalt())
+        user =  db.session.query(User).filter_by(userID=userID).one()
+        user.password = hashedPassword
+
+        # Add this new user object to the database
+        db.session.add(user)
+        db.session.commit()
+        print("you posted the new password")
+
+        # Redirect the user after registering to the home page with their session
+        return render_template("user_profile.html", user=session["user"], email=session["email"])
+
 
 
 #--------------------------run statement------------------------------------#
