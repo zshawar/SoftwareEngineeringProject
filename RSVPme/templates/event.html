@@ -25,5 +25,25 @@
 	<a href="{{ url_for('reserve_event', event_id=event.eventID) }}"><button id="RSVPButton" class="btn btn-success">Reserve my Spot!</button></a>
     {% endif %}
 
+    {% if event.reviews %}
+        {% if event.reviews|length > 0 %}
+            <h2>Reviews</h2>
+            <ul>
+            {% for review in event.reviews %}
+                <li>{{ review.content }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endif %}
+    <form action="{{ url_for('new_review', event_id=event.eventID) }}" method="post">
+        <div class="formwrapper">
+            <h2 class="title">Add a review</h2>
+            <div class="form-field">
+                {{ form.review.label }} <br/> {{ form.review }}
+            </div>
+            {{ form.submit }}
+        </div>
+    </form>
+
   </body>
 </html>

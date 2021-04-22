@@ -6,6 +6,8 @@ class User(db.Model):
     username = db.Column("username", db.String(20))
     email = db.Column("email", db.String(30))
     password = db.Column("password", db.String(255), nullable=False)
+    events =db.relationship("Event", backref="user", lazy=True)
+    reviews =db.relationship("Review", backref="user", lazy=True)
 
     def __init__(self, username, email, password):
         self.username = username
@@ -29,8 +31,10 @@ class Event(db.Model):
     rating = db.Column("rating", db.Numeric(3, 2))
     numRatings = db.Column("numRatings", db.Integer)
     permissions = db.relationship("Permission", backref="event", cascade="all, delete-orphan", lazy=True)
+    userID = db.Column(db.Integer, db.ForeignKey("user.userID"), nullable=False)
+    reviews =db.relationship("Review", backref="event", cascade="all, delete-orphan", lazy=True)
 
-    def __init__(self, name, capacity, description, location, dateStart, dateEnd, relativePath):
+    def __init__(self, name, capacity, description, location, dateStart, dateEnd, relativePath, userID):
         self.name = name
         self.dateStart = datetime.strptime(dateStart, '%Y-%m-%dT%H:%M')
         self.dateEnd = datetime.strptime(dateEnd, '%Y-%m-%dT%H:%M')
@@ -40,10 +44,12 @@ class Event(db.Model):
         self.relativePath = relativePath
         self.rating = 0
         self.numRatings = 0
+        self.userID = userID
 
 class Permission(db.Model):
     eventID = db.Column("eventID", db.Integer, db.ForeignKey("event.eventID"), primary_key=True)
     userID = db.Column("userID", db.Integer, db.ForeignKey("user.userID"), primary_key=True)
+    # reviewID = db.Column("reviewID", db.Integer, db.ForeignKey("review.reviewID"), primary_key=True)
     role = db.Column("role", db.String(20), db.ForeignKey("role.role"))
 
     def __init__(self, eventID, userID, role):
@@ -71,3 +77,15 @@ class Role(db.Model):
         self.canPublish = canPublish
         self.canSetPermissions = canSetPermissions
 
+class Review(db.Model):
+    reviewID = db.Column(db.Integer, primary_key=True)
+    # date_posted = db.Column(db.DateTime, nullable=False)
+    content = db.Column(db.VARCHAR, nullable=False)
+    eventID = db.Column(db.Integer, db.ForeignKey("event.eventID"), nullable=False)
+    userID = db.Column(db.Integer, db.ForeignKey("user.userID"), nullable=False)
+
+    def __init__(self, content, eventID, userID):
+        # self.date_posted = datetime.date.today()
+        self.content = content
+        self.eventID = eventID
+        self.userID = userID
