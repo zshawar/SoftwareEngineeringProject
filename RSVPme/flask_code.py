@@ -8,7 +8,7 @@ from flask import request
 from flask import redirect, url_for
 from flask import session
 from database import db
-from forms import LoginForm, RegisterForm, EventForm, ReviewForm
+from forms import LoginForm, RegisterForm, EventForm, ReviewForm, PassChangeForm
 from models import User, Event, Role, Permission
 from datetime import datetime
 from models import Review as Review
@@ -340,21 +340,42 @@ def new_review(event_id):
 @app.route("/my_profile/change_password", methods=['POST'])
 def change_pass():
     print("you activated the change_pass method") #temp testor
-    return render_template('forgotPass.html')
+    form = PassChangeForm()  # Initialize the form object to be the register form
+    return render_template('forgotPass.html', form = form)
     
 #------------------------------------change Password 2--------------------------------------#
 #                  to actually change the  pasword                                          #
 #-------------------------------------------------------------------------------------------#
-# @app.route("/my_profile/change_password", methods=['POST'])
-# def set_pass():
-#     print("you got to the change pasword page") #temp testor
-#     if session.get('user'):
-#         return render_template('forgotPass.html')
-        
-#         #return redirect(url_for("get_user_profile")) #make this active when they actually hit to submit passcode
+@app.route("/my_profile/change_password", methods=['POST'])
+def set_pass():
+    print("you got to the change pasword page") #temp testor
+    form = PassChangeForm()  # Initialize the form object to be the register form
 
-#     else:
-#         return redirect(url_for('login'))
+    if request.method == "POST" and form.validate_on_submit():
+        # Salt and Hash the password entered.
+        hashedPassword = bcrypt.hashpw(request.form["password"].encode("utf-8"), bcrypt.gensalt())
+
+        # Retrieve all of the entered information from the form
+        # userName = request.form["username"]
+        # email = request.form["email"]
+
+        # Create a new user and put them in the database
+        newUser = User(userName, email, hashedPassword)
+
+        # Add this new user object to the database
+        db.session.add(newUser)
+        db.session.commit()
+
+        # Save the user to the current session
+        session["user"] = userName  # User in the session is the username
+        session["userID"] = newUser.userID  # User ID from the database table is the userID
+        session["email"] = email
+
+        # Redirect the user after registering to the home page with their session
+        return redirect(url_for("home"))
+
+    # Breaks out of if statement, user did something incorrect, just reloads the register page with the form again
+    return render_template("register.html", form=form)
 
 
 #--------------------------run statement------------------------------------#
