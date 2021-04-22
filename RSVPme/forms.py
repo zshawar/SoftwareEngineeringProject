@@ -1,5 +1,6 @@
 import bcrypt
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileRequired, FileAllowed
 from wtforms import StringField, PasswordField, FileField, SubmitField, IntegerField, ValidationError, TextAreaField
 from wtforms.fields.html5 import DateTimeLocalField
 from wtforms.validators import Length, DataRequired, EqualTo, Email, Regexp
@@ -77,7 +78,7 @@ class EventForm(FlaskForm):
     ])
 
     # incomplete, need to add validators for image extension
-    image = FileField("Event Thumbnail", [Regexp(".*\\.(jpg|jpeg|png)$")])
+    image = FileField("Event Thumbnail", [FileRequired(), FileAllowed(["jpg", "jpeg", "png"], "Only images are allowed")])
 
     capacity = IntegerField("Capacity", [DataRequired()])
 

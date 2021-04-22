@@ -1,6 +1,7 @@
 #--------------------------import statements----------------------------------#
 import os
 import bcrypt  # Hashing and Salting passwords library stuff
+from werkzeug.utils import secure_filename # apparently included in flask
 from flask import Flask   
 from flask import render_template
 from flask import request
@@ -118,11 +119,14 @@ def create_event():
             dateStart = request.form['dateStart']
             dateEnd = request.form['dateEnd']
             description = request.form['description']
-            # image = request.form['image']
+            image = request.files['image']
             location = request.form['location']
             capacity = request.form['capacity']
 
-            newEvent = Event(name, capacity, description, location, dateStart, dateEnd, "", session['userID'])
+            filename = datetime.now().strftime("%Y%M%d%H%S") + secure_filename(image.filename)
+            image.save(os.path.join("./static/img", filename))
+
+            newEvent = Event(name, capacity, description, location, dateStart, dateEnd, filename, session['userID'])
             db.session.add(newEvent)
             db.session.commit()
 
