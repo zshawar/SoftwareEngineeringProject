@@ -191,8 +191,18 @@ def get_events():
     #**********************add code to re-verify login here*************************#
     # login verification; if user is logged in and saved in session  
     if session.get("user"):
+        sort_by = Event.eventID.desc()
+        req_sort_by = request.args.get("sort")
+        if req_sort_by == "alphabet":
+            sort_by = Event.name.desc()
+        elif req_sort_by == "start":
+            sort_by = Event.dateStart.desc()
+        elif req_sort_by == "capacity":
+            sort_by = Event.capacity.desc()
+        elif req_sort_by == "location":
+            sort_by = Event.location.desc()
 
-        myEvents = db.session.query(Event).limit(9).all()  # Get 5 recent events from the database
+        myEvents = db.session.query(Event).order_by(sort_by).limit(9).all()  # Get 5 recent events from the database
 
         return render_template('events.html', events=myEvents, user=session['user'])  # Render the events.html page with the events gathered from the database (Array of events)
     # if user is not logged in they must be redirected to login page
