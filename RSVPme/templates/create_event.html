@@ -15,9 +15,9 @@
 
     <!-- Create new event -->
      {% if event %}
-        <form action="{{ url_for('modify_event', event_id=event.eventID) }}" method="post">
+        <form action="{{ url_for('modify_event', event_id=event.eventID) }}" method="post" enctype="multipart/form-data">
      {% else %}
-        <form method="POST" action="/events/create">
+        <form method="POST" action="/events/create" enctype="multipart/form-data">
      {% endif %}
 
 

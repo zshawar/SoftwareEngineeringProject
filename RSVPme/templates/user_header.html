@@ -34,24 +34,29 @@
 	  float: left;
 	}
 
+    .fontStyle {
+      font-size: 22px;
+    }
+
+
 </style>
 <div class="navBar">
   <img src="../static/logo.png" alt="RSVME Logo">
   <div class="navLinks">
     {% if user %}
-    <a href="{{ url_for('logout') }}" class="btn btn-light btn-sm" style="margin-top: 0.5em">Logout</a>
+    <a href="{{ url_for('logout') }}" class="btn btn-light btn-sm fontStyle" style="margin-top: 0.5em">Logout</a>
     {% else %}
     <div style="margin-top: 0.5em">
-      <a href="{{ url_for('login') }}" class="btn btn-light btn-sm" >Login</a>
-      <a href="{{ url_for('register') }}" class="btn btn-light btn-sm" >Register</a>
+      <a href="{{ url_for('login') }}" class="btn btn-light btn-sm fontStyle" >Login</a>
+      <a href="{{ url_for('register') }}" class="btn btn-light btn-sm fontStyle" >Register</a>
     </div>
 
     {% endif %}
     <div>
-    <a href="{{ url_for('home') }}" class="btn btn-light nav-btn">Home Page</a>
-    <a href="{{ url_for('get_user_events') }}" class="btn btn-light nav-btn">My Events</a>
-    <a href="{{ url_for('get_events') }}" class="btn btn-light nav-btn">Public Events</a>
-    <a href="{{ url_for('get_user_profile') }}" class="btn btn-light nav-btn">My Profile</a>
+    <a href="{{ url_for('home') }}" class="btn btn-light nav-btn fontStyle">Home Page</a>
+    <a href="{{ url_for('get_user_events') }}" class="btn btn-light nav-btn fontStyle">My Events</a>
+    <a href="{{ url_for('get_events') }}" class="btn btn-light nav-btn fontStyle">Public Events</a>
+    <a href="{{ url_for('get_user_profile') }}" class="btn btn-light nav-btn fontStyle">My Profile</a>
     </div>
   </div>
 </div>
