@@ -59,6 +59,21 @@ class RegisterForm(FlaskForm):
         if db.session.query(User).filter_by(email=field.data).count() != 0:
             raise ValidationError('Username already registered.')
 
+class PassChangeForm(FlaskForm):
+    class Meta:
+        csrf = False
+
+    password = PasswordField("Password", [
+        DataRequired(message="Please enter a new password."),
+        Length(5, 20)
+    ])
+
+    submit = SubmitField("Submit")
+
+
+
+
+
 class EventForm(FlaskForm):
     class Meta:
         csrf = False
