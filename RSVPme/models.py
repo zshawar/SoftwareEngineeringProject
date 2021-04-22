@@ -23,6 +23,7 @@ class Event(db.Model):
     description = db.Column("description", db.VARCHAR)
     capacity = db.Column("capacity", db.Integer)
     relativePath = db.Column("relativePath", db.VARCHAR)
+    privacyPreference = db.Column("privacyPreference", db.Boolean)
 
     # ratings are stored in two variables, rating and numRatings
     # this allows for updating the rating easily by multiplying the ratings

@@ -1,5 +1,7 @@
 import bcrypt
 from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, FileField, SubmitField, IntegerField, ValidationError, TextAreaField, RadioField
+from flask_wtf.file import FileRequired, FileAllowed
 from wtforms import StringField, PasswordField, FileField, SubmitField, IntegerField, ValidationError, TextAreaField
 from wtforms.fields.html5 import DateTimeLocalField
 from wtforms.validators import Length, DataRequired, EqualTo, Email, Regexp
@@ -76,8 +78,13 @@ class EventForm(FlaskForm):
         Length(min=1)
     ])
 
+    privacySetting = RadioField("Require additional verification for viewing this event?", choices=[
+        (True, "Require additional verification from the user to view this event."),
+        (False, "Do not require additional verification from the user to view this event.",)
+    ], default=False)
+
     # incomplete, need to add validators for image extension
-    image = FileField("Event Thumbnail", [Regexp(".*\\.(jpg|jpeg|png)$")])
+    image = FileField("Event Thumbnail", [FileRequired(), FileAllowed(["jpg", "jpeg", "png"], "Only images are allowed")])
 
     capacity = IntegerField("Capacity", [DataRequired()])
 
