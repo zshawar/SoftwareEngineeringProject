@@ -330,6 +330,28 @@ def new_review(event_id):
     else:
         return redirect(url_for('login'))
 
+#------------------------------------change Password 1--------------------------------------#
+#                 for redirecting to change pasword page                                    #
+#-------------------------------------------------------------------------------------------#
+@app.route("/my_profile/change_password", methods=['POST'])
+def change_pass():
+    print("you activated the change_pass method") #temp testor
+    return render_template('forgotPass.html')
+    
+#------------------------------------change Password 2--------------------------------------#
+#                  to actually change the  pasword                                          #
+#-------------------------------------------------------------------------------------------#
+# @app.route("/my_profile/change_password", methods=['POST'])
+# def set_pass():
+#     print("you got to the change pasword page") #temp testor
+#     if session.get('user'):
+#         return render_template('forgotPass.html')
+        
+#         #return redirect(url_for("get_user_profile")) #make this active when they actually hit to submit passcode
+
+#     else:
+#         return redirect(url_for('login'))
+
 
 #--------------------------run statement------------------------------------#
 app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True) 	#this is directly from class so see if we need to change anything?
