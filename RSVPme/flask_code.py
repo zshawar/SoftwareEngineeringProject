@@ -339,7 +339,7 @@ def new_review(event_id):
 #------------------------------------change Password 1--------------------------------------#
 #                 for redirecting to change pasword page                                    #
 #-------------------------------------------------------------------------------------------#
-@app.route("/my_profile/change_password", methods=['POST'])
+@app.route("/my_profile/change_password", methods=['GET'])
 def change_pass():
     print("you activated the change_pass method") #temp testor
     form = PassChangeForm()  # Initialize the form object to be the register form
@@ -348,15 +348,15 @@ def change_pass():
 #------------------------------------change Password 2--------------------------------------#
 #                  to actually change the  pasword                                          #
 #-------------------------------------------------------------------------------------------#
-@app.route("/my_profile/change_password", methods=['POST'])
+@app.route("/my_profile/changed_password", methods=['POST'])
 def set_pass():
     print("you got to the change pasword page") #temp testor
     form = PassChangeForm()  # Initialize the form object to be the register form
-
+    userid = session['userID']
     if request.method == "POST" and form.validate_on_submit():
         # Salt and Hash the password entered.
         hashedPassword = bcrypt.hashpw(request.form["password"].encode("utf-8"), bcrypt.gensalt())
-        user =  db.session.query(User).filter_by(userID=userID).one()
+        user =  db.session.query(User).filter_by(userID=userid).one()
         user.password = hashedPassword
 
         # Add this new user object to the database
@@ -364,9 +364,8 @@ def set_pass():
         db.session.commit()
         print("you posted the new password")
 
-        # Redirect the user after registering to the home page with their session
-        return render_template("user_profile.html", user=session["user"], email=session["email"])
-
+        # Redirect the user 
+        return redirect(url_for('get_user_profile'))
 
 
 #--------------------------run statement------------------------------------#
