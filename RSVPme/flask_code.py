@@ -122,11 +122,12 @@ def create_event():
             image = request.files['image']
             location = request.form['location']
             capacity = request.form['capacity']
+            privacySetting = request.form['privacySetting']
 
             filename = datetime.now().strftime("%Y%M%d%H%S") + secure_filename(image.filename)
             image.save(os.path.join("./static/img", filename))
 
-            newEvent = Event(name, capacity, description, location, dateStart, dateEnd, filename, session['userID'])
+            newEvent = Event(name, capacity, description, location, dateStart, dateEnd, filename, session['userID'], privacySetting)
             db.session.add(newEvent)
             db.session.commit()
 
