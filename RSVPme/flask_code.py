@@ -67,6 +67,42 @@ def login():
         # Since it is not a post request, it must be a get request to first log in, just render the template for logging in
         return render_template("login.html", form=form)
 
+@app.route('/verify', methods=['POST', 'GET'])
+def verify(passedEvent, passedUser, passedReserved):
+    # Initial login verification; if user is logged in and saved in session
+    if session.get("user"):
+        form = LoginForm()  # Initialize to the form to the login form
+
+        #Validate the login information for a second time (Post Method)
+        if form.validate_on_submit():
+
+            # The user exists, grab that single user (Use the .one() method from DB)
+            inputtedEmail = request.form["email"]   # Grab the email submitted
+            inputtedPassword = request.form["password"].encode("utf-8")  # Grab the password submitted, encode it
+            theUser = db.session.query(User).filter_by(email=inputtedEmail).one()
+
+            # Check the password to see if it matches the hash stored in the database
+            if bcrypt.checkpw(inputtedPassword, theUser.password):
+
+                # The user has successfully validated their account details
+                # Load in the review form to render the event the user wanted to view, render that event with all the correct parameters
+                verifiedForm = ReviewForm()
+                return render_template('event.html', event=passedEvent, user=passedUser, reserved=passedReserved, form=verifiedForm)
+
+            # The password check failed, the person logging in inputted the incorrect information
+            form.password.errors = ["Incorrect username or password entered"]
+            return render_template("login.html", event=passedEvent, user=passedUser, reserved=passedReserved, form=form)
+        else:
+            # Not a post request, it's a get method for the first time verification, render the template
+            return render_template("login.html", event=passedEvent, user=passedUser, reserved=passedReserved, form=form)
+    # The user is not logged in, they need to log in first to view their events. Redirect them to login.
+    else:
+        return redirect(url_for("login"))
+
+
+
+
+
 #----------------------------logout functionality---------------------------------------#
 @app.route('/logout')
 def logout():
@@ -174,17 +210,24 @@ def get_user_events():
 
 @app.route('/events/<event_id>')
 def get_event(event_id):
-    #**********************add code to re-verify login here*************************#
     # login verification; if user is logged in and saved in session
     if session.get("user"):
         prev_res = db.session.query(Permission).filter_by(eventID=event_id, userID=session["userID"]).count()
         myEvents = db.session.query(Event).filter_by(eventID=event_id).one()  # Retrieve a specific event from the database
-        # create a review form object
-        form = ReviewForm()
-        return render_template('event.html', event=myEvents, user=session['user'], reserved=prev_res, form=form)
+
+        if myEvents.privacySetting:
+            return redirect(url_for("verify", event=myEvents, user=session['user'], reserved=prev_res))
+        else:
+            # create a review form object
+            form = ReviewForm()
+            return render_template('event.html', event=myEvents, user=session['user'], reserved=prev_res, form=form)
+
     # if user is not logged in they must be redirected to login page
     else:
         return redirect(url_for("login"))
+
+
+
 
 
 #--------------------------------------get events--------------------------------------#
@@ -193,7 +236,6 @@ def get_event(event_id):
 
 @app.route('/events')
 def get_events():
-    #**********************add code to re-verify login here*************************#
     # login verification; if user is logged in and saved in session  
     if session.get("user"):
         sort_by = Event.eventID.desc()

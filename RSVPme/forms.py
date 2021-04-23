@@ -59,6 +59,7 @@ class RegisterForm(FlaskForm):
         if db.session.query(User).filter_by(email=field.data).count() != 0:
             raise ValidationError('Username already registered.')
 
+
 class PassChangeForm(FlaskForm):
     class Meta:
         csrf = False
@@ -69,9 +70,6 @@ class PassChangeForm(FlaskForm):
     ])
 
     submit = SubmitField("Submit")
-
-
-
 
 
 class EventForm(FlaskForm):
@@ -103,6 +101,7 @@ class EventForm(FlaskForm):
     dateStart = DateTimeLocalField("Start Date and Time", [DataRequired()], format='%Y-%m-%dT%H:%M')
     dateEnd = DateTimeLocalField("End Date and Time", [DataRequired()], format='%Y-%m-%dT%H:%M')
     submit = SubmitField("Submit")
+
 
 class ReviewForm(FlaskForm):
     class Meta:
