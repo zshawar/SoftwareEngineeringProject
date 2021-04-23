@@ -43,7 +43,7 @@ class Event(db.Model):
         self.description = description
         self.capacity = capacity
         self.relativePath = relativePath
-        self.privacySetting = privacySetting
+        self.privacySetting = privacySetting == "y"
         self.rating = 0
         self.numRatings = 0
         self.userID = userID

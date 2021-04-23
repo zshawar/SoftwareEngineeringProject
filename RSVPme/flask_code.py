@@ -114,6 +114,7 @@ def create_event():
 
     # Verify the user is currently signed in, check the session
     if session.get("user"):
+        print(form.errors)
         if request.method == 'POST' and form.validate_on_submit():
             name = request.form['eventName']
             dateStart = request.form['dateStart']
@@ -127,7 +128,7 @@ def create_event():
             filename = datetime.now().strftime("%Y%M%d%H%S") + secure_filename(image.filename)
             image.save(os.path.join("./static/img", filename))
 
-            newEvent = Event(name, capacity, description, location, dateStart, dateEnd, filename, session['userID'], privacySetting)
+            newEvent = Event(name, capacity, description, location, dateStart, dateEnd, filename, privacySetting, session['userID'])
             db.session.add(newEvent)
             db.session.commit()
 
