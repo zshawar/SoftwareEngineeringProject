@@ -362,8 +362,7 @@ def set_pass():
         db.session.commit()
         print("you posted the new password")
 
-        # Redirect the user after registering to the home page with their session
-        #return render_template("user_profile.html", user=session["user"], email=session["email"])
+        # Redirect the user 
         return redirect(url_for('get_user_profile'))
 
 
