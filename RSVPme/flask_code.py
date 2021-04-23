@@ -354,28 +354,17 @@ def set_pass():
     if request.method == "POST" and form.validate_on_submit():
         # Salt and Hash the password entered.
         hashedPassword = bcrypt.hashpw(request.form["password"].encode("utf-8"), bcrypt.gensalt())
-
-        # Retrieve all of the entered information from the form
-        # userName = request.form["username"]
-        # email = request.form["email"]
-
-        # Create a new user and put them in the database
-        newUser = User(userName, email, hashedPassword)
+        user =  db.session.query(User).filter_by(userID=userID).one()
+        user.password = hashedPassword
 
         # Add this new user object to the database
-        db.session.add(newUser)
+        db.session.add(user)
         db.session.commit()
-
-        # Save the user to the current session
-        session["user"] = userName  # User in the session is the username
-        session["userID"] = newUser.userID  # User ID from the database table is the userID
-        session["email"] = email
+        print("you posted the new password")
 
         # Redirect the user after registering to the home page with their session
-        return redirect(url_for("home"))
+        return render_template("user_profile.html", user=session["user"], email=session["email"])
 
-    # Breaks out of if statement, user did something incorrect, just reloads the register page with the form again
-    return render_template("register.html", form=form)
 
 
 #--------------------------run statement------------------------------------#
