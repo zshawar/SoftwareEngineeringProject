@@ -310,7 +310,7 @@ def get_user_profile():
     if session.get("user"):
         return render_template("user_profile.html", user=session["user"], email=session["email"])
     else:
-        redirect(url_for("login"))
+        return redirect(url_for("login"))
 
 
 #------------------------------------review event--------------------------------------#

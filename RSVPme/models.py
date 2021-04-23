@@ -23,7 +23,7 @@ class Event(db.Model):
     description = db.Column("description", db.VARCHAR)
     capacity = db.Column("capacity", db.Integer)
     relativePath = db.Column("relativePath", db.VARCHAR)
-    privacyPreference = db.Column("privacyPreference", db.Boolean)
+    privacySetting = db.Column("privacySetting", db.Boolean)
 
     # ratings are stored in two variables, rating and numRatings
     # this allows for updating the rating easily by multiplying the ratings
@@ -35,7 +35,7 @@ class Event(db.Model):
     userID = db.Column(db.Integer, db.ForeignKey("user.userID"), nullable=False)
     reviews =db.relationship("Review", backref="event", cascade="all, delete-orphan", lazy=True)
 
-    def __init__(self, name, capacity, description, location, dateStart, dateEnd, relativePath, userID):
+    def __init__(self, name, capacity, description, location, dateStart, dateEnd, relativePath, privacySetting, userID):
         self.name = name
         self.dateStart = datetime.strptime(dateStart, '%Y-%m-%dT%H:%M')
         self.dateEnd = datetime.strptime(dateEnd, '%Y-%m-%dT%H:%M')
@@ -43,6 +43,7 @@ class Event(db.Model):
         self.description = description
         self.capacity = capacity
         self.relativePath = relativePath
+        self.privacySetting = privacySetting
         self.rating = 0
         self.numRatings = 0
         self.userID = userID
