@@ -216,7 +216,7 @@ def verify():
                 prev_res = db.session.query(Permission).filter_by(eventID=session["eventID"], userID=session["userID"]).count()
                 myEvents = db.session.query(Event).filter_by(eventID=session["eventID"]).one()  # Retrieve a specific event from the database
 
-                # The user has successfully validated their account details, set the verification variable to true
+                # The user has successfully validated their account details, return the event page with the event data stored in session data
                 verifiedForm = ReviewForm()
                 return render_template('event.html', event=myEvents, user=session['user'], reserved=prev_res, form=verifiedForm)
 

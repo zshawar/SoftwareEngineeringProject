@@ -2,25 +2,12 @@
 <html lang="en">
   <head>
     {% include 'headCode.html' %}
-    <title>Login</title>
+    <title>Verify Login</title>
   </head>
   <body>
 
-  <div class="topnav">
-      {% if user %}
-      <div class="topnav-right" id="loggedInAction">
-          <a href="{{ url_for('logout') }}">Click to logout</a>
-      </div>
-      {% else %}
-      <div class="topnav-right" id="loggedOutAction">
-          <a href="{{ url_for('login') }}">Sign In</a>
-          <a href="{{ url_for('register') }}">Register</a>
-      </div>
-      {% endif %}
-  </div>
-
   <div class="p-3 mb-2 text-white head">
-    <h1>Welcome to RSVPMe! Sign in below:</h1>
+    <h1>Please verify your account to view the event selected.</h1>
   </div>
 
   <div class="signIn">
@@ -45,7 +32,12 @@
               {% endif %}
           </div>
           {{ form.submit }}
-      </form>
+        </form>
+
+        <a href="{{ url_for('get_events') }}">
+          <button class="btn btn-primary">Cancel</button>
+        </a>
+
   </div>
   </body>
 </html>
