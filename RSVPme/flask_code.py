@@ -215,6 +215,8 @@ def verify():
             if bcrypt.checkpw(inputtedPassword, theUser.password):
                 prev_res = db.session.query(Permission).filter_by(eventID=session["eventID"], userID=session["userID"]).count()
                 myEvents = db.session.query(Event).filter_by(eventID=session["eventID"]).one()  # Retrieve a specific event from the database
+                myEvents.privacySetting = False  # The user has logged into their account, the event no longer needs to be verified afterwards
+                db.session.commit()  # Update the changed setting
 
                 # The user has successfully validated their account details, return the event page with the event data stored in session data
                 verifiedForm = ReviewForm()
