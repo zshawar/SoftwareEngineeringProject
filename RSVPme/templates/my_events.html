@@ -24,16 +24,27 @@
         </div>
 
       {% endfor %}
-
-      <h1 class="titleCenter">Joined Events</h1>
     </div>
 
+      <br>
+    <div class="joinedEventRow">
+      <h1 class="titleCenter">Joined Events</h1>
+        {% for jEvent in jEvents %}
 
+        <div class="card eventRow" style="width: 18em;">
+          <div class="card-body">
+            <h5 class="card-title"><a href="{{ url_for('get_event', event_id=jEvent.eventID) }}">{{ jEvent.name }}</a></h5>
+              <p class="card-text">{{jEvent.description}}</p>
+              <a href="{{ url_for('modify_event', event_id=jEvent.eventID) }}">
+                <button class="btn btn-primary">Edit</button>
+              </a>
+              <a href="{{ url_for('delete_event', event_id=jEvent.eventID) }}">
+                <button class="btn btn-danger">Delete</button>
+              </a>
+          </div>
 
-
-
-
-
-
+        </div>
+        {% endfor %}
+    </div>
   </body>
 </html>

@@ -163,8 +163,14 @@ def get_user_events():
         # Retrieve all of the events based on the subquery (The eventID from the permission table by filtering with logged in user and owner role)
         usersEvents = db.session.query(Event).filter(Event.eventID.in_(subqueryPermission)).all()
 
+        # Retrieve all of the events that the user has joined. Create a subquery that looks for eventIDs with the user as an attendee
+        subqueryPermission2 = db.session.query(Permission.eventID).filter_by(userID=session["userID"], role="Attendee").subquery()
+
+        # Retrieve all of the events based on the subqueryPermission2 query
+        userJoinedEvents = db.session.query(Event).filter(Event.eventID.in_(subqueryPermission2)).all()
+
         # Return the myEvents template and pass the events grabbed from the database as well as the user stored in the current session
-        return render_template("my_events.html", events=usersEvents, user=session["userID"])
+        return render_template("my_events.html", events=usersEvents, jEvents=userJoinedEvents, user=session["userID"])
 
     # The user is not logged in, they need to log in first to view their events. Redirect them to login.
     else:
