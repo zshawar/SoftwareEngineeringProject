@@ -17,14 +17,14 @@
                     <p>Event End: {{ event.dateEnd.date().year }}-{{ event.dateEnd.date().month }}-{{ event.dateEnd.date().day }} {{event.dateEnd.time().hour}}:{{event.dateEnd.time().minute}}</p>
                     <p>Address: {{ event.location }}</p>
                     <p>Remaining Spots: {{ event.capacity }}</p>
-                        <img src="/static/img/{{ event.relativePath }}" alt="Location of Image"><br><br>
+                        <img src="/static/img/{{ event.relativePath }}" alt="Location of Image" class="thumbnail"><br><br>
 
                 </div>
-                <br><br>
+
                 {% if reserved %}
                 <a href="{{ url_for('reserve_event', event_id=event.eventID) }}"><button id="RSVPButton" class="btn btn-danger">Cancel My Reservation</button></a>
                 {% else %}
-                <a href="{{ url_for('reserve_event', event_id=event.eventID) }}"><button id="RSVPButton" class="btn btn-success">Reserve my Spot!</button></a>
+                <a href="{{ url_for('reserve_event', event_id=event.eventID) }}"><button id="RSVPButton1" class="btn btn-success">Reserve my Spot!</button></a>
                 {% endif %}
             </div>
 
@@ -42,10 +42,13 @@
                 <form action="{{ url_for('new_review', event_id=event.eventID) }}" method="post">
                     <div class="formwrapper">
                         <h2 class="title">Add a review</h2>
-                        <div class="form-field">
-                            {{ form.review.label }} <br/> {{ form.review }}
+                        <div class="form-field title">
+                            {{ form.review.label }} <p class="reviewArea">{{ form.review }}</p>
                         </div>
-                        {{ form.submit }}
+                        <div class="title">
+                            {{ form.submit }}
+                        </div>
+
                     </div>
                 </form>
             </div>
