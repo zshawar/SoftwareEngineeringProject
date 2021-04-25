@@ -56,6 +56,7 @@ def login():
             session["user"] = theUser.username
             session["userID"] = theUser.userID
             session["email"] = theUser.email
+            session["verifyCount"] = 0
 
             # Render the home page for the logged in user
             return redirect(url_for("home"))
@@ -101,6 +102,7 @@ def register():
         session["user"] = userName  # User in the session is the username
         session["userID"] = newUser.userID  # User ID from the database table is the userID
         session["email"] = email
+        session["verifyCount"] = 0
 
         # Redirect the user after registering to the home page with their session
         return redirect(url_for("home"))
@@ -180,7 +182,7 @@ def get_event(event_id):
         prev_res = db.session.query(Permission).filter_by(eventID=event_id, userID=session["userID"]).count()
         myEvents = db.session.query(Event).filter_by(eventID=event_id).one()  # Retrieve a specific event from the database
 
-        if myEvents.privacySetting:
+        if myEvents.privacySetting and session["verifyCount"] == 0:
             session["eventID"] = myEvents.eventID
             return redirect(url_for("verify"))
         else:
@@ -215,8 +217,7 @@ def verify():
             if bcrypt.checkpw(inputtedPassword, theUser.password):
                 prev_res = db.session.query(Permission).filter_by(eventID=session["eventID"], userID=session["userID"]).count()
                 myEvents = db.session.query(Event).filter_by(eventID=session["eventID"]).one()  # Retrieve a specific event from the database
-                myEvents.privacySetting = False  # The user has logged into their account, the event no longer needs to be verified afterwards
-                db.session.commit()  # Update the changed setting
+                session["verifyCount"] = 1
 
                 # The user has successfully validated their account details, return the event page with the event data stored in session data
                 verifiedForm = ReviewForm()
