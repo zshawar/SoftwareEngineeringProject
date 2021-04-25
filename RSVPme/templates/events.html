@@ -30,6 +30,7 @@
           {% for event in events %}
           <div class="card eventRow" style="width: 18rem;">
             <div class="card-body">
+              <img src="/static/img/{{ event.relativePath }}" alt="Location of Image" class="card-img-top">
               <h5 class="card-title">{{event.name}}</h5>
               <p class="card-text">{{event.description}}</p>
               <a href="{{ url_for('get_event', event_id=event.eventID) }}" class="learnMore">Learn More</a>

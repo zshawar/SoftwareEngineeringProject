@@ -7,11 +7,13 @@
   <body>
     {% include "user_header.html" %}
     <h1 class="titleCenter">My Events</h1>
+    <center><button class="btn btn-success">Create Event</button></center>
 
     <div class="myEventRow">
       {% for event in events %}
         <div class="card eventRow" style="width: 18rem;">
             <div class="card-body">
+              <img src="/static/img/{{ event.relativePath }}" alt="Location of Image" class="card-img-top">
               <h5 class="card-title"><a href="{{ url_for('get_event', event_id=event.eventID) }}">{{ event.name }}</a></h5>
               <p class="card-text">{{event.description}}</p>
               <a href="{{ url_for('modify_event', event_id=event.eventID) }}">
@@ -27,20 +29,16 @@
     </div>
 
       <br>
-    <div class="joinedEventRow">
-      <h1 class="titleCenter">Joined Events</h1>
+    <h1 class="titleCenter">Joined Events</h1>
+    <div class="myEventRow">
+
         {% for jEvent in jEvents %}
 
         <div class="card eventRow" style="width: 18em;">
           <div class="card-body">
+            <img src="/static/img/{{ jEvent.relativePath }}" alt="Location of Image" class="card-img-top">
             <h5 class="card-title"><a href="{{ url_for('get_event', event_id=jEvent.eventID) }}">{{ jEvent.name }}</a></h5>
               <p class="card-text">{{jEvent.description}}</p>
-              <a href="{{ url_for('modify_event', event_id=jEvent.eventID) }}">
-                <button class="btn btn-primary">Edit</button>
-              </a>
-              <a href="{{ url_for('delete_event', event_id=jEvent.eventID) }}">
-                <button class="btn btn-danger">Delete</button>
-              </a>
           </div>
 
         </div>
