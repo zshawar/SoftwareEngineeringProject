@@ -270,7 +270,7 @@ def get_events():
 #                for modifying an event                                                #
 #--------------------------------------------------------------------------------------#
 
-@app.route('/events/edit/<event_id>', methods = ['GET', 'POST'])
+@app.route('/events_edit/<event_id>', methods = ['GET', 'POST'])
 def modify_event(event_id):
     form = EventForm()
     # check if a user is saved in session
