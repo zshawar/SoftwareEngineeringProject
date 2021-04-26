@@ -15,3 +15,18 @@ being signed into your RSVMe account and navigation to the "/home/events/edit/<e
 
 Delete event: Users who have logged in will be able to delete any events they have previously created. This will
 require navigating to the "/events/delete/<event_id>" route.
+
+Logout: This will require navigating to the "/logout" route.
+
+View all events: This will require navigating to the "/my_events" route.
+
+View specific event: This will require navigating to the "/events/<event_id>" route.
+
+Reserve a spot at an event: This will require navigating to the "events/reserve/<event_id>" route.
+
+View user profile: This will require navigating to the "/my_profile" route.
+
+Add review for an event: This will require navigating to the "/events/<event_id>/review" route.
+
+Change password: This will require navigating to the "my_profile/change_password" route.
+
