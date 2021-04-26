@@ -13,7 +13,7 @@ class FlaskTest(unittest.TestCase):
         response = requests.get("http://127.0.0.1:5000/register")
         statuscode = response.status_code
         self.assertEqual(statuscode, 200)
-        self.assertEqual('Username' in response.text, True)
+        self.assertEqual('Fill out the form below to create your account!' in response.text, True)
 
     def test_public_events(self):
         response = requests.get("http://127.0.0.1:5000/events")
