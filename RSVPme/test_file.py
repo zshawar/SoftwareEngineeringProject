@@ -47,6 +47,12 @@ class FlaskTest(unittest.TestCase):
         self.assertEqual(statuscode, 200)
         self.assertEqual('Submit' in response.text, True)
 
+    def test_public_events(self):
+        response = requests.get("http://127.0.0.1:5000/events/<event_id>")
+        statuscode = response.status_code
+        self.assertEqual(statuscode, 200)
+        self.assertEqual('Add a review' in response.text, True)
+
 
 
 
