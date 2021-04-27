@@ -6,21 +6,10 @@
   </head>
   <body>
 
-  <div class="topnav">
-      {% if user %}
-      <div class="topnav-right" id="loggedInAction">
-          <a href="{{ url_for('logout') }}">Click to logout</a>
-      </div>
-      {% else %}
-      <div class="topnav-right" id="loggedOutAction">
-          <a href="{{ url_for('login') }}">Sign In</a>
-          <a href="{{ url_for('register') }}">Register</a>
-      </div>
-      {% endif %}
-  </div>
+  {% include 'user_login_header.html' %} <br>
 
   <div class="p-3 mb-2 text-white head">
-    <h1>Welcome to RSVPMe! Sign in below:</h1>
+    <h1>Welcome to RSVMe! Sign in below:</h1>
   </div>
 
   <div class="signIn">
