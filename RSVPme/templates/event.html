@@ -26,6 +26,7 @@
                 {% else %}
                 <a href="{{ url_for('reserve_event', event_id=event.eventID) }}"><button id="RSVPButton1" class="btn btn-success">Reserve my Spot!</button></a>
                 {% endif %}
+		<a href="{{ url_for('report_event', event_id=event.eventID) }}"><button class="btn btn-danger">Report Event</button></a>
             </div>
 
             <div class="col">
@@ -34,7 +35,7 @@
                         <h2>Reviews</h2>
                         <ul>
                         {% for review in event.reviews %}
-                            <li>{{ review.content }}</li>
+			    <li>{{ review.content }} <a href="{{ url_for('report_review', review_id=review.reviewID) }}"><button class="btn btn-danger btn-sm">Report</button></a></li>
                         {% endfor %}
                         </ul>
                     {% endif %}

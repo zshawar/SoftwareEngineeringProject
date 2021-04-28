@@ -9,7 +9,7 @@ from flask import redirect, url_for
 from flask import session
 from database import db
 from forms import LoginForm, RegisterForm, EventForm, ReviewForm, PassChangeForm
-from models import User, Event, Role, Permission
+from models import User, Event, Role, Permission, Report
 from datetime import datetime
 from models import Review as Review
 
@@ -32,7 +32,7 @@ def home():
     form = LoginForm()  # Initialize the form object to be the login form
     # Check to see if there is a user saved in the current session
     if session.get("user"):
-        return render_template("home.html", user=session["user"])
+        return render_template("home.html", user=session["user"], admin=session["admin"])
 
     return render_template("login.html", form=form)  # There is no user in the current session, please log in
 
@@ -56,6 +56,7 @@ def login():
             session["user"] = theUser.username
             session["userID"] = theUser.userID
             session["email"] = theUser.email
+            session["admin"] = theUser.admin
             session["verifyCount"] = 0
 
             # Render the home page for the logged in user
@@ -103,6 +104,7 @@ def register():
         session["userID"] = newUser.userID  # User ID from the database table is the userID
         session["email"] = email
         session["verifyCount"] = 0
+        session["admin"] = False
 
         # Redirect the user after registering to the home page with their session
         return redirect(url_for("home"))
@@ -145,7 +147,7 @@ def create_event():
 
             return redirect(url_for('get_events'))
         else:
-            return render_template('create_event.html', form=form, user=session['user'])
+            return render_template('create_event.html', form=form, user=session['user'], admin=session["admin"])
     else:
         return redirect(url_for("login"))
 
@@ -170,7 +172,7 @@ def get_user_events():
         userJoinedEvents = db.session.query(Event).filter(Event.eventID.in_(subqueryPermission2)).all()
 
         # Return the myEvents template and pass the events grabbed from the database as well as the user stored in the current session
-        return render_template("my_events.html", events=usersEvents, jEvents=userJoinedEvents, user=session["userID"])
+        return render_template("my_events.html", events=usersEvents, jEvents=userJoinedEvents, user=session["userID"], admin=session["admin"])
 
     # The user is not logged in, they need to log in first to view their events. Redirect them to login.
     else:
@@ -194,7 +196,7 @@ def get_event(event_id):
         else:
             # create a review form object
             form = ReviewForm()
-            return render_template('event.html', event=myEvents, user=session['user'], reserved=prev_res, form=form)
+            return render_template('event.html', event=myEvents, user=session['user'], reserved=prev_res, form=form, admin=session["admin"])
 
     # if user is not logged in they must be redirected to login page
     else:
@@ -227,7 +229,7 @@ def verify():
 
                 # The user has successfully validated their account details, return the event page with the event data stored in session data
                 verifiedForm = ReviewForm()
-                return render_template('event.html', event=myEvents, user=session['user'], reserved=prev_res, form=verifiedForm)
+                return render_template('event.html', event=myEvents, user=session['user'], reserved=prev_res, form=verifiedForm, admin=session["admin"])
 
             # The password check failed, the person logging in inputted the incorrect information
             form.password.errors = ["Incorrect username or password entered"]
@@ -261,7 +263,7 @@ def get_events():
 
         myEvents = db.session.query(Event).order_by(sort_by).limit(9).all()  # Get 5 recent events from the database
 
-        return render_template('events.html', events=myEvents, user=session['user'])  # Render the events.html page with the events gathered from the database (Array of events)
+        return render_template('events.html', events=myEvents, user=session['user'], admin=session["admin"])  # Render the events.html page with the events gathered from the database (Array of events)
     # if user is not logged in they must be redirected to login page
     else:
         return redirect(url_for("login"))
@@ -313,7 +315,7 @@ def modify_event(event_id):
             form.capacity.data = my_event.capacity
             # form.image.data = my_event.relativePath
 
-            return render_template('create_event.html', form=form, event=my_event, user=session['user'])
+            return render_template('create_event.html', form=form, event=my_event, user=session['user'], admin=session["admin"])
     else:
         # user is not in session - redirect to login
         return redirect(url_for('login'))
@@ -361,7 +363,7 @@ def reserve_event(event_id):
 @app.route("/my_profile")
 def get_user_profile():
     if session.get("user"):
-        return render_template("user_profile.html", user=session["user"], email=session["email"])
+        return render_template("user_profile.html", user=session["user"], email=session["email"], admin=session["admin"])
     else:
         return redirect(url_for("login"))
 
@@ -386,6 +388,74 @@ def new_review(event_id):
 
     else:
         return redirect(url_for('login'))
+
+def handle_report(reportID, reportType):
+  report = Report(reportID, reportType)
+  db.session.add(report)
+  db.session.commit()
+  return redirect(url_for('get_user_profile'))
+
+@app.route('/report/review/<review_id>')
+def report_review(review_id):
+    return handle_report(review_id, 'review')
+
+@app.route('/report/event/<event_id>')
+def report_event(event_id):
+    return handle_report(event_id, 'event')
+
+def handle_review_report(review_id):
+    reportedReview = db.session.query(Report).filter_by(reportType='review', itemID=review_id).one()
+    db.session.delete(reportedReview)
+    db.session.commit()
+    return redirect(url_for('access_admin_panel'))
+
+def handle_event_report(event_id):
+    reportedEvent = db.session.query(Report).filter_by(reportType='event', itemID=event_id).one()
+    db.session.delete(reportedEvent)
+    db.session.commit()
+    return redirect(url_for('access_admin_panel'))
+
+@app.route('/report/delete/review/<review_id>')
+def report_delete_review(review_id):
+    if not session["admin"]:
+        return redirect(url_for('get_user_profile'))
+    deletedReview = db.session.query(Review).filter_by(reviewID=review_id).one()
+    db.session.delete(deletedReview)
+    db.session.commit()
+    return handle_review_report(review_id)
+
+@app.route('/report/delete/event/<event_id>')
+def report_delete_event(event_id):
+    if not session["admin"]:
+        return redirect(url_for('get_user_profile'))
+    deletedEvent = db.session.query(Event).filter_by(eventID=event_id).one()
+    db.session.delete(deletedEvent)
+    db.session.commit()
+    return handle_event_report(event_id)
+
+@app.route('/report/dismiss/review/<review_id>')
+def report_dismiss_review(review_id):
+    if not session["admin"]:
+        return redirect(url_for('get_user_profile'))
+    return handle_review_report(review_id)
+
+@app.route('/report/dismiss/event/<event_id>')
+def report_dismiss_event(event_id):
+    if not session["admin"]:
+        return redirect(url_for('get_user_profile'))
+    return handle_event_report(event_id)
+
+@app.route('/admin')
+def access_admin_panel():
+    if session["admin"] == False:
+        return redirect(url_for('get_user_profile')) # need to make a custom denied page
+    else:
+        subqueryReview = db.session.query(Report.itemID).filter_by(reportType='review').subquery()
+        reportedReviews = db.session.query(Review).filter(Review.reviewID.in_(subqueryReview)).all()
+
+        subqueryEvent = db.session.query(Report.itemID).filter_by(reportType='event').subquery()
+        reportedEvents = db.session.query(Event).filter(Event.eventID.in_(subqueryEvent)).all()
+        return render_template('admin.html', user=session["user"], events=reportedEvents, reviews=reportedReviews)
 
 #------------------------------------change Password 1--------------------------------------#
 #                 for redirecting to change pasword page                                    #

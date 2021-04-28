@@ -57,6 +57,9 @@
     <a href="{{ url_for('get_user_events') }}" class="btn btn-light nav-btn fontStyle">My Events</a>
     <a href="{{ url_for('get_events') }}" class="btn btn-light nav-btn fontStyle">Public Events</a>
     <a href="{{ url_for('get_user_profile') }}" class="btn btn-light nav-btn fontStyle">My Profile</a>
+    {% if admin %}
+    <a href="{{ url_for('access_admin_panel') }}" class="btn btn-light nav-btn fontStyle">Admin Panel</a>
+    {% endif %}
     </div>
   </div>
 </div>

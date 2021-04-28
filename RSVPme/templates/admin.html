@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% include 'headCode.html' %}
+    <title>Admin Panel</title>
+  </head>
+  <body>
+    {% include "user_header.html" %}
+    <h1>Admin Panel</h1>
+
+    <h3>Reported Events</h3>
+    {% for event in events %}
+    	<h6>Event name: {{ event.name }}</h6>
+	<h6>Description: {{ event.description }}</h6>
+	<h6>Location: {{ event.location }}</h6>
+	<a href="{{ url_for('get_event', event_id=event.eventID) }}"><img src="/static/img/{{ event.relativePath }}" style="width:10%" alt="Location of Image" class="thumbnailPic"></a>
+	<div>
+	    <a href="{{ url_for('report_delete_event', event_id=event.eventID) }}"><button class="btn btn-danger">Delete Event</button></a>
+            <a href="{{ url_for('report_dismiss_event', event_id=event.eventID) }}"><button class="btn btn-primary">Dismiss Event</button></a>
+	</div>
+	<hr>
+    {% endfor %}
+
+    <br><br>
+    <h3>Reported Reviews</h3>
+    {% for review in reviews %}
+        <h6>Posted under event review <a href="{{ url_for('get_event', event_id=review.event.eventID) }}">{{ review.event.name }}</a></h6>
+	<i>{{ review.content }}</i>
+	<div>
+	    <a href="{{ url_for('report_delete_review', review_id=review.reviewID) }}"><button class="btn btn-danger">Delete Review</button></a>
+	    <a href="{{ url_for('report_dismiss_review', review_id=review.reviewID) }}"><button class="btn btn-primary">Dismiss Review</button></a>
+	</div>
+    {% endfor %}
+
+  </body>
+</html>

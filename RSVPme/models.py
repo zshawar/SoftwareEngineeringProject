@@ -6,6 +6,7 @@ class User(db.Model):
     username = db.Column("username", db.String(20))
     email = db.Column("email", db.String(30))
     password = db.Column("password", db.String(255), nullable=False)
+    admin = db.Column("admin", db.Boolean)
     events =db.relationship("Event", backref="user", lazy=True)
     reviews =db.relationship("Review", backref="user", lazy=True)
 
@@ -13,6 +14,7 @@ class User(db.Model):
         self.username = username
         self.email = email
         self.password = password
+        self.admin = False #admins must be set in SQLite
 
 class Event(db.Model):
     eventID = db.Column("eventID", db.Integer, primary_key=True)
@@ -91,3 +93,12 @@ class Review(db.Model):
         self.content = content
         self.eventID = eventID
         self.userID = userID
+
+class Report(db.Model):
+    reportID = db.Column(db.Integer, primary_key=True)
+    reportType = db.Column(db.String(10)) # can be of event, user, or review
+    itemID = db.Column(db.Integer)
+
+    def __init__(self, foreignID, reportType):
+        self.reportType = reportType
+        self.itemID = foreignID
