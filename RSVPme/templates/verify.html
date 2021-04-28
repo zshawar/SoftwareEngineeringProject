@@ -5,7 +5,7 @@
     <title>Verify Login</title>
   </head>
   <body>
-
+    {% include 'user_header.html' %} <br>
   <div class="p-3 mb-2 text-white head">
     <h1>Please verify your account to view the event selected.</h1>
   </div>
@@ -33,11 +33,15 @@
           </div>
           {{ form.submit }}
         </form>
+      <br><br>
 
-        <a href="{{ url_for('get_events') }}">
-          <button class="btn btn-primary">Cancel</button>
-        </a>
-
+  </div>
+  <div class="signIn2">
+      <p>
+          <a href="{{ url_for('get_events') }}">
+              <button class="btn btn-danger">Cancel</button>
+          </a>
+      </p>
   </div>
   </body>
 </html>

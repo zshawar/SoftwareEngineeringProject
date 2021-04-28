@@ -10,7 +10,7 @@
      {% include 'user_login_header.html' %} <br>
 
   <div class="p-3 mb-2 text-white head">
-    <h2>Welcome to RSVMe! Fill out the form below to create your account:</h2>
+    <h1>Welcome to RSVMe! Fill out the form below to create your account:</h1>
   </div>
 
   <div class="signIn">
@@ -47,6 +47,8 @@
       {{ form.submit }}
       </form>
   </div>
-
+    <div class="signIn2">
+        <p>Already have an account? <a href="{{ url_for('login') }}" >Login</a> here.</p>
+    </div>
   </body>
 </html>
