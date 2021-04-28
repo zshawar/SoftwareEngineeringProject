@@ -417,6 +417,8 @@ def set_pass():
 
         # Redirect the user 
         return redirect(url_for('get_user_profile'))
+    else:
+        return redirect(url_for('login'))
 
 
 #--------------------------run statement------------------------------------#

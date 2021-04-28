@@ -5,12 +5,6 @@ from database import db
 
 class FlaskTest(unittest.TestCase):
 
-    # create mock user
-    mockUser = User(userName='username', email='email@email.com', hashedPassword='12345')
-    # Add this mock user object to the database
-    db.session.add(mockUser)
-    db.session.commit()
-
     def test_home(self):
         response = requests.get("http://127.0.0.1:5000/home")
         statuscode = response.status_code
@@ -27,7 +21,7 @@ class FlaskTest(unittest.TestCase):
         response = requests.get("http://127.0.0.1:5000/events")
         statuscode = response.status_code
         self.assertEqual(statuscode, 200)
-        self.assertEqual('Reserve my Spot!' in response.text, True)
+        self.assertEqual('Public Events - Click To View' in response.text, True)
 
     def test_my_events(self):
         response = requests.get("http://127.0.0.1:5000/my_events")
@@ -41,7 +35,27 @@ class FlaskTest(unittest.TestCase):
         self.assertEqual(statuscode, 200)
         self.assertEqual('Start Date and Time' in response.text, True)
 
-    #def test_delete_event(self):
+    def test_my_profile(self):
+        response = requests.get("http://127.0.0.1:5000/my_profile")
+        statuscode = response.status_code
+        self.assertEqual(statuscode, 200)
+        self.assertEqual('Username' and 'Email' in response.text, True)
+
+    def test_change_password(self):
+        response = requests.get("http://127.0.0.1:5000/my_profile/change_password")
+        statuscode = response.status_code
+        self.assertEqual(statuscode, 200)
+        self.assertEqual('Submit' in response.text, True)
+
+    def test_public_events(self):
+        response = requests.get("http://127.0.0.1:5000/events/<event_id>")
+        statuscode = response.status_code
+        self.assertEqual(statuscode, 200)
+        self.assertEqual('Add a review' in response.text, True)
+
+
+
+
 
 if __name__ == " __main__":
     unittest.main()
