@@ -12,7 +12,9 @@
   </head>
   <body>
     {% include 'user_header.html' %}
-
+    {% if message %}
+      <p>{{ message }}</p>
+    {% endif %}
     <div id="body" class="eventsCenter" style="display: flex; flex-direction: row">
       <div id="sortingFeatures" style="display: flex; flex-direction: column; width: 30%; margin-left: 1em; border-color: gray; padding: 1em;border-style: solid;border-radius: 10px;border-width: 2px;">
 	      <!--<h2 id="sortingTitle">Sorting / Filtering Features</h2>-->

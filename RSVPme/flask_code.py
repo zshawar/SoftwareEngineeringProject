@@ -263,7 +263,7 @@ def get_events():
 
         myEvents = db.session.query(Event).order_by(sort_by).limit(9).all()  # Get 5 recent events from the database
 
-        return render_template('events.html', events=myEvents, user=session['user'], admin=session["admin"])  # Render the events.html page with the events gathered from the database (Array of events)
+        return render_template('events.html', events=myEvents, user=session['user'], admin=session["admin"], message=request.args.get("message"))  # Render the events.html page with the events gathered from the database (Array of events)
     # if user is not logged in they must be redirected to login page
     else:
         return redirect(url_for("login"))
@@ -390,10 +390,12 @@ def new_review(event_id):
         return redirect(url_for('login'))
 
 def handle_report(reportID, reportType):
-  report = Report(reportID, reportType)
-  db.session.add(report)
-  db.session.commit()
-  return redirect(url_for('get_user_profile'))
+  tempTest = db.session.query(Report).filter_by(itemID=reportID, reportType=reportType).first()
+  if tempTest is None:
+    report = Report(reportID, reportType)
+    db.session.add(report)
+    db.session.commit()
+  return redirect(url_for('get_events', message='Thank you for your report! It will be reviewed by an administrator shortly.'))
 
 @app.route('/report/review/<review_id>')
 def report_review(review_id):
@@ -418,7 +420,7 @@ def handle_event_report(event_id):
 @app.route('/report/delete/review/<review_id>')
 def report_delete_review(review_id):
     if not session["admin"]:
-        return redirect(url_for('get_user_profile'))
+        return redirect(url_for('get_events', message='You do not have authorization to view this page'))
     deletedReview = db.session.query(Review).filter_by(reviewID=review_id).one()
     db.session.delete(deletedReview)
     db.session.commit()
@@ -427,7 +429,7 @@ def report_delete_review(review_id):
 @app.route('/report/delete/event/<event_id>')
 def report_delete_event(event_id):
     if not session["admin"]:
-        return redirect(url_for('get_user_profile'))
+        return redirect(url_for('get_events', message='You do not have authorization to view this page'))
     deletedEvent = db.session.query(Event).filter_by(eventID=event_id).one()
     db.session.delete(deletedEvent)
     db.session.commit()
@@ -436,19 +438,19 @@ def report_delete_event(event_id):
 @app.route('/report/dismiss/review/<review_id>')
 def report_dismiss_review(review_id):
     if not session["admin"]:
-        return redirect(url_for('get_user_profile'))
+        return redirect(url_for('get_events', message='You do not have authorization to view this page'))
     return handle_review_report(review_id)
 
 @app.route('/report/dismiss/event/<event_id>')
 def report_dismiss_event(event_id):
     if not session["admin"]:
-        return redirect(url_for('get_user_profile'))
+        return redirect(url_for('get_events', message='You do not have authorization to view this page'))
     return handle_event_report(event_id)
 
 @app.route('/admin')
 def access_admin_panel():
     if session["admin"] == False:
-        return redirect(url_for('get_user_profile')) # need to make a custom denied page
+        return redirect(url_for('get_events', message='You do not have authorization to view this page')) # need to make a custom denied page
     else:
         subqueryReview = db.session.query(Report.itemID).filter_by(reportType='review').subquery()
         reportedReviews = db.session.query(Review).filter(Review.reviewID.in_(subqueryReview)).all()

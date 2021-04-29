@@ -95,9 +95,8 @@ class Review(db.Model):
         self.userID = userID
 
 class Report(db.Model):
-    reportID = db.Column(db.Integer, primary_key=True)
-    reportType = db.Column(db.String(10)) # can be of event, user, or review
-    itemID = db.Column(db.Integer)
+    reportType = db.Column(db.String(10), primary_key=True) # can be of event, user, or review
+    itemID = db.Column(db.Integer, primary_key=True)
 
     def __init__(self, foreignID, reportType):
         self.reportType = reportType
