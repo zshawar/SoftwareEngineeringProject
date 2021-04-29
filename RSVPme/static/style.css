@@ -29,10 +29,22 @@
 }
 
 .FeaturedRow {
-    background-color: #be9a30;
+
     float: left;
     margin: 20px;
 
+}
+
+.card1 {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 6px solid #E9E07E;
+    border-radius: .25rem;
 }
 
 .ButtonRow
@@ -146,6 +158,10 @@ input[type=submit]:hover {
 
 .card-img-top {
  height: 145px;
+}
+
+.card-img-bottom {
+ height: 50px;
 }
 
 textarea {
