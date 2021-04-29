@@ -371,7 +371,7 @@ def get_user_profile():
 #------------------------------------review event--------------------------------------#
 #                 for leaving a review on an event                                     #
 #--------------------------------------------------------------------------------------#
-@app.route('/events/<event_id>/review', methods=['POST'])
+@app.route('/events/<event_id>/review', methods=['POST', 'GET'])
 def new_review(event_id):
     if session.get('user'):
         event = db.session.query(Event).filter_by(eventID=event_id).one()
