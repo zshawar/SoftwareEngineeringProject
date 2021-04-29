@@ -9,9 +9,11 @@
 
     {% include 'user_header.html' %} <br>
     
-
+    {% if event %}
+    <h1 class="title">Edit Event</h1>
+    {% else %}
     <h1 class="title">Create Event</h1>
-
+    {% endif %}
 
     <!-- Create new event -->
      {% if event %}
