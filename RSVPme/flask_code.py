@@ -284,10 +284,14 @@ def modify_event(event_id):
             dateStart = request.form['dateStart']
             dateEnd = request.form['dateEnd']
             description = request.form['description']
-            # image = request.form['image']
+            #image = request.files['image']
             location = request.form['location']
             capacity = request.form['capacity']
+            privacySetting = request.form.get('privacySetting', False)
             event = db.session.query(Event).filter_by(eventID=event_id).one()
+
+            #filename = datetime.now().strftime("%Y%M%d%H%S") + secure_filename(image.filename)
+            #image.save(os.path.join("./static/img", filename))
 
             # update data
             event.name = name
@@ -296,6 +300,10 @@ def modify_event(event_id):
             event.description = description
             event.location = location
             event.capacity = capacity
+            #event.image = image
+
+            # Must use a comparison to "y" because if the checkbox is not checked it returns nothing (Returns Y if checked, nothing if not checked)
+            event.privacySetting = privacySetting == "y"
 
             # updates event in db
             # db.session.add(event)
@@ -313,7 +321,8 @@ def modify_event(event_id):
             form.description.data = my_event.description
             form.location.data = my_event.location
             form.capacity.data = my_event.capacity
-            # form.image.data = my_event.relativePath
+            form.image.data = my_event.relativePath
+            form.privacySetting.data = my_event.privacySetting
 
             return render_template('create_event.html', form=form, event=my_event, user=session['user'], admin=session["admin"])
     else:

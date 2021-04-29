@@ -10,10 +10,50 @@
     <h2><center>Keep track of all your events and plans in one convenient place.</center></h2>
     <h2><center>Ready to start? Make an event: </center></h2>
 
-    <form action="{{ url_for('create_event') }}" method="post">
-    <center><button class="btn btn-success">Create Event</button></center>
+
+    <div class="myEventRow">
+      <div class="ButtonRow">
+        <form action="{{ url_for('create_event') }}" method="post">
+        <button class="homeButtons">Create Event</button>
+        </form>
+      </div>
+      <div class="ButtonRow">
+        <form action="{{ url_for('get_events') }}" method="post">
+        <button class="homeButtons">Join Event</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="myEventRow">
+      <div class="card FeaturedRow" style="width: 18rem;">
+            <div class="card-body">
+              <img src="/static/img/chicago.jpg" alt="Location of Image" class="card-img-top">
+              <h5 class="card-title">Chicago Trip</h5>
+              <p class="card-text">Enjoy a week long trip to Chicago with an Architectural Tour!</p>
+              <a href="" class="learnMore">Learn More</a>
+            </div>
+      </div>
+      <div class="card FeaturedRow" style="width: 18rem;">
+            <div class="card-body">
+              <img src="/static/img/freedomPark.PNG" alt="Location of Image" class="card-img-top">
+              <h5 class="card-title">Lake Day</h5>
+              <p class="card-text">Enjoy a day on the lake and bring food to have your own picnic.</p>
+              <a href="" class="learnMore">Learn More</a>
+            </div>
+      </div>
+      <div class="card FeaturedRow" style="width: 18rem;">
+            <div class="card-body">
+              <img src="/static/img/excel.png" alt="Location of Image" class="card-img-top">
+              <h5 class="card-title">Excel Workshop</h5>
+              <p class="card-text">Join this workshop to enhance your excel skills and network.</p>
+              <a href="" class="learnMore">Learn More</a>
+            </div>
+      </div>
+    </div>
 
 
-    </form>
+
+
+
   </body>
 </html>
