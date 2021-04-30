@@ -466,7 +466,7 @@ def access_admin_panel():
 
         subqueryEvent = db.session.query(Report.itemID).filter_by(reportType='event').subquery()
         reportedEvents = db.session.query(Event).filter(Event.eventID.in_(subqueryEvent)).all()
-        return render_template('admin.html', user=session["user"], events=reportedEvents, reviews=reportedReviews)
+        return render_template('admin.html', user=session["user"], admin=session["admin"], events=reportedEvents, reviews=reportedReviews)
 
 #------------------------------------change Password 1--------------------------------------#
 #                 for redirecting to change pasword page                                    #
