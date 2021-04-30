@@ -8,14 +8,28 @@
     {% include "user_header.html" %}
     <h1>User</h1>
     <div id="main" style="display: flex; flex-direction: column;">
-	<div style="display: flex">
-	    <p style="margin-right: 2em; margin-left: 1em; align-self: center">Username</p>
-	    <input type="text" style="width: auto" disabled value="{{ user }}"/>
-	</div>
-	<div style="display: flex">
-	    <p style="margin-right: 2em; margin-left: 1em; align-self: center">Email</p>
-	    <input type="text" disabled style="width: auto" value="{{ email }}"/>
-	</div>
+		<div style="display: flex">
+	    	<p style="margin-right: 2em; margin-left: 1em; align-self: center">Username</p>
+	    	<input type="text" style="width: auto" disabled value="{{ user }}"/>
+		</div>
+
+		<div style="display: flex">
+	    	<p style="margin-right: 2em; margin-left: 1em; align-self: center">Email</p>
+	    	<input type="text" disabled style="width: auto" value="{{ email }}"/>
+		</div>
+
+		<div id="statisticsInfo" stlye="display: flex; flex-direction: column;">
+			<div id="eventStats" style="display: flex">
+				<p style="margin-right: 3em; margin-left: 1em; align-self: center">Total amount of events created:</p>
+				<p style="margin-left: 1em">{{ userStats.totalEventsCreated }}</p>
+
+				<br>
+
+				<p style="margin-right: 3em; margin-left: 1em; align-self: center">Total amount of events joined:</p>
+				<p style="margin-left: 1em"></p>
+			</div>
+		</div>
+
     </div>
   </body>
 	<a href="{{ url_for('change_pass') }}" >

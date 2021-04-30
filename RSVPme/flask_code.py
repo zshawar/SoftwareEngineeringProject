@@ -91,9 +91,11 @@ def register():
         # Retrieve all of the entered information from the form
         userName = request.form["username"]
         email = request.form["email"]
+        totalEventsCreated = 0
+        totalEventsJoined = 0
 
         # Create a new user and put them in the database
-        newUser = User(userName, email, hashedPassword)
+        newUser = User(userName, email, hashedPassword, totalEventsCreated, totalEventsJoined)
 
         # Add this new user object to the database
         db.session.add(newUser)
@@ -120,6 +122,7 @@ def create_event():
     # Verify the user is currently signed in, check the session
     if session.get("user"):
         if request.method == 'POST' and form.validate_on_submit():
+            # Grab all of the information provided from the user in the forms
             name = request.form['eventName']
             dateStart = request.form['dateStart']
             dateEnd = request.form['dateEnd']
@@ -129,9 +132,11 @@ def create_event():
             capacity = request.form['capacity']
             privacySetting = request.form.get('privacySetting', False)
 
+            # Saves the image to the local directory, the path goes to the server
             filename = datetime.now().strftime("%Y%M%d%H%S") + secure_filename(image.filename)
             image.save(os.path.join("./static/img", filename))
 
+            # Create a new event in the database with the information provided from the user
             newEvent = Event(name, capacity, description, location, dateStart, dateEnd, filename, privacySetting, session['userID'])
             db.session.add(newEvent)
             db.session.commit()
@@ -143,6 +148,11 @@ def create_event():
 
             newPermission = Permission(eventID, sessionID, role)
             db.session.add(newPermission)
+            db.session.commit()
+
+            # Grab the user's account and add 1 to the running sum of events created by that user
+            theUser = db.session.query(User).filter_by(userID=sessionID).one()
+            theUser.totalEventsCreated += 1
             db.session.commit()
 
             return redirect(url_for('get_events'))
@@ -306,7 +316,6 @@ def modify_event(event_id):
             event.privacySetting = privacySetting == "y"
 
             # updates event in db
-            # db.session.add(event)
             db.session.commit()
 
             return redirect(url_for('get_events'))
@@ -372,7 +381,10 @@ def reserve_event(event_id):
 @app.route("/my_profile")
 def get_user_profile():
     if session.get("user"):
-        return render_template("user_profile.html", user=session["user"], email=session["email"], admin=session["admin"])
+
+        userStats = db.session.query(User).filter_by(userID=session["userID"]).one()
+
+        return render_template("user_profile.html", user=session["user"], email=session["email"], admin=session["admin"], userStats=userStats)
     else:
         return redirect(url_for("login"))
 
