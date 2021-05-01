@@ -14,7 +14,6 @@ from datetime import datetime
 from models import Review as Review
 
 
-
 #--------------------------setup----------------------------------------------#
 app = Flask(__name__)     # create an app
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///rsvpme.db'
@@ -24,6 +23,7 @@ db.init_app(app)
 
 with app.app_context():
     db.create_all()   # run under the app context
+
 
 #----------------------------home page---------------------------------------#
 @app.route('/')
@@ -35,6 +35,7 @@ def home():
         return render_template("home.html", user=session["user"], admin=session["admin"])
 
     return render_template("login.html", form=form)  # There is no user in the current session, please log in
+
 
 #----------------------------login functionality---------------------------------------#
 @app.route('/login', methods=['POST', 'GET'])
@@ -79,6 +80,7 @@ def logout():
 
     return redirect(url_for("login"))
 
+
 #----------------------------register functionality---------------------------------------#
 @app.route('/register', methods=["POST", "GET"])
 def register():
@@ -113,6 +115,7 @@ def register():
 
     # Breaks out of if statement, user did something incorrect, just reloads the register page with the form again
     return render_template("register.html", form=form)
+
 
 #----------------------------add event functionality---------------------------------------#
 @app.route('/events/create', methods=['POST', 'GET'])
@@ -192,7 +195,6 @@ def get_user_events():
 #--------------------------------------get event---------------------------------------#
 #                for very specifically showing one event in particular                 #
 #--------------------------------------------------------------------------------------#
-
 @app.route('/events/<event_id>')
 def get_event(event_id):
     # login verification; if user is logged in and saved in session
@@ -216,7 +218,6 @@ def get_event(event_id):
 #--------------------------------------Verify User---------------------------------------#
 #                verifies a user by making them log in again (Privacy Setting)           #
 #----------------------------------------------------------------------------------------#
-
 @app.route('/verify', methods=['POST', 'GET'])
 def verify():
     form = LoginForm()  # Initialize to the form to the login form
@@ -255,7 +256,6 @@ def verify():
 #--------------------------------------get events--------------------------------------#
 #                for getting all of the events                                         #
 #--------------------------------------------------------------------------------------#
-
 @app.route('/events')
 def get_events():
     # login verification; if user is logged in and saved in session  
@@ -278,10 +278,10 @@ def get_events():
     else:
         return redirect(url_for("login"))
 
+
 #--------------------------------------edit event--------------------------------------#
 #                for modifying an event                                                #
 #--------------------------------------------------------------------------------------#
-
 @app.route('/events_edit/<event_id>', methods = ['GET', 'POST'])
 def modify_event(event_id):
     form = EventForm()
@@ -338,10 +338,10 @@ def modify_event(event_id):
         # user is not in session - redirect to login
         return redirect(url_for('login'))
 
+
 #------------------------------------delete event--------------------------------------#
 #                 for removing an event                                                #
 #--------------------------------------------------------------------------------------#
-
 @app.route('/events/delete/<event_id>', methods=['GET'])
 def delete_event(event_id):
 
@@ -358,6 +358,10 @@ def delete_event(event_id):
         # if user is not in session they must be redirected to login page
         return redirect(url_for('login'))
 
+
+#---------------------RSVPing to an event-----------------------------------------------#
+#               Reserving a spot for an event                                           #
+#---------------------------------------------------------------------------------------#
 @app.route('/events/reserve/<event_id>', methods=['GET'])
 def reserve_event(event_id):
     if session.get("user"):
@@ -374,6 +378,7 @@ def reserve_event(event_id):
         return redirect(url_for("get_event", event_id=event.eventID))
     else:
         return redirect(url_for('login'))
+
 
 #---------------------get user profile--------------------------------------------------#
 #               view the user's profile                                                 #
@@ -410,6 +415,10 @@ def new_review(event_id):
     else:
         return redirect(url_for('login'))
 
+
+#------------------------------------Creating a user report----------------------------------------#
+#                 Method for creating user reports                                                 #
+#--------------------------------------------------------------------------------------------------#
 def handle_report(reportID, reportType):
   tempTest = db.session.query(Report).filter_by(itemID=reportID, reportType=reportType).first()
   if tempTest is None:
@@ -418,26 +427,46 @@ def handle_report(reportID, reportType):
     db.session.commit()
   return redirect(url_for('get_events', message='Thank you for your report! It will be reviewed by an administrator shortly.'))
 
+
+#------------------------------------Report functionality for review section-----------------------#
+#                 Method for handling user reports for reviews                                     #
+#--------------------------------------------------------------------------------------------------#
 @app.route('/report/review/<review_id>')
 def report_review(review_id):
     return handle_report(review_id, 'review')
 
+
+#------------------------------------Report functionality for events-------------------------------#
+#                 Method for handling user reports for events                                      #
+#--------------------------------------------------------------------------------------------------#
 @app.route('/report/event/<event_id>')
 def report_event(event_id):
     return handle_report(event_id, 'event')
 
+
+#------------------------------------Deleting Report for a review----------------------------------#
+#                 Deletes a specified report for a review                                          #
+#--------------------------------------------------------------------------------------------------#
 def handle_review_report(review_id):
     reportedReview = db.session.query(Report).filter_by(reportType='review', itemID=review_id).one()
     db.session.delete(reportedReview)
     db.session.commit()
     return redirect(url_for('access_admin_panel'))
 
+
+#------------------------------------Deleting Report for an event----------------------------------#
+#                 Deletes a specified report for an event                                          #
+#--------------------------------------------------------------------------------------------------#
 def handle_event_report(event_id):
     reportedEvent = db.session.query(Report).filter_by(reportType='event', itemID=event_id).one()
     db.session.delete(reportedEvent)
     db.session.commit()
     return redirect(url_for('access_admin_panel'))
 
+
+#------------------------------------Dismissing invalid action(Special)?---------------------------#
+#                 Deletes a specified report for an event                                          #
+#--------------------------------------------------------------------------------------------------#
 @app.route('/report/delete/review/<review_id>')
 def report_delete_review(review_id):
     if not session["admin"]:
@@ -447,6 +476,10 @@ def report_delete_review(review_id):
     db.session.commit()
     return handle_review_report(review_id)
 
+
+#------------------------------------Dismissing invalid action(Delete)-----------------------------#
+#                 Method for dismissing user with incorrect credentials                            #
+#--------------------------------------------------------------------------------------------------#
 @app.route('/report/delete/event/<event_id>')
 def report_delete_event(event_id):
     if not session["admin"]:
@@ -456,22 +489,34 @@ def report_delete_event(event_id):
     db.session.commit()
     return handle_event_report(event_id)
 
+
+#------------------------------------Dismissing invalid action(Review)-----------------------------#
+#                 Method for dismissing user with incorrect credentials                            #
+#--------------------------------------------------------------------------------------------------#
 @app.route('/report/dismiss/review/<review_id>')
 def report_dismiss_review(review_id):
     if not session["admin"]:
         return redirect(url_for('get_events', message='You do not have authorization to view this page'))
     return handle_review_report(review_id)
 
+
+#------------------------------------Dismissing invalid action(Event)------------------------------#
+#                 Method for dismissing user with incorrect credentials                            #
+#--------------------------------------------------------------------------------------------------#
 @app.route('/report/dismiss/event/<event_id>')
 def report_dismiss_event(event_id):
     if not session["admin"]:
         return redirect(url_for('get_events', message='You do not have authorization to view this page'))
     return handle_event_report(event_id)
 
+
+#------------------------------------Admin Panel Access-------------------------------------#
+#                 Method for accessing the administrator panel                              #
+#-------------------------------------------------------------------------------------------#
 @app.route('/admin')
 def access_admin_panel():
     if session["admin"] == False:
-        return redirect(url_for('get_events', message='You do not have authorization to view this page')) # need to make a custom denied page
+        return redirect(url_for('get_events', message='You do not have authorization to view this page'))  # need to make a custom denied page
     else:
         subqueryReview = db.session.query(Report.itemID).filter_by(reportType='review').subquery()
         reportedReviews = db.session.query(Review).filter(Review.reviewID.in_(subqueryReview)).all()
@@ -480,33 +525,32 @@ def access_admin_panel():
         reportedEvents = db.session.query(Event).filter(Event.eventID.in_(subqueryEvent)).all()
         return render_template('admin.html', user=session["user"], admin=session["admin"], events=reportedEvents, reviews=reportedReviews)
 
+
 #------------------------------------change Password 1--------------------------------------#
-#                 for redirecting to change pasword page                                    #
+#                 for redirecting to change password page                                   #
 #-------------------------------------------------------------------------------------------#
 @app.route("/my_profile/change_password", methods=['GET'])
 def change_pass():
-    print("you activated the change_pass method") #temp testor
     form = PassChangeForm()  # Initialize the form object to be the register form
-    return render_template('forgotPass.html', form = form)
+    return render_template('forgotPass.html', form=form)
+
 
 #------------------------------------change Password 2--------------------------------------#
-#                  to actually change the  pasword                                          #
+#                  to actually change the password                                          #
 #-------------------------------------------------------------------------------------------#
 @app.route("/my_profile/changed_password", methods=['POST'])
 def set_pass():
-    print("you got to the change pasword page") #temp testor
     form = PassChangeForm()  # Initialize the form object to be the register form
     userid = session['userID']
     if request.method == "POST" and form.validate_on_submit():
         # Salt and Hash the password entered.
         hashedPassword = bcrypt.hashpw(request.form["password"].encode("utf-8"), bcrypt.gensalt())
-        user =  db.session.query(User).filter_by(userID=userid).one()
+        user = db.session.query(User).filter_by(userID=userid).one()
         user.password = hashedPassword
 
         # Add this new user object to the database
         db.session.add(user)
         db.session.commit()
-        print("you posted the new password")
 
         # Redirect the user 
         return redirect(url_for('get_user_profile'))
@@ -515,4 +559,4 @@ def set_pass():
 
 
 #--------------------------run statement------------------------------------#
-app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True) 	#this is directly from class so see if we need to change anything?
+app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)
