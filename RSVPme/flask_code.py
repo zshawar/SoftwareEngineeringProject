@@ -95,9 +95,10 @@ def register():
         email = request.form["email"]
         totalEventsCreated = 0
         totalEventsJoined = 0
+        totalEventReviews = 0
 
         # Create a new user and put them in the database
-        newUser = User(userName, email, hashedPassword, totalEventsCreated, totalEventsJoined)
+        newUser = User(userName, email, hashedPassword, totalEventsCreated, totalEventsJoined, totalEventReviews)
 
         # Add this new user object to the database
         db.session.add(newUser)
@@ -371,6 +372,12 @@ def reserve_event(event_id):
             perm = Permission(event.eventID, session["userID"], "Attendee")
             event.capacity = event.capacity - 1
             db.session.add(perm)
+
+            # Grab the user to update the total amount of events they have joined
+            theUser = db.session.query(User).filter_by(userID=session["userID"]).one()
+            theUser.totalEventsJoined += 1
+            db.session.commit()
+
         else:
             event.capacity = event.capacity + 1
             prev_perm.delete()
@@ -408,6 +415,11 @@ def new_review(event_id):
             review_text = request.form['review']
             new_record = Review(review_text, int(event.eventID), session["userID"])
             db.session.add(new_record)
+            db.session.commit()
+
+            # Grab the user from the database to update the total amount of reviews they have made
+            theUser = db.session.query(User).filter_by(userID=session["userID"]).one()
+            theUser.totalEventReviews += 1
             db.session.commit()
 
         return redirect(url_for("get_event", event_id=event.eventID))

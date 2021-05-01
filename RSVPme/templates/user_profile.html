@@ -18,16 +18,23 @@
 	    	<input type="text" disabled style="width: auto" value="{{ email }}"/>
 		</div>
 
-		<div id="statisticsInfo" stlye="display: flex; flex-direction: column;">
-			<div id="eventStats" style="display: flex">
-				<p style="margin-right: 3em; margin-left: 1em; align-self: center">Total amount of events created:</p>
+		<div id="userStats" style="display: flex; flex-direction: column;">
+
+			<div id="eventsCreated" style="display: flex">
+				<p style="margin-right: 1em; margin-left: 1em; align-self: center">Total amount of events created:</p>
 				<p style="margin-left: 1em">{{ userStats.totalEventsCreated }}</p>
-
-				<br>
-
-				<p style="margin-right: 3em; margin-left: 1em; align-self: center">Total amount of events joined:</p>
-				<p style="margin-left: 1em"></p>
 			</div>
+
+			<div id="eventsJoined" style="display:flex">
+				<p style="margin-right: 1em; margin-left: 1em; align-self: center">Total amount of events joined:</p>
+				<p style="margin-left: 1em">{{ userStats.totalEventsJoined }}</p>
+			</div>
+
+			<div id="reviewsCreated" style="display:flex">
+				<p style="margin-right: 1em; margin-left: 1em; align-self: center">Total amount of event reviews created:</p>
+				<p style="margin-left: 1em">{{ userStats.totalEventReviews }}</p>
+			</div>
+
 		</div>
 
     </div>
