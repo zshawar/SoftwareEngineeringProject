@@ -1,5 +1,6 @@
 from database import db
-from datetime import datetime
+from datetime import datetime, date
+
 
 class User(db.Model):
     userID = db.Column("userID", db.Integer, primary_key=True)
@@ -88,12 +89,14 @@ class Role(db.Model):
 class Review(db.Model):
     reviewID = db.Column(db.Integer, primary_key=True)
     # date_posted = db.Column(db.DateTime, nullable=False)
+    date_posted = db.Column(db.DateTime)
     content = db.Column(db.VARCHAR, nullable=False)
     eventID = db.Column(db.Integer, db.ForeignKey("event.eventID"), nullable=False)
     userID = db.Column(db.Integer, db.ForeignKey("user.userID"), nullable=False)
 
     def __init__(self, content, eventID, userID):
         # self.date_posted = datetime.date.today()
+        self.date_posted = datetime.today()
         self.content = content
         self.eventID = eventID
         self.userID = userID

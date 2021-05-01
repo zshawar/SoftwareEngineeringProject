@@ -5,8 +5,8 @@
     <title>Event</title>
   </head>
   <body>
-    {% include "user_header.html" %}
-    <h1 class="title">Event</h1>
+    {% include "user_header.html" %}<br>
+    <h1 class="container">Event</h1>
     <div class="container">
         <div class="row">
             <div class="col">
@@ -29,29 +29,30 @@
 		<a href="{{ url_for('report_event', event_id=event.eventID) }}"><button class="btn btn-danger">Report Event</button></a>
             </div>
 
-            <div class="col">
-                {% if event.reviews %}
-                    {% if event.reviews|length > 0 %}
-                        <h2>Reviews</h2>
-                        <ul>
-                        {% for review in event.reviews %}
-			    <li>{{ review.content }} <a href="{{ url_for('report_review', review_id=review.reviewID) }}"><button class="btn btn-danger btn-sm">Report</button></a></li>
-                        {% endfor %}
-                        </ul>
-                    {% endif %}
-                {% endif %}
+            <div class="col-md-5">
+                <div class="list-group-item">
+                <h2>Reviews</h2>
                 <form action="{{ url_for('new_review', event_id=event.eventID) }}" method="post">
-                    <div class="formwrapper">
-                        <h2 class="title">Add a review</h2>
-                        <div class="form-field title">
-                            {{ form.review.label }} <p class="reviewArea">{{ form.review }}</p>
-                        </div>
-                        <div class="title">
-                            {{ form.submit }}
-                        </div>
-
-                    </div>
+                    {{ form.review.label }}
+                    {{ form.review(class_='form-control') }}
+                    {{ form.submit (class_='btn btn-outline-success mt-2') }}
                 </form>
+                </div>
+                <ul class="list-group comment-section">
+                    {% if event.reviews|length > 0 %}
+                        {% for review in event.reviews %}
+                            <li class="list-group-item">
+                                <small class="text-muted"> {{ review.user.username }} said on {{ review.date_posted }}
+                                </small>
+                                <p>{{ review.content }}
+                                    <a href="{{ url_for('report_review', review_id=review.reviewID) }}"><button class="btn btn-danger btn-sm">Report</button></a>
+                                </p>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+
+
             </div>
 
         </div>
