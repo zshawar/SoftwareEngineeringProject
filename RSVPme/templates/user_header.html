@@ -25,6 +25,8 @@
 
 	.navLinks a:hover {
 	    background-color:#be9a30;
+	    padding-right: 2em;
+		margin-top: 1em;
 	}
 
 	.navBar img {
@@ -38,13 +40,23 @@
       font-size: 18px;
     }
 
+    .userLogo {
+      font-size: 16px;
+      color: white;
+      padding-top: 20px;
+
+    }
+
 
 </style>
 <div class="navBar">
   <img src="../static/logo.png" alt="RSVME Logo">
   <div class="navLinks">
     {% if user %}
-    <a href="{{ url_for('logout') }}" class="btn btn-light btn-sm fontStyle" style="margin-top: 0.5em">Logout</a>
+    <p>
+      <span class="nav-item userLogo"><i class="fas fa-user"></i> {{ session['user'] }}</span>
+      <a href="{{ url_for('logout') }}" class="btn btn-light btn-sm fontStyle" style="margin-top: 0.5em">Logout</a>
+    </p>
     {% else %}
     <div style="margin-top: 0.5em">
       <a href="{{ url_for('login') }}" class="btn btn-light btn-sm fontStyle" >Login</a>
