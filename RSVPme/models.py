@@ -10,16 +10,18 @@ class User(db.Model):
     admin = db.Column("admin", db.Boolean)
     totalEventsCreated = db.Column("totalEventsCreated", db.Integer)
     totalEventsJoined = db.Column("totalEventsJoined", db.Integer)
-    events =db.relationship("Event", backref="user", lazy=True)
-    reviews =db.relationship("Review", backref="user", lazy=True)
+    totalEventReviews = db.Column("totalEventReviews", db.Integer)
+    events = db.relationship("Event", backref="user", lazy=True)
+    reviews = db.relationship("Review", backref="user", lazy=True)
 
-    def __init__(self, username, email, password, totalEventsCreated, totalEventsJoined):
+    def __init__(self, username, email, password, totalEventsCreated, totalEventsJoined, totalEventReviews):
         self.username = username
         self.email = email
         self.password = password
         self.admin = False  # admins must be set in SQLite
         self.totalEventsCreated = totalEventsCreated
         self.totalEventsJoined = totalEventsJoined
+        self.totalEventReviews = totalEventReviews
 
 class Event(db.Model):
     eventID = db.Column("eventID", db.Integer, primary_key=True)
