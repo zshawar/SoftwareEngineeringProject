@@ -4,8 +4,8 @@ from models import User
 from database import db
 
 class FlaskTest(unittest.TestCase):
-# The <event_id> portion of some routes is a number that represents the order an event was
-# created in. For example, the event ID of the first event created is 1, the second event created
+# The <event_id> or <review_id> portion of some routes is a number that represents the order an event or review
+# was created in. For example, the event ID of the first event created is 1, the second event created
 # has an event ID of 2, and so on.
 
     def test_home(self):
@@ -69,9 +69,52 @@ class FlaskTest(unittest.TestCase):
         self.assertEqual(statuscode, 200)
         self.assertEqual('Reviews' in response.text, True)
 
+    def test_report_review(self):
+        response = requests.get("http://127.0.0.1:5000/report/review/<review_id>")
+        statuscode = response.status_code
+        self.assertEqual(statuscode, 200)
+        self.assertEqual('Thank you for your report! It will be reviewed by an administrator shortly.' in response.text, True)
 
+    def test_report_event(self):
+        response = requests.get("http://127.0.0.1:5000/report/event/<event_id>")
+        statuscode = response.status_code
+        self.assertEqual(statuscode, 200)
+        self.assertEqual('Thank you for your report! It will be reviewed by an administrator shortly.' in response.text, True)
 
+    # administrators are able to do this only; administrators must be set in database before running project
+    def test_delete_review_report(self):
+        response = requests.get("http://127.0.0.1:5000/report/delete/review/<review_id>")
+        statuscode = response.status_code
+        self.assertEqual(statuscode, 200)
+        self.assertEqual('You do not have authorization to view this page' in response.text, True)
 
+    # administrators are able to do this only; administrators must be set in database before running project
+    def test_delete_event_report(self):
+        response = requests.get("http://127.0.0.1:5000/report/delete/event/<event_id>")
+        statuscode = response.status_code
+        self.assertEqual(statuscode, 200)
+        self.assertEqual('You do not have authorization to view this page' in response.text, True)
+
+    # administrators are able to do this only; administrators must be set in database before running project
+    def test_admin(self):
+        response = requests.get("http://127.0.0.1:5000/admin")
+        statuscode = response.status_code
+        self.assertEqual(statuscode, 200)
+        self.assertEqual('You do not have authorization to view this page' in response.text, True)
+
+    # administrators are able to do this only; administrators must be set in database before running project
+    def test_dismiss_review_report(self):
+        response = requests.get("http://127.0.0.1:5000/report/dismiss/review/<review_id>")
+        statuscode = response.status_code
+        self.assertEqual(statuscode, 200)
+        self.assertEqual('You do not have authorization to view this page' in response.text, True)
+
+    # administrators are able to do this only; administrators must be set in database before running project
+    def test_dismiss_event_report(self):
+        response = requests.get("http://127.0.0.1:5000/report/dismiss/event/<event_id>")
+        statuscode = response.status_code
+        self.assertEqual(statuscode, 200)
+        self.assertEqual('You do not have authorization to view this page' in response.text, True)
 
 if __name__ == " __main__":
     unittest.main()
