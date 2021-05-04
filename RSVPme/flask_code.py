@@ -16,6 +16,7 @@ from models import Review as Review
 
 #--------------------------setup----------------------------------------------#
 app = Flask(__name__)     # create an app
+app.jinja_env.globals.update(zip=zip)  # Long story, but allows jinja to iterate between 2 parallel items ( It's for reviews )
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///rsvpme.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disables a functionality to alert of a DB Change
 app.config["SECRET_KEY"] = "BruhMoment3155"  # Secret Key for session ( I dont know what this should be, does it matter? )
@@ -409,7 +410,16 @@ def get_user_profile():
         # Retrieve all of the events based on the subqueryPermission2 query
         userJoinedEvents = db.session.query(Event).filter(Event.eventID.in_(subqueryPermission2)).all()
 
-        return render_template("user_profile.html", user=session["user"], email=session["email"], admin=session["admin"], userStats=userStats, usersEvents=usersEvents, userJoinedEvents=userJoinedEvents)
+        # Retrieve all of the reviewIDs where the user is the creator of the review
+        subqueryReviews = db.session.query(Review.reviewID).filter_by(userID=session["userID"]).subquery()
+
+        # Retrieve all of the reviews based on the subqueryReviews query ( I feel like i may have overthought this, someone else can verify and let me know (._.')  )
+        userReviews = db.session.query(Review).filter(Review.reviewID.in_(subqueryReviews)).all()
+
+        # Retrieve all of the events where the user has made a review based on the subqueryReviews
+        userReviewEvents = db.session.query(Event).filter(Event.eventID.in_(subqueryReviews)).all()
+
+        return render_template("user_profile.html", user=session["user"], email=session["email"], admin=session["admin"], userStats=userStats, usersEvents=usersEvents, userJoinedEvents=userJoinedEvents, userReviews=userReviews, userReviewEvents=userReviewEvents)
     else:
         return redirect(url_for("login"))
 

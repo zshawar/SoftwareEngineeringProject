@@ -60,9 +60,20 @@
   <h4 style="display: flex; justify-content: center; margin-bottom: 2em;">Total amount of events joined: {{ userStats.totalEventsJoined }}</h4>
 
 
-  <div id="reviewsCreated">
-	  <p style="margin-right: 1em; margin-left: 1em; align-self: center">Total amount of event reviews created: {{ userStats.totalEventReviews }}</p>
+  <div class="myEventRow">
+	  {% for review, event in zip(userReviews,userReviewEvents) %}
+
+	  <div class="card eventRow" style="width: 18rem;">
+		  <div class="card-body">
+			  <h5 class="card-title"><a href="{{ url_for('get_event', event_id=review.eventID) }}">{{ event.name }}</a></h5>
+			  <p class="card-text">{{ review.content }}</p>
+		  </div>
+	  </div>
+
+	  {% endfor %}
   </div>
+
+  <h4 style="display: flex; justify-content: center; margin-bottom: 2em;">Total amount of event reviews created: {{ userStats.totalEventReviews }}</h4>
 
   </body>
 </html>
