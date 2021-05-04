@@ -6,11 +6,9 @@
   </head>
   <body>
     {% include "user_header.html" %}
-    <h1>Change Password</h1>
+    <h1 class="titleCenter">Change Password</h1>
+    <div class="signIn">
 
-
-  </body>
-<div class="signIn">
       <form method="POST" action="/my_profile/changed_password">
 
       <div class="form-field">{{ form.password.label }} {{ form.password }}
@@ -26,5 +24,8 @@
       {{ form.submit }}
       </form>
   </div>
+
+  </body>
+
 
 </html>
