@@ -81,6 +81,12 @@ class FlaskTest(unittest.TestCase):
         self.assertEqual(statuscode, 200)
         self.assertEqual('Thank you for your report! It will be reviewed by an administrator shortly.' in response.text, True)
 
+    def test_sort_location(self):
+        response = requests.get("http://127.0.0.1:5000/events?sort=location")
+        statuscode = response.status_code
+        self.assertEqual(statuscode, 200)
+        self.assertEqual('Public Events - Click To View' in response.text, True)
+
     # administrators are able to do this only; administrators must be set in database before running project
     def test_delete_review_report(self):
         response = requests.get("http://127.0.0.1:5000/report/delete/review/<review_id>")
