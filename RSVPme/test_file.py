@@ -4,9 +4,12 @@ from models import User
 from database import db
 
 class FlaskTest(unittest.TestCase):
-# The <event_id> or <review_id> portion of some routes is a number that represents the order an event or review
-# was created in. For example, the event ID of the first event created is 1, the second event created
-# has an event ID of 2, and so on.
+
+#  The event ID of an event or review ID is the order in which it was created.
+#  The review ID (needed for reporting reviews) would be 1 for the first review,
+#  2 for the second review, etc. The first event or review’s details will be located
+#  at “/events/1” or “/reviews/1”, the second event’s details will be displayed at
+#  “/events/2” and so on.
 
     def test_home(self):
         response = requests.get("http://127.0.0.1:5000/home")
@@ -61,7 +64,11 @@ class FlaskTest(unittest.TestCase):
         statuscode = response.status_code
         self.assertEqual(statuscode, 500)
 
-    # def test_reserve_event
+    def test_reserve_event(self):
+        response = requests.get("http://127.0.0.1:5000/events/reserve/<event_id>")
+        statuscode = response.status_code
+        self.assertEqual(statuscode, 200)
+        self.assertEqual('Cancel my Reservation' in response.text, True)
 
     def test_add_review(self):
         response = requests.get("http://127.0.0.1:5000/events/<event_id>/review")
