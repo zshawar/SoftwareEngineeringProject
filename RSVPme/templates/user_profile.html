@@ -4,42 +4,65 @@
     {% include 'headCode.html' %}
     <title>User</title>
   </head>
+
   <body>
-    {% include "user_header.html" %}
-    <h1>User</h1>
-    <div id="main" style="display: flex; flex-direction: column;">
-		<div style="display: flex">
-	    	<p style="margin-right: 2em; margin-left: 1em; align-self: center">Username</p>
-	    	<input type="text" style="width: auto" disabled value="{{ user }}"/>
-		</div>
+  {% include "user_header.html" %}
+  <h1 style="margin-left: 1em; margin-top: 1em">My Profile</h1>
 
-		<div style="display: flex">
-	    	<p style="margin-right: 2em; margin-left: 1em; align-self: center">Email</p>
-	    	<input type="text" disabled style="width: auto" value="{{ email }}"/>
-		</div>
+  <div style="display: flex; margin-left: 3em; margin-bottom: 1em">
+	  <p style="margin-right: 2em; margin-left: 1em; align-self: center">Username</p>
+	  <input type="text" style="width: auto" disabled value="{{ user }}"/>
+  </div>
 
-		<div id="userStats" style="display: flex; flex-direction: column;">
+  <div style="display: flex; margin-left: 3em;">
+	  <p style="margin-right: 4em; margin-left: 1em; align-self: center">Email</p>
+	  <input type="text" disabled style="width: auto" value="{{ email }}"/>
+  </div>
 
-			<div id="eventsCreated" style="display: flex">
-				<p style="margin-right: 1em; margin-left: 1em; align-self: center">Total amount of events created:</p>
-				<p style="margin-left: 1em">{{ userStats.totalEventsCreated }}</p>
-			</div>
+  <a href="{{ url_for('change_pass') }}"><button class="btn btn-success" style="margin-left: 3em; margin-top: 1em;">Change Password</button></a>
 
-			<div id="eventsJoined" style="display:flex">
-				<p style="margin-right: 1em; margin-left: 1em; align-self: center">Total amount of events joined:</p>
-				<p style="margin-left: 1em">{{ userStats.totalEventsJoined }}</p>
-			</div>
+  <h3 class="titleCenter" style="margin-bottom: 0em; margin-top: 1em;">Active Created Events:</h3>
 
-			<div id="reviewsCreated" style="display:flex">
-				<p style="margin-right: 1em; margin-left: 1em; align-self: center">Total amount of event reviews created:</p>
-				<p style="margin-left: 1em">{{ userStats.totalEventReviews }}</p>
-			</div>
+  <div class="myEventRow">
+	  {% for event in usersEvents %}
+	  <div class="card eventRow" style="width: 18rem;">
+		  <div class="card-body">
+			  <img src="/static/img/{{ event.relativePath }}" alt="Location of Image" class="card-img-top">
+			  <h5 class="card-title"><a href="{{ url_for('get_event', event_id=event.eventID) }}">{{ event.name }}</a></h5>
+			  <p class="card-text">{{ event.description }}</p>
+			  <a href="{{ url_for('modify_event', event_id=event.eventID) }}">
+				  <button class="btn btn-primary">Edit</button>
+			  </a>
+			  <a href="{{ url_for('delete_event', event_id=event.eventID) }}">
+				  <button class="btn btn-danger">Delete</button>
+			  </a>
+		  </div>
+	  </div>
+	  {% endfor %}
+  </div>
 
-		</div>
+  <h4 style="display: flex; justify-content: center; margin-bottom: 2em;">Total amount of events created: {{ userStats.totalEventsCreated }}</h4>
 
-    </div>
+  <h3 class="titleCenter" style="margin-right: 3em; margin-left: 2.5em; margin-bottom: 0em; margin-top: 0.5em;">Active Joined Events:</h3>
+
+  <div class="myEventRow">
+	  {% for event in userJoinedEvents %}
+	  <div class="card eventRow" style="width: 18rem;">
+		  <div class="card-body">
+			  <img src="/static/img/{{ event.relativePath }}" alt="Location of Image" class="card-img-top">
+			  <h5 class="card-title"><a href="{{ url_for('get_event', event_id=event.eventID) }}">{{ event.name }}</a></h5>
+			  <p class="card-text">{{ event.description }}</p>
+		  </div>
+	  </div>
+	  {% endfor %}
+  </div>
+
+  <h4 style="display: flex; justify-content: center; margin-bottom: 2em;">Total amount of events joined: {{ userStats.totalEventsJoined }}</h4>
+
+
+  <div id="reviewsCreated">
+	  <p style="margin-right: 1em; margin-left: 1em; align-self: center">Total amount of event reviews created: {{ userStats.totalEventReviews }}</p>
+  </div>
+
   </body>
-	<a href="{{ url_for('change_pass') }}" >
-	<center><button class="btn btn-success">Change Password</button></center>
-	</a>
 </html>

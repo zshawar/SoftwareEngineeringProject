@@ -394,9 +394,22 @@ def reserve_event(event_id):
 def get_user_profile():
     if session.get("user"):
 
+        # Retrieve the user model to display the various stats
         userStats = db.session.query(User).filter_by(userID=session["userID"]).one()
 
-        return render_template("user_profile.html", user=session["user"], email=session["email"], admin=session["admin"], userStats=userStats)
+        # Retrieve the eventID from the permission table by filtering to a specific user who is logged in and is an owner of the event.
+        subqueryPermission = db.session.query(Permission.eventID).filter_by(userID=session["userID"], role="Owner").subquery()
+
+        # Retrieve all of the events based on the subquery (The eventID from the permission table by filtering with logged in user and owner role)
+        usersEvents = db.session.query(Event).filter(Event.eventID.in_(subqueryPermission)).all()
+
+        # Retrieve all of the events that the user has joined. Create a subquery that looks for eventIDs with the user as an attendee
+        subqueryPermission2 = db.session.query(Permission.eventID).filter_by(userID=session["userID"], role="Attendee").subquery()
+
+        # Retrieve all of the events based on the subqueryPermission2 query
+        userJoinedEvents = db.session.query(Event).filter(Event.eventID.in_(subqueryPermission2)).all()
+
+        return render_template("user_profile.html", user=session["user"], email=session["email"], admin=session["admin"], userStats=userStats, usersEvents=usersEvents, userJoinedEvents=userJoinedEvents)
     else:
         return redirect(url_for("login"))
 
