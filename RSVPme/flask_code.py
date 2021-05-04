@@ -311,7 +311,7 @@ def modify_event(event_id):
             event.description = description
             event.location = location
             event.capacity = capacity
-            event.relativePath = image.filename
+            event.relativePath = filename
 
             # Must use a comparison to "y" because if the checkbox is not checked it returns nothing (Returns Y if checked, nothing if not checked)
             event.privacySetting = privacySetting == "y"
