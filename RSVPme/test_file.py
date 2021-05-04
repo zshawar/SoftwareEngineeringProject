@@ -4,6 +4,9 @@ from models import User
 from database import db
 
 class FlaskTest(unittest.TestCase):
+# The <event_id> portion of some routes is a number that represents the order an event was
+# created in. For example, the event ID of the first event created is 1, the second event created
+# has an event ID of 2, and so on.
 
     def test_home(self):
         response = requests.get("http://127.0.0.1:5000/home")
@@ -47,11 +50,24 @@ class FlaskTest(unittest.TestCase):
         self.assertEqual(statuscode, 200)
         self.assertEqual('Submit' in response.text, True)
 
-    def test_public_events(self):
-        response = requests.get("http://127.0.0.1:5000/events/<event_id>")
+    def test_modify_event(self):
+        response = requests.get("http://127.0.0.1:5000/events_edit/<event_id>")
         statuscode = response.status_code
         self.assertEqual(statuscode, 200)
-        self.assertEqual('Add a review' in response.text, True)
+        self.assertEqual('Edit Event' in response.text, True)
+
+    def test_delete_events(self):
+        response = requests.get("http://127.0.0.1:5000/events/delete/<event_id>")
+        statuscode = response.status_code
+        self.assertEqual(statuscode, 500)
+
+    # def test_reserve_event
+
+    def test_add_review(self):
+        response = requests.get("http://127.0.0.1:5000/events/<event_id>/review")
+        statuscode = response.status_code
+        self.assertEqual(statuscode, 200)
+        self.assertEqual('Reviews' in response.text, True)
 
 
 
