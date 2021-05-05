@@ -23,6 +23,7 @@
 
   <h3 class="titleCenter" style="margin-bottom: 0em; margin-top: 1em;">Active Created Events:</h3>
 
+  {% if usersEvents %}
   <div class="myEventRow">
 	  {% for event in usersEvents %}
 	  <div class="card eventRow" style="width: 18rem;">
@@ -40,11 +41,23 @@
 	  </div>
 	  {% endfor %}
   </div>
+  {% else %}
+  <div class="myEventRow">
+	  <div class="card eventRow" style="width: 20rem;">
+		  <div class="card-body">
+			  <img src="/static/img/emptySection.png" alt="No Events Created!" class="card-img-top">
+			  <h5 class="card-title" style="text-align:center;">You have not created any active events!</h5>
+		  </div>
+	  </div>
+  </div>
+  {% endif %}
+
 
   <h4 style="display: flex; justify-content: center; margin-bottom: 2em;">Total amount of events created: {{ userStats.totalEventsCreated }}</h4>
 
   <h3 class="titleCenter" style="margin-right: 3em; margin-left: 2.5em; margin-bottom: 0em; margin-top: 0.5em;">Active Joined Events:</h3>
 
+  {% if userJoinedEvents %}
   <div class="myEventRow">
 	  {% for event in userJoinedEvents %}
 	  <div class="card eventRow" style="width: 18rem;">
@@ -56,22 +69,47 @@
 	  </div>
 	  {% endfor %}
   </div>
+  {% else %}
+  <div class="myEventRow">
+	  <div class="card eventRow" style="width: 20rem;">
+		  <div class="card-body">
+			  <img src="/static/img/emptySection.png" alt="No Events Created!" class="card-img-top">
+			  <h5 class="card-title" style="text-align:center;">You have not joined any active events!</h5>
+		  </div>
+	  </div>
+  </div>
+  {% endif %}
+
 
   <h4 style="display: flex; justify-content: center; margin-bottom: 2em;">Total amount of events joined: {{ userStats.totalEventsJoined }}</h4>
 
+  <h3 class="titleCenter" style="margin-right: 3em; margin-left: 2.5em; margin-bottom: 0em; margin-top: 0.5em;">Event Reviews Created:</h3>
 
+  {% if userReviews %}
   <div class="myEventRow">
 	  {% for review, event in zip(userReviews,userReviewEvents) %}
 
 	  <div class="card eventRow" style="width: 18rem;">
 		  <div class="card-body">
+			  <img src="/static/img/{{ event.relativePath }}" alt="Event reviewed" class="card-img-top">
 			  <h5 class="card-title"><a href="{{ url_for('get_event', event_id=review.eventID) }}">{{ event.name }}</a></h5>
-			  <p class="card-text">{{ review.content }}</p>
+			  <p class="card-text">Review: {{ review.content }}</p>
+			  <p class="card-text">Posted on: {{ review.date_posted }}</p>
 		  </div>
 	  </div>
 
 	  {% endfor %}
   </div>
+  {% else %}
+  <div class="myEventRow">
+	  <div class="card eventRow" style="width: 20rem;">
+		  <div class="card-body">
+			  <img src="/static/img/emptySection.png" alt="No Events Created!" class="card-img-top">
+			  <h5 class="card-title" style="text-align:center;">You have not reviewed any events!</h5>
+		  </div>
+	  </div>
+  </div>
+  {% endif %}
 
   <h4 style="display: flex; justify-content: center; margin-bottom: 2em;">Total amount of event reviews created: {{ userStats.totalEventReviews }}</h4>
 

@@ -11,6 +11,7 @@
     <center><button class="homeButtons">Create Event</button></center>
     </form>
 
+    {% if events %}
     <div class="myEventRow">
       {% for event in events %}
         <div class="card eventRow" style="width: 18rem;">
@@ -29,13 +30,22 @@
 
       {% endfor %}
     </div>
-
-      <br>
-    <h1 class="titleCenter">Joined Events</h1>
+    {% else %}
     <div class="myEventRow">
+	  <div class="card eventRow" style="width: 20rem;">
+		  <div class="card-body">
+			  <img src="/static/img/emptySection.png" alt="No Events Created!" class="card-img-top">
+			  <h5 class="card-title" style="text-align:center;">You have not created any active events!</h5>
+		  </div>
+	  </div>
+    </div>
+    {% endif %}
 
+    <h1 class="titleCenter">Joined Events</h1>
+
+    {% if jEvents %}
+    <div class="myEventRow">
         {% for jEvent in jEvents %}
-
         <div class="card eventRow" style="width: 18em;">
           <div class="card-body">
             <img src="/static/img/{{ jEvent.relativePath }}" alt="Location of Image" class="card-img-top">
@@ -46,5 +56,17 @@
         </div>
         {% endfor %}
     </div>
+    {% else %}
+    <div class="myEventRow">
+	  <div class="card eventRow" style="width: 20rem;">
+		  <div class="card-body">
+			  <img src="/static/img/emptySection.png" alt="No Events Created!" class="card-img-top">
+			  <h5 class="card-title" style="text-align:center;">You have not joined any active events!</h5>
+		  </div>
+	  </div>
+    </div>
+    {% endif %}
+
+
   </body>
 </html>

@@ -16,7 +16,7 @@ from models import Review as Review
 
 #--------------------------setup----------------------------------------------#
 app = Flask(__name__)     # create an app
-app.jinja_env.globals.update(zip=zip)  # Long story, but allows jinja to iterate between 2 parallel items ( It's for reviews )
+app.jinja_env.globals.update(zip=zip)  # Long story, but allows jinja to iterate through 2 lists at the same time with 1 for loop ( It's for reviews )
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///rsvpme.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disables a functionality to alert of a DB Change
 app.config["SECRET_KEY"] = "BruhMoment3155"  # Secret Key for session ( I dont know what this should be, does it matter? )
