@@ -15,8 +15,8 @@
     {% if message %}
       <p>{{ message }}</p>
     {% endif %}
-    <div id="body" class="eventsCenter" style="display: flex; flex-direction: row">
-      <div id="sortingFeatures" style="display: flex; flex-direction: column; width: 30%; margin-left: 1em; border-color: gray; padding: 1em;border-style: solid;border-radius: 10px;border-width: 2px;">
+    <div id="body" class="eventsCenter" style="display: flex; flex-direction: row; margin: 20px">
+      <div id="sortingFeatures" style="height: 30%; display: flex; flex-direction: column; width: 30%; margin-left: 1em; border-color: gray; padding: 1em;border-style: solid;border-radius: 10px;border-width: 2px;">
 	      <!--<h2 id="sortingTitle">Sorting / Filtering Features</h2>-->
 	<a href="{{ url_for('get_events', sort='alphabet') }}" class="btn filter-btn">Sort alphabetically</a>
         <button id="filter2" class="btn filter-btn">Sort by Rating</button>
@@ -44,7 +44,16 @@
       </div>
     </div>
 <!--      <button id="RSVPButton">Reserve my Spot!</button>-->
-
+<div id="pages" style="
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-around;
+">
+    {% for i in range(pages) %} 
+        <a href="{{ url_for('get_events', pages=i ) }}"<button style="margin-right: 0.3em" class="btn btn-outline-dark">{{i + 1}}</button></a>
+    {% endfor %}
+</div>
 
 
   </body>

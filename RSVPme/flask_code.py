@@ -1,6 +1,7 @@
 #--------------------------import statements----------------------------------#
 import os
 import bcrypt  # Hashing and Salting passwords library stuff
+import math
 from werkzeug.utils import secure_filename # apparently included in flask
 from flask import Flask
 from flask import render_template
@@ -12,6 +13,7 @@ from forms import LoginForm, RegisterForm, EventForm, ReviewForm, PassChangeForm
 from models import User, Event, Role, Permission, Report
 from datetime import datetime
 from models import Review as Review
+
 
 
 #--------------------------setup----------------------------------------------#
@@ -260,22 +262,27 @@ def verify():
 #--------------------------------------------------------------------------------------#
 @app.route('/events')
 def get_events():
-    # login verification; if user is logged in and saved in session  
+    # login verification; if user is logged in and saved in session 
+    page = request.args.get("pages", 0)
     if session.get("user"):
         sort_by = Event.eventID.desc()
         req_sort_by = request.args.get("sort")
         if req_sort_by == "alphabet":
-            sort_by = Event.name.desc()
+            sort_by = Event.name.asc()
         elif req_sort_by == "start":
-            sort_by = Event.dateStart.desc()
+            sort_by = Event.dateStart.asc()
         elif req_sort_by == "capacity":
-            sort_by = Event.capacity.desc()
+            sort_by = Event.capacity.asc()
         elif req_sort_by == "location":
-            sort_by = Event.location.desc()
+            sort_by = Event.location.asc()
 
-        myEvents = db.session.query(Event).order_by(sort_by).limit(9).all()  # Get 5 recent events from the database
+        currDate = datetime.utcnow()
+        myEventsTemp = db.session.query(Event).order_by(sort_by).filter(Event.dateEnd > currDate)
+        eventCount = myEventsTemp.count()
+        myEvents = myEventsTemp.offset(int(page) * 9).limit(9).all()  # Get 5 recent events from the database
+        pages = math.ceil(eventCount / 9)
 
-        return render_template('events.html', events=myEvents, user=session['user'], admin=session["admin"], message=request.args.get("message"))  # Render the events.html page with the events gathered from the database (Array of events)
+        return render_template('events.html', events=myEvents, user=session['user'], admin=session["admin"], pages=pages, message=request.args.get("message"))  # Render the events.html page with the events gathered from the database (Array of events)
     # if user is not logged in they must be redirected to login page
     else:
         return redirect(url_for("login"))
