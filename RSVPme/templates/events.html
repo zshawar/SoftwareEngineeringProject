@@ -48,7 +48,7 @@
     display: flex;
     align-items: center;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
 ">
     {% for i in range(pages) %} 
         <a href="{{ url_for('get_events', pages=i ) }}"<button style="margin-right: 0.3em" class="btn btn-outline-dark">{{i + 1}}</button></a>
