@@ -87,12 +87,12 @@
 
   {% if userReviews %}
   <div class="myEventRow">
-	  {% for review, event in zip(userReviews,userReviewEvents) %}
+	  {% for review in userReviews %}
 
 	  <div class="card eventRow" style="width: 18rem;">
 		  <div class="card-body">
-			  <img src="/static/img/{{ event.relativePath }}" alt="Event reviewed" class="card-img-top">
-			  <h5 class="card-title"><a href="{{ url_for('get_event', event_id=review.eventID) }}">{{ event.name }}</a></h5>
+			  <img src="/static/img/{{ review.event.relativePath }}" alt="Event reviewed" class="card-img-top">
+			  <a href="{{ url_for('get_event', event_id=review.event.eventID) }}">{{ review.event.name }}</a>
 			  <p class="card-text">Review: {{ review.content }}</p>
 			  <p class="card-text">Posted on: {{ review.date_posted }}</p>
 		  </div>
