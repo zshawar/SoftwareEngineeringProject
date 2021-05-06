@@ -238,9 +238,8 @@ def verify():
         if form.validate_on_submit():
 
             # The user exists, grab that single user (Use the .one() method from DB)
-            inputtedEmail = request.form["email"]   # Grab the email submitted
             inputtedPassword = request.form["password"].encode("utf-8")  # Grab the password submitted, encode it
-            theUser = db.session.query(User).filter_by(email=inputtedEmail).one()
+            theUser = db.session.query(User).filter_by(userID=session["userID"]).one()  # Query specifically for the signed in user ( Use sessionID )
 
             # Check the password to see if it matches the hash stored in the database
             if bcrypt.checkpw(inputtedPassword, theUser.password):
