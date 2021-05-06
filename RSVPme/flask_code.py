@@ -203,7 +203,13 @@ def get_user_events():
 def get_event(event_id):
     # login verification; if user is logged in and saved in session
     if session.get("user"):
-        prev_res = db.session.query(Permission).filter_by(eventID=event_id, userID=session["userID"]).count()
+        reservedTemp = db.session.query(Permission).filter_by(eventID=event_id, userID=session["userID"])
+        prev_res = reservedTemp.count()
+        owner = False
+        try:
+            owner = reservedTemp.one().role == "Owner"
+        except:
+            pass
         myEvents = db.session.query(Event).filter_by(eventID=event_id).one()  # Retrieve a specific event from the database
 
         if myEvents.privacySetting and session["verifyCount"] == 0:
@@ -212,7 +218,7 @@ def get_event(event_id):
         else:
             # create a review form object
             form = ReviewForm()
-            return render_template('event.html', event=myEvents, user=session['user'], reserved=prev_res, form=form, admin=session["admin"])
+            return render_template('event.html', event=myEvents, user=session['user'], reserved=prev_res, form=form, admin=session["admin"], owner=owner)
 
     # if user is not logged in they must be redirected to login page
     else:

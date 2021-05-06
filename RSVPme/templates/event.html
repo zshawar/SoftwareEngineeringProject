@@ -21,11 +21,13 @@
 
                 </div>
 
-                {% if reserved %}
+            {% if not owner %}
+		{% if reserved %}
                 <a href="{{ url_for('reserve_event', event_id=event.eventID) }}"><button id="RSVPButton" class="btn btn-danger">Cancel My Reservation</button></a>
                 {% else %}
                 <a href="{{ url_for('reserve_event', event_id=event.eventID) }}"><button id="RSVPButton1" class="btn btn-success">Reserve my Spot!</button></a>
                 {% endif %}
+	    {% endif %}
 		<a href="{{ url_for('report_event', event_id=event.eventID) }}"><button class="btn btn-danger">Report Event</button></a>
             </div>
 
