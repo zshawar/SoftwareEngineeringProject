@@ -19,7 +19,6 @@
       <div id="sortingFeatures" style="height: 30%; display: flex; flex-direction: column; width: 30%; margin-left: 1em; border-color: gray; padding: 1em;border-style: solid;border-radius: 10px;border-width: 2px;">
 	      <!--<h2 id="sortingTitle">Sorting / Filtering Features</h2>-->
 	<a href="{{ url_for('get_events', sort='alphabet') }}" class="btn filter-btn">Sort alphabetically</a>
-        <button id="filter2" class="btn filter-btn">Sort by Rating</button>
 	<a href="{{ url_for('get_events', sort='start') }}" class="btn filter-btn">Sort by earliest start time</a>
 	<a href="{{ url_for('get_events', sort='capacity') }}" class="btn filter-btn">Sort by capacity</a>
 	<a href="{{ url_for('get_events', sort='location') }}" class="btn filter-btn">Sort by location</a>
