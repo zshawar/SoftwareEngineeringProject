@@ -268,7 +268,7 @@ def get_events():
         sort_by = Event.eventID.desc()
         req_sort_by = request.args.get("sort")
         if req_sort_by == "alphabet":
-            sort_by = Event.name.asc()
+            sort_by = Event.name.collate("NOCASE").asc()
         elif req_sort_by == "start":
             sort_by = Event.dateStart.asc()
         elif req_sort_by == "capacity":
@@ -282,7 +282,7 @@ def get_events():
         myEvents = myEventsTemp.offset(int(page) * 9).limit(9).all()  # Get 5 recent events from the database
         pages = math.ceil(eventCount / 9)
 
-        return render_template('events.html', events=myEvents, user=session['user'], admin=session["admin"], pages=pages, message=request.args.get("message"))  # Render the events.html page with the events gathered from the database (Array of events)
+        return render_template('events.html', events=myEvents, user=session['user'], admin=session["admin"], pages=pages, message=request.args.get("message"), sort=req_sort_by)  # Render the events.html page with the events gathered from the database (Array of events)
     # if user is not logged in they must be redirected to login page
     else:
         return redirect(url_for("login"))
