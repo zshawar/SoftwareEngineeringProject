@@ -30,7 +30,22 @@
 .myEventRow {
     display: flex;
     justify-content: center;
-    margin: auto;
+    margin-top: 20px;
+    margin-left: 120px;
+
+
+}
+
+.myEventRow1 {
+    display: flex;
+    justify-content: center;
+    margin:auto;
+
+
+}
+
+.container{
+    justify-content: center;
 
 }
 
