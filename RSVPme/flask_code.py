@@ -1,6 +1,7 @@
 #--------------------------import statements----------------------------------#
 import os
 import bcrypt  # Hashing and Salting passwords library stuff
+import math
 from werkzeug.utils import secure_filename # apparently included in flask
 from flask import Flask
 from flask import render_template
@@ -12,6 +13,7 @@ from forms import LoginForm, RegisterForm, EventForm, ReviewForm, PassChangeForm
 from models import User, Event, Role, Permission, Report
 from datetime import datetime
 from models import Review as Review
+
 
 
 #--------------------------setup----------------------------------------------#
@@ -201,7 +203,13 @@ def get_user_events():
 def get_event(event_id):
     # login verification; if user is logged in and saved in session
     if session.get("user"):
-        prev_res = db.session.query(Permission).filter_by(eventID=event_id, userID=session["userID"]).count()
+        reservedTemp = db.session.query(Permission).filter_by(eventID=event_id, userID=session["userID"])
+        prev_res = reservedTemp.count()
+        owner = False
+        try:
+            owner = reservedTemp.one().role == "Owner"
+        except:
+            pass
         myEvents = db.session.query(Event).filter_by(eventID=event_id).one()  # Retrieve a specific event from the database
 
         if myEvents.privacySetting and session["verifyCount"] == 0:
@@ -210,7 +218,7 @@ def get_event(event_id):
         else:
             # create a review form object
             form = ReviewForm()
-            return render_template('event.html', event=myEvents, user=session['user'], reserved=prev_res, form=form, admin=session["admin"])
+            return render_template('event.html', event=myEvents, user=session['user'], reserved=prev_res, form=form, admin=session["admin"], owner=owner)
 
     # if user is not logged in they must be redirected to login page
     else:
@@ -230,9 +238,8 @@ def verify():
         if form.validate_on_submit():
 
             # The user exists, grab that single user (Use the .one() method from DB)
-            inputtedEmail = request.form["email"]   # Grab the email submitted
             inputtedPassword = request.form["password"].encode("utf-8")  # Grab the password submitted, encode it
-            theUser = db.session.query(User).filter_by(email=inputtedEmail).one()
+            theUser = db.session.query(User).filter_by(userID=session["userID"]).one()  # Query specifically for the signed in user ( Use sessionID )
 
             # Check the password to see if it matches the hash stored in the database
             if bcrypt.checkpw(inputtedPassword, theUser.password):
@@ -260,22 +267,27 @@ def verify():
 #--------------------------------------------------------------------------------------#
 @app.route('/events')
 def get_events():
-    # login verification; if user is logged in and saved in session  
+    # login verification; if user is logged in and saved in session 
+    page = request.args.get("pages", 0)
     if session.get("user"):
         sort_by = Event.eventID.desc()
         req_sort_by = request.args.get("sort")
         if req_sort_by == "alphabet":
-            sort_by = Event.name.desc()
+            sort_by = Event.name.collate("NOCASE").asc()
         elif req_sort_by == "start":
-            sort_by = Event.dateStart.desc()
+            sort_by = Event.dateStart.asc()
         elif req_sort_by == "capacity":
-            sort_by = Event.capacity.desc()
+            sort_by = Event.capacity.asc()
         elif req_sort_by == "location":
-            sort_by = Event.location.desc()
+            sort_by = Event.location.asc()
 
-        myEvents = db.session.query(Event).order_by(sort_by).limit(9).all()  # Get 5 recent events from the database
+        currDate = datetime.utcnow()
+        myEventsTemp = db.session.query(Event).order_by(sort_by).filter(Event.dateEnd > currDate)
+        eventCount = myEventsTemp.count()
+        myEvents = myEventsTemp.offset(int(page) * 9).limit(9).all()  # Get 5 recent events from the database
+        pages = math.ceil(eventCount / 9)
 
-        return render_template('events.html', events=myEvents, user=session['user'], admin=session["admin"], message=request.args.get("message"))  # Render the events.html page with the events gathered from the database (Array of events)
+        return render_template('events.html', events=myEvents, user=session['user'], admin=session["admin"], pages=pages, message=request.args.get("message"), sort=req_sort_by)  # Render the events.html page with the events gathered from the database (Array of events)
     # if user is not logged in they must be redirected to login page
     else:
         return redirect(url_for("login"))
