@@ -13,8 +13,8 @@
                 <div id="EventInfo">
                     <h2>{{ event.name }}</h2>
                     <h4>{{ event.description }}</h4>
-                        <p>Event Start: {{ event.dateStart.date().year }}-{{ event.dateStart.date().month }}-{{ event.dateStart.date().day }} {{event.dateStart.time().hour}}:{{event.dateStart.time().minute}}</p>
-                    <p>Event End: {{ event.dateEnd.date().year }}-{{ event.dateEnd.date().month }}-{{ event.dateEnd.date().day }} {{event.dateEnd.time().hour}}:{{event.dateEnd.time().minute}}</p>
+                        <p>Event Start: {{ event.dateStart.strftime("%Y-%m-%d %H:%M") }}</p>
+                        <p>Event End: {{ event.dateEnd.strftime("%Y-%m-%d %H:%M") }}</p>
                     <p>Address: {{ event.location }}</p>
                     <p>Remaining Spots: {{ event.capacity }}</p>
                         <img src="/static/img/{{ event.relativePath }}" alt="Location of Image" class="thumbnailPic"><br><br>
