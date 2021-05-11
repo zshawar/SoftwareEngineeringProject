@@ -16,7 +16,7 @@
 
     <div class="container">
       {% for event in events %}
-        <div class="card eventRow" style="width: 16rem">
+        <div class="card eventRow eighteen">
             <div class="card-body">
               <img src="/static/img/{{ event.relativePath }}" alt="Location of Image" class="card-img-top">
               <h5 class="card-title"><a href="{{ url_for('get_event', event_id=event.eventID) }}">{{ event.name }}</a></h5>
@@ -36,10 +36,10 @@
 
     {% else %}
     <div class="myEventRow1">
-	  <div class="card eventRow" style="width: 14rem;">
+	  <div class="card eventRow fifteen">
 		  <div class="card-body">
 			  <img src="/static/img/emptySection.png" alt="No Events Created!" class="card-img-top">
-			  <h5 class="card-title" style="text-align:center;">You have not created any active events!</h5>
+			  <center><h5 class="card-title">You have not created any active events!</h5></center>
 		  </div>
 	  </div>
     </div>
@@ -54,7 +54,7 @@
     <div class="myEventRow">
         <div class="container">
         {% for jEvent in jEvents %}
-        <div class="card eventRow" style="width: 16em;">
+        <div class="card eventRow eighteen">
           <div class="card-body">
             <img src="/static/img/{{ jEvent.relativePath }}" alt="Location of Image" class="card-img-top">
             <h5 class="card-title"><a href="{{ url_for('get_event', event_id=jEvent.eventID) }}">{{ jEvent.name }}</a></h5>
@@ -67,10 +67,10 @@
     </div>
     {% else %}
     <div class="myEventRow1">
-	  <div class="card eventRow" style="width: 14rem;">
+	  <div class="card eventRow fifteen">
 		  <div class="card-body">
 			  <img src="/static/img/emptySection.png" alt="No Events Created!" class="card-img-top">
-			  <h5 class="card-title" style="text-align:center;">You have not joined any active events!</h5>
+			  <center><h5 class="card-title" >You have not joined any active events!</h5></center>
 		  </div>
 	  </div>
     </div>

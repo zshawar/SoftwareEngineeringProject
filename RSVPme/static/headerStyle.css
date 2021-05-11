@@ -1,0 +1,52 @@
+
+	.navLinks a {
+		padding-left: 2em;
+		padding-right: 2em;
+		margin-top: 1em;
+		margin-bottom: 0.33em;
+		background-color: #174d21;
+		color: white;
+		border: none;
+	}
+
+	.navBar {
+	    background-color:#174d21;
+	    display: flex
+	}
+
+	.navLinks {
+	    margin-left: auto;
+	    display: flex;
+	    flex-direction: column;
+	    align-items: flex-end;
+	    margin-right: 0.5em
+
+	}
+
+	.navLinks a:hover {
+	    background-color:#be9a30;
+	    padding-right: 2em;
+		margin-top: 1em;
+	}
+
+	.navBar img {
+	  width:8%;
+	  height: auto;
+	  margin-left: 1em;
+	  float: left;
+	}
+
+    .fontStyle {
+      font-size: 18px;
+    }
+
+    .userLogo {
+      font-size: 16px;
+      color: white;
+      padding-top: 20px;
+
+    }
+
+    .logout {
+      margin-top: 0.5em;
+    }

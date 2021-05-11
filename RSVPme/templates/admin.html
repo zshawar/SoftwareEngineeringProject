@@ -13,7 +13,7 @@
                 <h3>Reported Events</h3>
                 {% for event in events %}
 
-                 <div class="card adminRow" style="width: 15rem;">
+                 <div class="card adminRow fifteen">
                     <div class="card-body">
                       <img src="/static/img/{{ event.relativePath }}" alt="Location of Image" class="card-img-top">
                       <h5 class="card-title"><a href="{{ url_for('get_event', event_id=event.eventID) }}">{{ event.name }}</a></h5>

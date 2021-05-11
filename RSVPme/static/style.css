@@ -202,3 +202,77 @@ textarea {
 .homeButtons:hover {
   background-color: #be9a30;
 }
+
+.fifteen {
+  width: 15rem;
+}
+
+.eighteen {
+  width: 18rem;
+}
+
+.pageButton {
+ margin-right: 0.5em;
+}
+
+.userInfo {
+ width: auto;
+}
+
+.userProfile {
+ display: flex;
+ margin-left: 3em;
+
+}
+
+.username1 {
+  margin-right: 2em;
+  margin-left: 1em;
+  align-self: center;
+}
+
+.username {
+  margin-right: 4em;
+  margin-left: 1em;
+  align-self: center;
+}
+
+.password {
+  margin-left: 3em;
+  margin-top: 1em;
+}
+#eventBody {
+  display: flex;
+  flex-direction: row;
+  margin: 20px;
+}
+
+.sortingFeatures {
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  margin-left: 2em;
+  border-color: gray;
+  padding: 1em;
+  border-style: solid;
+  border-radius: 10px;
+  border-width: 2px;
+}
+
+#eventListing {
+  margin-left: 3em;
+}
+
+#pages {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#eventsMessage {
+  margin-left: 1em;
+}
+
+

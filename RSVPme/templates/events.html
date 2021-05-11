@@ -15,8 +15,8 @@
     {% if message %}
       <p>{{ message }}</p>
     {% endif %}
-    <div id="body" class="eventsCenter" style="display: flex; flex-direction: row; margin: 20px">
-      <div id="sortingFeatures" style="height: 30%; display: flex; flex-direction: column; width: 30%; margin-left: 1em; border-color: gray; padding: 1em;border-style: solid;border-radius: 10px;border-width: 2px;">
+    <div id="eventBody" class="eventsCenter">
+      <div class="sortingFeatures">
 	      <!--<h2 id="sortingTitle">Sorting / Filtering Features</h2>-->
 	<a href="{{ url_for('get_events', sort='alphabet') }}" class="btn filter-btn">Sort alphabetically</a>
 	<a href="{{ url_for('get_events', sort='start') }}" class="btn filter-btn">Sort by earliest start time</a>
@@ -24,12 +24,12 @@
 	<a href="{{ url_for('get_events', sort='location') }}" class="btn filter-btn">Sort by location</a>
       </div>
 
-      <div id="EventsListing" style="margin-left: 3em">
+      <div id="EventsListing">
         <h1 id="eventsMessage">Public Events - Click To View</h1>
 
 
           {% for event in events %}
-          <div class="card eventRow" style="width: 18rem;">
+          <div class="card eventRow eighteen">
             <div class="card-body">
               <img src="/static/img/{{ event.relativePath }}" alt="Location of Image" class="card-img-top">
               <h5 class="card-title">{{event.name}}</h5>
@@ -43,14 +43,9 @@
       </div>
     </div>
 <!--      <button id="RSVPButton">Reserve my Spot!</button>-->
-<div id="pages" style="
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: center;
-">
-    {% for i in range(pages) %} 
-        <a href="{{ url_for('get_events', pages=i, sort=sort ) }}"<button style="margin-right: 0.3em" class="btn btn-outline-dark">{{i + 1}}</button></a>
+<div id="pages">
+    {% for i in range(pages) %}
+        <a href="{{ url_for('get_events', sort=sort, pages=i ) }}"><button class="btn btn-outline-dark pageButton">{{i + 1}}</button></a>
     {% endfor %}
 </div>
 

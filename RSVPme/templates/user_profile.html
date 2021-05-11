@@ -7,27 +7,28 @@
 
   <body>
   {% include "user_header.html" %}
-  <h1 style="margin-left: 1em; margin-top: 1em">My Profile</h1>
+  <br><h1 class="username">My Profile</h1>
 
-  <div style="display: flex; margin-left: 3em; margin-bottom: 1em">
-	  <p style="margin-right: 2em; margin-left: 1em; align-self: center">Username</p>
-	  <input type="text" style="width: auto" disabled value="{{ user }}"/>
+  <div class="userProfile">
+	  <p class="username1">Username</p>
+	  <input class="userInfo" type="text" disabled value="{{ user }}"/>
+  </div>
+  <br>
+
+  <div class="userProfile">
+	  <p class="username">Email</p>
+	  <input class="userInfo" type="text" disabled value="{{ email }}"/>
   </div>
 
-  <div style="display: flex; margin-left: 3em;">
-	  <p style="margin-right: 4em; margin-left: 1em; align-self: center">Email</p>
-	  <input type="text" disabled style="width: auto" value="{{ email }}"/>
-  </div>
+  <a href="{{ url_for('change_pass') }}"><button class="homeButtons password">Change Password</button></a>
 
-  <a href="{{ url_for('change_pass') }}"><button class="homeButtons" style="margin-left: 3em; margin-top: 1em;">Change Password</button></a>
-
-  <h3 class="titleCenter" style="margin-bottom: 0em; margin-top: 1em;">Active Created Events:</h3>
+  <h3 class="titleCenter">Active Created Events:</h3>
 
   {% if usersEvents %}
   <div class="myEventRow">
 	  <div class="container">
 	  {% for event in usersEvents %}
-	  <div class="card eventRow" style="width: 16rem">
+	  <div class="card eventRow eighteen">
 		  <div class="card-body">
 			  <img src="/static/img/{{ event.relativePath }}" alt="Location of Image" class="card-img-top">
 			  <h5 class="card-title"><a href="{{ url_for('get_event', event_id=event.eventID) }}">{{ event.name }}</a></h5>
@@ -45,25 +46,25 @@
   </div>
   {% else %}
   <div class="myEventRow1">
-	  <div class="card eventRow" style="width: 14rem;">
+	  <div class="card eventRow fifteen">
 		  <div class="card-body">
 			  <img src="/static/img/emptySection.png" alt="No Events Created!" class="card-img-top">
-			  <h5 class="card-title" style="text-align:center;">You have not created any active events!</h5>
+			  <center><h5 class="card-title">You have not created any active events!</h5></center>
 		  </div>
 	  </div>
   </div>
   {% endif %}
 
 
-  <h4 style="display: flex; justify-content: center; margin-bottom: 2em;">Total amount of events created: {{ userStats.totalEventsCreated }}</h4>
+  <h4 class="titleCenter">Total amount of events created: {{ userStats.totalEventsCreated }}</h4>
 
-  <h3 class="titleCenter" style="margin-right: 3em; margin-left: 2.5em; margin-bottom: 0em; margin-top: 0.5em;">Active Joined Events:</h3>
+  <h3 class="titleCenter">Active Joined Events:</h3>
 
   {% if userJoinedEvents %}
   <div class="myEventRow">
 	  <div class="container">
 	  {% for event in userJoinedEvents %}
-	  <div class="card eventRow" style="width: 16rem;">
+	  <div class="card eventRow eighteen">
 		  <div class="card-body">
 			  <img src="/static/img/{{ event.relativePath }}" alt="Location of Image" class="card-img-top">
 			  <h5 class="card-title"><a href="{{ url_for('get_event', event_id=event.eventID) }}">{{ event.name }}</a></h5>
@@ -75,26 +76,26 @@
   </div>
   {% else %}
   <div class="myEventRow1">
-	  <div class="card eventRow" style="width: 14rem;">
+	  <div class="card eventRow fifteen">
 		  <div class="card-body">
 			  <img src="/static/img/emptySection.png" alt="No Events Created!" class="card-img-top">
-			  <h5 class="card-title" style="text-align:center;">You have not joined any active events!</h5>
+			  <center><h5 class="card-title">You have not joined any active events!</h5></center>
 		  </div>
 	  </div>
   </div>
   {% endif %}
 
 
-  <h4 style="display: flex; justify-content: center; margin-bottom: 2em;">Total amount of events joined: {{ userStats.totalEventsJoined }}</h4>
+  <h4 class="titleCenter">Total amount of events joined: {{ userStats.totalEventsJoined }}</h4>
 
-  <h3 class="titleCenter" style="margin-right: 3em; margin-left: 2.5em; margin-bottom: 0em; margin-top: 0.5em;">Event Reviews Created:</h3>
+  <h3 class="titleCenter">Event Reviews Created:</h3>
 
   {% if userReviews %}
   <div class="myEventRow">
 	  <div class="container">
 	  {% for review in userReviews %}
 
-	  <div class="card eventRow" style="width: 16rem;">
+	  <div class="card eventRow eighteen">
 		  <div class="card-body">
 			  <img src="/static/img/{{ review.event.relativePath }}" alt="Event reviewed" class="card-img-top">
 			  <a href="{{ url_for('get_event', event_id=review.event.eventID) }}">{{ review.event.name }}</a>
@@ -108,16 +109,16 @@
   </div>
   {% else %}
   <div class="myEventRow1">
-	  <div class="card eventRow" style="width: 14rem;">
+	  <div class="card eventRow fifteen">
 		  <div class="card-body">
 			  <img src="/static/img/emptySection.png" alt="No Events Created!" class="card-img-top">
-			  <h5 class="card-title" style="text-align:center;">You have not reviewed any events!</h5>
+			  <center><h5 class="card-title">You have not reviewed any events!</h5></center>
 		  </div>
 	  </div>
   </div>
   {% endif %}
 
-  <h4 style="display: flex; justify-content: center; margin-bottom: 2em;">Total amount of event reviews created: {{ userStats.totalEventReviews }}</h4>
+  <h4 class="titleCenter">Total amount of event reviews created: {{ userStats.totalEventReviews }}</h4>
 
   </body>
 </html>
