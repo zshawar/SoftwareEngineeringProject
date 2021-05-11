@@ -7,20 +7,24 @@
 
   <body>
   {% include "user_header.html" %}
-  <br><h1 class="username">My Profile</h1>
 
-  <div class="userProfile">
-	  <p class="username1">Username</p>
-	  <input class="userInfo" type="text" disabled value="{{ user }}"/>
+  <div class="container">
+	  <br><h1 class="username">My Profile</h1>
+
+	  <div class="userProfile">
+		  <p class="username1">Username</p>
+		  <input class="userInfo" type="text" disabled value="{{ user }}"/>
+	  </div>
+	  <br>
+
+	  <div class="userProfile">
+		  <p class="username">Email</p>
+		  <input class="userInfo" type="text" disabled value="{{ email }}"/>
+	  </div>
+
+	  <a href="{{ url_for('change_pass') }}"><button class="homeButtons password">Change Password</button></a>
+
   </div>
-  <br>
-
-  <div class="userProfile">
-	  <p class="username">Email</p>
-	  <input class="userInfo" type="text" disabled value="{{ email }}"/>
-  </div>
-
-  <a href="{{ url_for('change_pass') }}"><button class="homeButtons password">Change Password</button></a>
 
   <h3 class="titleCenter">Active Created Events:</h3>
 
