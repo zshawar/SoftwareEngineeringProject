@@ -41,6 +41,7 @@ Change into the newly created directory
 ```
 cd SoftwareEngineeringProject
 ```
+```
 cd RSVPme
 ```
 Create a Python virtual environment
